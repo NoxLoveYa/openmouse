@@ -41,7 +41,7 @@
 .lod-select-menu li:hover { background:var(--surface-hover-soft);color:var(--text-hover) }
 .lod-select-menu li[aria-selected="true"] { color:var(--ui-accent) }
 @media (prefers-reduced-motion:reduce) {
-  .lod-select-value, .lod-select-value i, .lod-select-menu, .lod-select-menu li { transition:none }
+  .lod-select-value, .lod-select-value i, .lod-select-menu, .lod-select-menu li, .dpi-view-toggle button { transition:none }
 }
 /* Report rate as a slider with one stop per supported rate. */
 .rate-slider { display:grid;gap:.1rem }
@@ -198,7 +198,7 @@
 .lod-select-menu li:hover { background:var(--surface-hover-soft);color:var(--text-hover) }
 .lod-select-menu li[aria-selected="true"] { color:var(--ui-accent) }
 @media (prefers-reduced-motion:reduce) {
-  .lod-select-value, .lod-select-value i, .lod-select-menu, .lod-select-menu li { transition:none }
+  .lod-select-value, .lod-select-value i, .lod-select-menu, .lod-select-menu li, .dpi-view-toggle button { transition:none }
 }
 /* Report rate as a slider with one stop per supported rate. */
 .rate-slider { display:grid;gap:.1rem }
@@ -221,6 +221,15 @@
 /* Unified DPI stage editor: tick a row to include it in the cycle, edit its
    value or drag the slider, and click the number to make it active. Unticked
    rows dim but keep their value locally, so re-enabling restores it. */
+/* Stage/Single mode switch. A compact pill sitting on the right of the DPI
+   card's heading text; the active segment inverts like the shared
+   `.segmented` controls do. */
+.dpi-card .dpi-heading-label { display:flex;align-items:center;gap:.8rem;min-width:0 }
+.dpi-view-toggle { display:inline-flex;align-items:center;gap:2px;padding:3px;border:1px solid var(--border);border-radius:999px;background:var(--surface-control) }
+.dpi-view-toggle button { padding:.45rem .95rem;border:0;border-radius:999px;background:transparent;color:var(--text-soft);font:600 .75rem/1 var(--font-sans);white-space:nowrap;cursor:pointer;transition:background .15s ease,color .15s ease }
+.dpi-view-toggle button:hover { color:var(--text-hover) }
+.dpi-view-toggle button.is-on { background:var(--text);color:var(--ink) }
+.dpi-view-toggle button:focus-visible { outline:2px solid var(--ui-accent);outline-offset:1px }
 #dpi-stage-editor { margin-top:.65rem }
 .dpi-editor-list { display:grid;gap:.35rem }
 .dpi-editor-bar { display:flex;align-items:baseline;justify-content:space-between;gap:.5rem;padding:0 0 .15rem }

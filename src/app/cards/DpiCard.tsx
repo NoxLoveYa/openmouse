@@ -22,7 +22,15 @@ type StageRow = { enabled: boolean; value: string; lod: number };
  * Disabled rows keep their value locally so re-enabling restores it.
  * Logitech slots additionally carry a lift-off picker.
  */
-function DpiStageEditor({ snapshot }: { snapshot: ControlSnapshot }): ReactNode {
+function DpiStageEditor({
+  snapshot,
+  editorView,
+}: {
+  snapshot: ControlSnapshot;
+  /** Overrides the natural mode: "single" forces the single-DPI (generic)
+      editor even when the device exposes DPI stages or profile slots. */
+  editorView?: "stage" | "single";
+}): ReactNode {
   const status = snapshot.status;
   const locale = snapshot.preferences.locale;
   const options = snapshot.dpiOptions;
@@ -31,22 +39,25 @@ function DpiStageEditor({ snapshot }: { snapshot: ControlSnapshot }): ReactNode 
   const stageEditor = status?.ui?.dpiStageEditor;
   const isStage = Boolean(stageEditor) && Array.isArray(status?.dpiStages) && (status?.dpiStages?.length ?? 0) > 0;
 
-  const mode: "logitech" | "stage" | "generic" = isLogitech ? "logitech" : isStage ? "stage" : "generic";
+  const naturalMode: "logitech" | "stage" | "generic" = isLogitech ? "logitech" : isStage ? "stage" : "generic";
+  const mode: "logitech" | "stage" | "generic" = editorView === "single" ? "generic" : naturalMode;
   const limits = snapshot.profile.slotLimits;
-  const locked = isLogitech ? snapshot.profile.slotsLocked : snapshot.settingsPending;
+  // The single-DPI (generic) view writes the live DPI, not the profile, so it
+  // must not be gated behind the profile's slot-write lock.
+  const locked = mode === "logitech" ? snapshot.profile.slotsLocked : snapshot.settingsPending;
 
   const countCap = isLogitech ? (limits?.maxStages ?? 1) : stageEditor?.maxStages ?? 1;
   const rowCap = mode === "generic" ? MAX_EDITOR_ROWS : countCap;
 
   const initRows = (): StageRow[] => {
-    if (isLogitech && snapshot.dpiSlotPlan) {
+    if (mode === "logitech" && snapshot.dpiSlotPlan) {
       const stages = snapshot.dpiSlotPlan.stages.slice(0, rowCap);
       const last = stages[stages.length - 1]?.x ?? status?.dpi ?? 800;
       const rows = stages.map((stage) => ({ enabled: true, value: String(stage.x), lod: stage.lod }));
       while (rows.length < rowCap) rows.push({ enabled: false, value: String(last), lod: DEFAULT_LOD });
       return rows;
     }
-    if (isStage && status?.dpiStages) {
+    if (mode === "stage" && status?.dpiStages) {
       const stages = status.dpiStages.slice(0, rowCap);
       const last = stages[stages.length - 1] ?? status.dpi ?? 800;
       const rows = stages.map((value) => ({ enabled: true, value: String(value), lod: DEFAULT_LOD }));
@@ -73,13 +84,13 @@ function DpiStageEditor({ snapshot }: { snapshot: ControlSnapshot }): ReactNode 
     };
   }, []);
 
-  const fixedStageCount = isStage && stageEditor?.countEditable !== true;
+  const fixedStageCount = mode === "stage" && stageEditor?.countEditable !== true;
 
   // Rebuild local rows only when the device source clearly changes while the
   // user is not mid-edit; disabled-but-kept rows are local and must survive.
-  const sourceSig = isLogitech
+  const sourceSig = mode === "logitech"
     ? (snapshot.dpiSlotPlan?.stages.map((stage) => stage.x).join(",") ?? "-")
-    : isStage
+    : mode === "stage"
       ? (status?.dpiStages?.join(",") ?? "-")
       : String(status?.dpi ?? 0);
   const lastSigRef = useRef(sourceSig);
@@ -90,6 +101,17 @@ function DpiStageEditor({ snapshot }: { snapshot: ControlSnapshot }): ReactNode 
     // initRows is recreated each render on purpose so it always reads fresh snapshot data.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sourceSig]);
+
+  // Switching the editor pill rebuilds the rows from the other mode's source
+  // (single DPI reads presets, stages read the device stage table).
+  const lastModeRef = useRef(mode);
+  useEffect(() => {
+    if (mode === lastModeRef.current) return;
+    lastModeRef.current = mode;
+    setRows(initRows());
+    // initRows is recreated each render on purpose so it always reads fresh snapshot data.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mode]);
 
   const compactIndex = (target: number): number =>
     rows.slice(0, target).reduce((count, row) => count + (row.enabled ? 1 : 0), 0);
@@ -231,7 +253,7 @@ function DpiStageEditor({ snapshot }: { snapshot: ControlSnapshot }): ReactNode 
     <div id="dpi-stage-editor" className={`dpi-editor mode-${mode}`}>
       <div className="dpi-editor-bar">
         <span className="dpi-editor-bar-label">
-          {t(locale, mode === "logitech" ? "dpi.slotsInUse" : "dpi.stagesInUse")}
+          {t(locale, mode === "logitech" ? "dpi.slotsInUse" : mode === "stage" ? "dpi.stagesInUse" : "dpi.presetsInUse")}
         </span>
         <span className="dpi-editor-bar-count">{enabledCount} / {rows.length}</span>
       </div>
@@ -379,6 +401,7 @@ export function SlotLiftOffPanel({ snapshot }: { snapshot: ControlSnapshot }): R
 }
 
 export function DpiCard({ snapshot }: { snapshot: ControlSnapshot }): ReactNode {
+  const [editorView, setEditorView] = useState<"stage" | "single">("stage");
   const status = snapshot.status;
   const deviceStatus = snapshot.deviceStatus;
   const locale = snapshot.preferences.locale;
@@ -392,6 +415,16 @@ export function DpiCard({ snapshot }: { snapshot: ControlSnapshot }): ReactNode 
   const slotsAvailable = snapshot.profile.slotsAvailable;
   const slotLods = snapshot.profileFormat ? capabilitiesForFormat(snapshot.profileFormat.id).supportedLods : [];
   const showLiftOff = slotsAvailable ? slotLods.length > 0 : hasLiftOff(snapshot);
+  // Mice whose DPI card holds multiple values get the Slots/Single or
+  // Stages/Single pill so they can collapse down to a plain single-DPI editor.
+  // Logitech slot mice write the live DPI via the extended DPI feature in
+  // single mode (independent of the profile); stage mice read their stage table.
+  const slotsEditor = slotsAvailable && snapshot.dpiSlotPlan !== null;
+  const stageCapable =
+    slotsEditor
+    || (Boolean(status?.ui?.dpiStageEditor)
+      && Array.isArray(status?.dpiStages)
+      && (status?.dpiStages?.length ?? 0) > 0);
 
   const label = (source: typeof status): string => `${source.dpi.toLocaleString()} DPI`;
 
@@ -402,14 +435,40 @@ export function DpiCard({ snapshot }: { snapshot: ControlSnapshot }): ReactNode 
     >
       <div className="dpi-card-main">
         <div className="setting-heading">
-          <div>
-            <p>DPI</p>
-            <h2>
-              {t(locale, "dpi.sensitivity")}
-              {snapshot.editedProfile !== null ? (
-                <span className="setting-scope" id="dpi-scope-badge">{slotsAvailable ? t(locale, "dpi.perProfile") : "Host"}</span>
-              ) : null}
-            </h2>
+          <div className="dpi-heading-label">
+            <div>
+              <p>DPI</p>
+              <h2>
+                {t(locale, "dpi.sensitivity")}
+                {snapshot.editedProfile !== null ? (
+                  <span className="setting-scope" id="dpi-scope-badge">{slotsAvailable ? t(locale, "dpi.perProfile") : "Host"}</span>
+                ) : null}
+              </h2>
+            </div>
+            {stageCapable ? (
+              <div
+                className="dpi-view-toggle"
+                role="group"
+                aria-label={t(locale, slotsEditor ? "dpi.viewSlotsToggle" : "dpi.viewToggle")}
+              >
+                <button
+                  type="button"
+                  className={editorView === "stage" ? "is-on" : ""}
+                  aria-pressed={editorView === "stage"}
+                  onClick={() => setEditorView("stage")}
+                >
+                  {t(locale, slotsEditor ? "dpi.viewSlots" : "dpi.viewStages")}
+                </button>
+                <button
+                  type="button"
+                  className={editorView === "single" ? "is-on" : ""}
+                  aria-pressed={editorView === "single"}
+                  onClick={() => setEditorView("single")}
+                >
+                  {t(locale, "dpi.viewSingle")}
+                </button>
+              </div>
+            ) : null}
           </div>
           <div className="dpi-header-actions">
             <input
@@ -446,7 +505,10 @@ export function DpiCard({ snapshot }: { snapshot: ControlSnapshot }): ReactNode 
           </div>
         </div>
 
-        <DpiStageEditor snapshot={snapshot} />
+        <DpiStageEditor
+          snapshot={snapshot}
+          editorView={stageCapable ? editorView : undefined}
+        />
 
         <div className="setting-action">
           <span id="dpi-pending">
