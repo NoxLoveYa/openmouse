@@ -136,8 +136,7 @@
   padding: 0 1.5rem;
 }
 
-.launch-socials a,
-.launch-viewers {
+.launch-socials a {
   display: flex;
   align-items: center;
   gap: 0.4rem;
@@ -170,24 +169,6 @@
   width: 13px;
   height: 13px;
   color: #69d28d;
-}
-
-.launch-viewers {
-  font-size: 0.85rem;
-}
-
-.launch-viewers-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: #69d28d;
-  box-shadow: 0 0 0 3px color-mix(in srgb, #69d28d 22%, transparent);
-  animation: launch-pulse 2s ease-in-out infinite;
-}
-
-@keyframes launch-pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.45; }
 }
 
 @media (prefers-reduced-motion: reduce) {

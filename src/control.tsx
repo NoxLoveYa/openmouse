@@ -11,7 +11,6 @@ import { isBeforeLaunch } from "./launch";
 import { mountOfflineBanner } from "./offline-banner";
 import { registerServiceWorker } from "./register-sw";
 import { MIN_HEIGHT, MIN_WIDTH, useViewportTooSmall } from "./app/useViewportTooSmall";
-import { usePresence } from "./app/usePresence";
 
 const controlApp = document.querySelector<HTMLDivElement>("#control-app");
 
@@ -46,11 +45,6 @@ function LaunchHero(): ReactNode {
 }
 
 function Root(): ReactNode {
-  // Keeps the "who's using this right now" presence heartbeat running for
-  // the real app, not just the pre-launch countdown screen — otherwise the
-  // admin dashboard's live count only ever reflects whoever is stuck on
-  // that one screen.
-  usePresence();
   const tooSmall = useViewportTooSmall();
   if (tooSmall) {
     return (

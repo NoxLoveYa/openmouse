@@ -14,9 +14,8 @@ import {
   TwitterIcon,
   useGitHubStars,
 } from "./social-links";
-import { usePresence } from "./usePresence";
 
-function LaunchSocials({ viewers }: { viewers: number | null }): ReactNode {
+function LaunchSocials(): ReactNode {
   const stars = useGitHubStars();
 
   return (
@@ -43,12 +42,6 @@ function LaunchSocials({ viewers }: { viewers: number | null }): ReactNode {
           </span>
         )}
       </a>
-      {viewers !== null && viewers > 0 && (
-        <span className="launch-viewers" title="People on this page right now">
-          <i className="launch-viewers-dot" aria-hidden="true" />
-          {viewers} watching now
-        </span>
-      )}
     </footer>
   );
 }
@@ -82,10 +75,6 @@ function Digit({ value, label }: { value: number; label: string }): ReactNode {
 }
 
 function LaunchStage({ children }: { children: ReactNode }): ReactNode {
-  // Pixel critters are disabled for now (positioning/sync issues) — this
-  // still keeps the live viewer count in the socials footer.
-  const { count } = usePresence();
-
   return (
     <>
       <div className="launch-stage">
@@ -95,7 +84,7 @@ function LaunchStage({ children }: { children: ReactNode }): ReactNode {
         </div>
         {children}
       </div>
-      <LaunchSocials viewers={count} />
+      <LaunchSocials />
     </>
   );
 }
