@@ -13,7 +13,6 @@ import { mountOfflineBanner } from "./offline-banner";
 import { registerServiceWorker } from "./register-sw";
 import { startSelfXssGuard } from "./self-xss-guard";
 import { MIN_HEIGHT, MIN_WIDTH, useViewportTooSmall } from "./app/useViewportTooSmall";
-import { usePresence } from "./app/usePresence";
 
 const controlApp = document.querySelector<HTMLDivElement>("#control-app");
 
@@ -42,9 +41,6 @@ function LaunchHero(): ReactNode {
 }
 
 function Root(): ReactNode {
-  // Keeps the "who's using this right now" presence heartbeat running for
-  // the real app, not just the pre-launch countdown screen.
-  usePresence();
   const tooSmall = useViewportTooSmall();
   if (tooSmall) {
     return (
