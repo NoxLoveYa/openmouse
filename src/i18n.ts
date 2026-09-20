@@ -35,6 +35,7 @@ const en = {
   "bridge.profileSaveFailed": "Could not reach OpenMouse Bridge",
   "bridge.profileSaveFailedDetail": "Check that Bridge is still running, then try again.",
   "bridge.profileAppliedHere": "Applied game profile",
+  "bridge.profileRestored": "Restored your previous mouse settings",
   "panel.overline": "DEVICE CONTROL",
   "panel.connectMouse": "Connect a mouse",
   "panel.shareProfile": "Share profile",

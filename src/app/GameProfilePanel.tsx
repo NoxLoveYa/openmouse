@@ -8,6 +8,7 @@ import { ArrowLeft, Gamepad2 } from "lucide-react";
 import * as control from "../device/controller";
 import type { BridgeGame, BridgeProfile } from "../bridge";
 import { bridgeProfiles, saveBridgeProfiles } from "../bridge";
+import { subscribeBridgeHidActive } from "../bridge-hid";
 import { fetchGamesCatalog, gameArtwork, type CatalogGame } from "../games-catalog";
 import type { ControlSnapshot, SidebarDevice, ToastKind } from "../device/types";
 import { t, tp } from "../i18n";
@@ -72,6 +73,16 @@ export function GameProfilePanel({
   const [autoApply, setAutoApply] = useState(false);
   const [saving, setSaving] = useState(false);
   const loadedForGame = useRef<string | null>(null);
+
+  // Every save/load on this page goes straight to Bridge — if it goes away
+  // mid-session (quit, crash, machine sleep), staying here just means a form
+  // that silently fails every action. Bounce back to the list, where
+  // BridgeCard's own `active` check already hides itself the same way.
+  const onBackRef = useRef(onBack);
+  onBackRef.current = onBack;
+  useEffect(() => subscribeBridgeHidActive((active) => {
+    if (!active) onBackRef.current();
+  }), []);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -174,6 +185,14 @@ export function GameProfilePanel({
     void persist({ dpi, targetIndex, autoApply: next }, next ? "enabled" : "disabled");
   }
 
+  function clearProfile(): void {
+    const wasEnabled = autoApply;
+    setAutoApply(false);
+    setDpi(null);
+    setCustomDpiText("");
+    if (wasEnabled) void persist({ dpi: null, targetIndex, autoApply: false }, "disabled");
+  }
+
   const artwork = catalogEntry ? gameArtwork(catalogEntry) : null;
 
   return (
@@ -195,6 +214,14 @@ export function GameProfilePanel({
           <div className="game-profile-name-card">
             <span className="game-profile-name-label">PROFILE</span>
             <span className="game-profile-name">{game.name}</span>
+            <button
+              type="button"
+              className="game-profile-clear"
+              disabled={saving || (!autoApply && dpi === null)}
+              onClick={clearProfile}
+            >
+              Clear
+            </button>
           </div>
         </div>
 

@@ -32,6 +32,7 @@ export const zh: Record<I18nKey, string> = {
   "bridge.profileSaveFailed": "无法连接到 OpenMouse Bridge",
   "bridge.profileSaveFailedDetail": "请检查 Bridge 是否仍在运行，然后重试。",
   "bridge.profileAppliedHere": "已应用游戏配置",
+  "bridge.profileRestored": "已恢复此前的鼠标设置",
   "panel.overline": "设备控制",
   "panel.connectMouse": "连接一个鼠标",
   "panel.shareProfile": "分享配置",

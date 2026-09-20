@@ -6,15 +6,11 @@
 // list always matches what Desktop's own Games page would show.
 import { useEffect, useState, type ReactNode } from "react";
 import { Gamepad2 } from "lucide-react";
-import { bridgeGames, bridgeStatus, type BridgeGame, type BridgeStatus } from "../bridge";
+import { bridgeGames, type BridgeGame, type BridgeStatus } from "../bridge";
 import { isBridgeHidActive, subscribeBridgeHidActive } from "../bridge-hid";
+import { subscribeBridgeStatus } from "../bridge-status-store";
 import { t } from "../i18n";
 import type { InterfaceLocale } from "../interface-preferences";
-
-// Bridge's own process, not a device — a slow, occasional poll is plenty to
-// keep the version/uptime line honest without adding traffic to the same
-// loopback socket the mouse itself is being driven over.
-const STATUS_POLL_MS = 10_000;
 
 function useBridgeConnection(): { active: boolean; status: BridgeStatus | null; games: BridgeGame[] } {
   const [active, setActive] = useState(isBridgeHidActive());
@@ -22,36 +18,16 @@ function useBridgeConnection(): { active: boolean; status: BridgeStatus | null; 
   const [games, setGames] = useState<BridgeGame[]>([]);
 
   useEffect(() => subscribeBridgeHidActive(setActive), []);
+  useEffect(() => subscribeBridgeStatus(setStatus), []);
 
   useEffect(() => {
-    if (!active) {
-      setStatus(null);
-      return;
-    }
+    if (!active) return;
+    // The games list only changes with a commit to Desktop's repo, not
+    // anything a session does — one fetch per connection is plenty, unlike
+    // the status poll above.
     const controller = new AbortController();
-    let cancelled = false;
-
-    async function poll(): Promise<void> {
-      try {
-        const next = await bridgeStatus(controller.signal);
-        if (!cancelled) setStatus(next);
-      } catch {
-        // Bridge's socket dropped, or a status round-trip missed its
-        // window — bridge-hid.ts's own disconnect handling is what flips
-        // `active` off; this poll just quietly retries next tick.
-      }
-    }
-
-    void poll();
-    void bridgeGames(controller.signal).then((list) => {
-      if (!cancelled) setGames(list);
-    }).catch(() => undefined);
-    const timer = setInterval(poll, STATUS_POLL_MS);
-    return () => {
-      cancelled = true;
-      controller.abort();
-      clearInterval(timer);
-    };
+    void bridgeGames(controller.signal).then(setGames).catch(() => undefined);
+    return () => controller.abort();
   }, [active]);
 
   return { active, status, games };

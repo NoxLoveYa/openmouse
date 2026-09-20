@@ -32,6 +32,7 @@ export const ko: Record<I18nKey, string> = {
   "bridge.profileSaveFailed": "OpenMouse Bridge에 연결할 수 없습니다",
   "bridge.profileSaveFailedDetail": "Bridge가 실행 중인지 확인한 후 다시 시도하세요.",
   "bridge.profileAppliedHere": "게임 프로필이 적용되었습니다",
+  "bridge.profileRestored": "이전 마우스 설정을 복원했습니다",
   "panel.overline": "장치 제어",
   "panel.connectMouse": "마우스 연결",
   "panel.shareProfile": "프로필 공유",

@@ -2383,6 +2383,26 @@ body { height: 100vh; overflow: hidden; }
   font-weight: 650;
   color: var(--bright);
 }
+.game-profile-clear {
+  align-self: flex-start;
+  margin-top: 0.6rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--muted);
+  background: var(--surface-control);
+  box-shadow: 0 0 0 1px var(--line);
+  border-radius: 999px;
+  padding: 0.35rem 0.8rem;
+  cursor: pointer;
+}
+.game-profile-clear:hover:not(:disabled) {
+  color: var(--bright);
+  background: var(--hover);
+}
+.game-profile-clear:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
 .game-profile-settings {
   display: flex;
   flex-direction: column;
