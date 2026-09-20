@@ -14,9 +14,12 @@ import {
 } from "lucide-react";
 import { useEffect, useRef, useState, type KeyboardEvent, type ReactNode } from "react";
 import * as control from "../device/controller";
+import type { BridgeGame } from "../bridge";
 import type { ControlSnapshot, WorkspaceTab } from "../device/types";
 import { t, tp, connectionText, type I18nKey } from "../i18n";
+import { BridgeCard } from "./BridgeCard";
 import { Diagnostics, LogitechDetails } from "./Diagnostics";
+import { GameProfilePanel } from "./GameProfilePanel";
 import { KeychronNapeLayers } from "./KeychronNapeLayers";
 import { Profiles } from "./Profiles";
 import { Superstrike } from "./Superstrike";
@@ -612,6 +615,11 @@ function DeviceListView({ snapshot }: { snapshot: ControlSnapshot }): ReactNode 
                 }}
               >
                   <span className="device-tile-name">{device.name}</span>
+                  {device.transport === "bridge" ? (
+                    <span className="device-tile-transport" title="Connected through OpenMouse Bridge">
+                      Bridge
+                    </span>
+                  ) : null}
                   <div className="device-tile-stats" aria-label="Device status">
                     <span className="device-tile-stat">
                       <Wifi className="device-tile-stat-icon" strokeWidth={2} aria-hidden="true" />
@@ -681,6 +689,7 @@ export function OverviewPage({
   const panel = useRef<HTMLElement>(null);
   const { preferences } = snapshot;
   const locale = preferences.locale;
+  const [selectedGame, setSelectedGame] = useState<BridgeGame | null>(null);
 
   const tabs = availableWorkspaceTabs(status !== null, cardAvailability(snapshot));
   const workspaceTab = availableWorkspaceTab(snapshot.workspaceTab, tabs);
@@ -766,8 +775,13 @@ export function OverviewPage({
 
           <Workspace snapshot={workspaceSnapshot} onOpenCapture={onOpenCapture} onShareProfile={onShareProfile} onRequestArtwork={onRequestArtwork} />
         </>
+      ) : selectedGame ? (
+        <GameProfilePanel snapshot={snapshot} game={selectedGame} onBack={() => setSelectedGame(null)} />
       ) : (
-        <DeviceListView snapshot={snapshot} />
+        <>
+          <BridgeCard locale={locale} onSelectGame={setSelectedGame} />
+          <DeviceListView snapshot={snapshot} />
+        </>
       )}
     </section>
   );

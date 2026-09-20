@@ -60,6 +60,9 @@ export interface SidebarDevice {
   vendorId: number;
   productId: number;
   kind: "mouse" | "keyboard";
+  /** "bridge" when this device was opened through OpenMouse Bridge's native
+   *  HID socket rather than the browser's own WebHID (see bridge-hid.ts). */
+  transport: "bridge" | "webhid";
 }
 
 export interface DiagnosticsView {

@@ -408,13 +408,14 @@ class BridgeHid implements HID {
     disconnect: new Set(),
   };
 
-  constructor(transport: BridgeTransport) {
+  constructor(transport: BridgeTransport, onExternalDisconnect?: () => void) {
     this.#client = new BridgeClient(transport);
     this.#client.onDisconnect = () => {
       if (this.#poll !== null) clearInterval(this.#poll);
       this.#poll = null;
       for (const device of this.#client.devices.values()) this.#emit("disconnect", device);
       this.#client.devices.clear();
+      onExternalDisconnect?.();
     };
   }
 
@@ -477,8 +478,34 @@ class BridgeHid implements HID {
 }
 
 /** The WebHID shim over a transport. Exported for tests; use `installBridgeHid` in the app. */
-export function bridgeHid(transport: BridgeTransport): HID {
-  return new BridgeHid(transport);
+export function bridgeHid(transport: BridgeTransport, onDisconnect?: () => void): HID {
+  return new BridgeHid(transport, onDisconnect);
+}
+
+// Whether `navigator.hid` is currently the Bridge shim (as opposed to the
+// browser's own WebHID, or nothing at all). Tracked separately from the
+// getDevices()/status polling below so a UI component — the Home page's
+// Bridge card — can show "connected" the instant the socket opens and
+// "disconnected" the instant Bridge's process goes away, without polling
+// bridgeStatus() itself just to answer "is it there".
+let bridgeHidActive = false;
+const bridgeHidActiveListeners = new Set<(active: boolean) => void>();
+
+function setBridgeHidActive(active: boolean): void {
+  if (bridgeHidActive === active) return;
+  bridgeHidActive = active;
+  for (const listener of bridgeHidActiveListeners) listener(active);
+}
+
+export function isBridgeHidActive(): boolean {
+  return bridgeHidActive;
+}
+
+/** Returns an unsubscribe function. Immediately calls `listener` with the current state. */
+export function subscribeBridgeHidActive(listener: (active: boolean) => void): () => void {
+  bridgeHidActiveListeners.add(listener);
+  listener(bridgeHidActive);
+  return () => bridgeHidActiveListeners.delete(listener);
 }
 
 async function openSocket(url: string): Promise<BridgeTransport | null> {
@@ -568,7 +595,14 @@ async function openSocket(url: string): Promise<BridgeTransport | null> {
 export async function installBridgeHid(options: { force?: boolean } = {}): Promise<boolean> {
   if (navigator.hid && !options.force) return true;
   const transport = await openSocket(BRIDGE_SOCKET_URL);
-  if (!transport) return Boolean(navigator.hid);
-  Object.defineProperty(navigator, "hid", { value: bridgeHid(transport), configurable: true });
+  if (!transport) {
+    setBridgeHidActive(false);
+    return Boolean(navigator.hid);
+  }
+  Object.defineProperty(navigator, "hid", {
+    value: bridgeHid(transport, () => setBridgeHidActive(false)),
+    configurable: true,
+  });
+  setBridgeHidActive(true);
   return true;
 }

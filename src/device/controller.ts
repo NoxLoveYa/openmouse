@@ -1620,7 +1620,10 @@ function sidebarEntries(devices: HIDDevice[]): SidebarDevice[] {
     const detail = status
       ? `${status.brand} · ${connectionText(interfacePreferences.locale, status.connectionType, "ctl.connected")}`
       : `${deviceBrand(client)} · Available`;
-    return { index, name, detail, selected: device === activeDevice, vendorId: device.vendorId, productId: device.productId, kind: sidebarEntryForm(client) };
+    const transport = (device as HIDDevice & { openMouseTransport?: string }).openMouseTransport === "bridge"
+      ? "bridge"
+      : "webhid";
+    return { index, name, detail, selected: device === activeDevice, vendorId: device.vendorId, productId: device.productId, kind: sidebarEntryForm(client), transport };
   });
 }
 
