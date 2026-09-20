@@ -34,6 +34,7 @@ const en = {
   "bridge.profileDisabledDetail": "{name} will no longer get this profile pushed to it.",
   "bridge.profileSaveFailed": "Could not reach OpenMouse Bridge",
   "bridge.profileSaveFailedDetail": "Check that Bridge is still running, then try again.",
+  "bridge.profileAppliedHere": "Applied game profile",
   "panel.overline": "DEVICE CONTROL",
   "panel.connectMouse": "Connect a mouse",
   "panel.shareProfile": "Share profile",

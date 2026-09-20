@@ -31,6 +31,7 @@ export const ru: Record<I18nKey, string> = {
   "bridge.profileDisabledDetail": "{name} больше не будет получать этот профиль автоматически.",
   "bridge.profileSaveFailed": "Не удалось подключиться к OpenMouse Bridge",
   "bridge.profileSaveFailedDetail": "Проверьте, что Bridge всё ещё запущен, и попробуйте снова.",
+  "bridge.profileAppliedHere": "Игровой профиль применён",
   "panel.overline": "УПРАВЛЕНИЕ УСТРОЙСТВОМ",
   "panel.connectMouse": "Подключить мышь",
   "panel.shareProfile": "Поделиться профилем",

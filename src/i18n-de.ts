@@ -31,6 +31,7 @@ export const de: Record<I18nKey, string> = {
   "bridge.profileDisabledDetail": "{name} erhält dieses Profil nicht mehr automatisch.",
   "bridge.profileSaveFailed": "OpenMouse Bridge nicht erreichbar",
   "bridge.profileSaveFailedDetail": "Prüfe, ob Bridge noch läuft, und versuche es erneut.",
+  "bridge.profileAppliedHere": "Spielprofil angewendet",
   "panel.overline": "GERÄTESTEUERUNG",
   "panel.connectMouse": "Maus verbinden",
   "panel.shareProfile": "Profil teilen",

@@ -31,6 +31,7 @@ export const vi: Record<I18nKey, string> = {
   "bridge.profileDisabledDetail": "{name} sẽ không còn được đẩy hồ sơ này tự động nữa.",
   "bridge.profileSaveFailed": "Không thể kết nối với OpenMouse Bridge",
   "bridge.profileSaveFailedDetail": "Kiểm tra xem Bridge có đang chạy không rồi thử lại.",
+  "bridge.profileAppliedHere": "Đã áp dụng hồ sơ trò chơi",
   "panel.overline": "ĐIỀU KHIỂN THIẾT BỊ",
   "panel.connectMouse": "Kết nối chuột",
   "panel.shareProfile": "Chia sẻ profile",
