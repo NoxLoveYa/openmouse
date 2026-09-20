@@ -120,7 +120,15 @@ const BUDGET_BYTES: Record<string, number> = {
   // failure lockout and Discord-ticket strings) ships in all ten locale
   // tables, and ArtworkRequestDialog.tsx gained the per-IP failure-lockout
   // logic. Measured aggregate is 1,578.2 kB, leaving ~22 kB of headroom.
-  ".js": 1_600_000,
+  // Raised to 1,650 kB for the Bridge game-profile feature landing across
+  // three commits: BridgeCard.tsx (Home connection/games card),
+  // GameProfilePanel.tsx (per-game target-device/DPI/auto-apply editor),
+  // games-catalog.ts (CDN games.json fetch for cover art), bridge-status-
+  // store.ts (shared status poll), and useBridgeProfileApplier.ts (in-tab
+  // fallback apply + prior-settings restore for brands Bridge has no native
+  // driver for), plus the bridge.* i18n keys across all ten locale tables.
+  // Measured aggregate is 1,614.2 kB, leaving ~36 kB of headroom.
+  ".js": 1_650_000,
 };
 
 const ASSETS = join("dist", "assets");
