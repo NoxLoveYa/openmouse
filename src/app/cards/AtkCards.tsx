@@ -134,23 +134,21 @@ export function AtkSensorCard({ snapshot }: { snapshot: ControlSnapshot }): Reac
       <div className="setting-heading compact">
         <div><p>PERFORMANCE</p><h2>Sensor Sampling Rate</h2></div>
       </div>
-      <div className="setting-action">
-          <Segmented
-            ariaLabel="Sensor sampling mode"
-            options={ATK_SENSOR_MODE_LABELS.map((label, value) => ({ value, label }))}
-            value={sensorMode}
-            disabled={snapshot.settingInProgress}
-            className="three"
-            onChange={(mode) => void control.selectAtkSensorMode(mode)}
-          />
-          <small className="setting-note setting-note-stable">
-          {sensorMode === 2
-            ? "In this mode, the mouse sensor is in high performance state, high scanning frequency, more responsive control."
-            : sensorMode === 1
-              ? "ATK Shard competitive firmware: balanced scan rate for match play."
-              : "Basic sensor mode for daily work and maximum battery life."}
-        </small>
-      </div>
+      <Segmented
+        ariaLabel="Sensor sampling mode"
+        options={ATK_SENSOR_MODE_LABELS.map((label, value) => ({ value, label }))}
+        value={sensorMode}
+        disabled={snapshot.settingInProgress}
+        className="three"
+        onChange={(mode) => void control.selectAtkSensorMode(mode)}
+      />
+      <small className="setting-note setting-note-stable">
+        {sensorMode === 2
+          ? "In this mode, the mouse sensor is in high performance state, high scanning frequency, more responsive control."
+          : sensorMode === 1
+            ? "ATK Shard competitive firmware: balanced scan rate for match play."
+            : "Basic sensor mode for daily work and maximum battery life."}
+      </small>
     </article>
   );
 }
@@ -163,19 +161,17 @@ export function AtkDongleCard({ snapshot }: { snapshot: ControlSnapshot }): Reac
       <div className="setting-heading compact">
         <div><p>PARAMETER</p><h2>Dongle Light Effect</h2></div>
       </div>
-      <div className="setting-action">
-        <small className="setting-note">Lighting Effect Mode</small>
-        <Segmented
-          ariaLabel="Dongle LED effect"
-          options={ATK_DONGLE_LIGHT_LABELS.map((label, value) => ({ value, label }))}
-          value={dongleLight}
-          disabled={snapshot.settingInProgress}
-          onChange={(mode) => void control.selectAtkDongleLight(mode)}
-        />
-        <small className="setting-note">
-          Effect on the 8K receiver; write-only, confirmed on the LED.
-        </small>
-      </div>
+      <small className="setting-note">Lighting Effect Mode</small>
+      <Segmented
+        ariaLabel="Dongle LED effect"
+        options={ATK_DONGLE_LIGHT_LABELS.map((label, value) => ({ value, label }))}
+        value={dongleLight}
+        disabled={snapshot.settingInProgress}
+        onChange={(mode) => void control.selectAtkDongleLight(mode)}
+      />
+      <small className="setting-note">
+        Effect on the 8K receiver; write-only, confirmed on the LED.
+      </small>
     </article>
   );
 }
