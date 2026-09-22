@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import * as control from "../../device/controller";
 import type { ControlSnapshot } from "../../device/types";
-import { Segmented, SwitchRow } from "../ui";
+import { Segmented } from "../ui";
 
 export function AtkProfileCard({ snapshot }: { snapshot: ControlSnapshot }): ReactNode {
   const status = snapshot.status;
@@ -148,50 +148,6 @@ export function AtkSensorCard({ snapshot }: { snapshot: ControlSnapshot }): Reac
             : sensorMode === 1
               ? "ATK Shard competitive firmware: balanced scan rate for match play."
               : "Basic sensor mode for daily work and maximum battery life."}
-        </small>
-      </div>
-    </article>
-  );
-}
-
-/**
- * Sensor rotation, mirroring the vendor HUB Parameter section: on/off first,
- * then the angle grid and auto-calibration. Rotation writes touch sensor
- * calibration, which needs a USBPcap capture before it can be implemented,
- * so the controls stay disabled with an honest note until then.
- */
-export function AtkRotationCard({ snapshot }: { snapshot: ControlSnapshot }): ReactNode {
-  if (snapshot.status?.atkSensorMode == null) return null;
-  return (
-    <article id="atk-rotation" className="setting-card">
-      <div className="setting-heading compact">
-        <div><p>PARAMETER</p><h2>Sensor Rotation</h2></div>
-      </div>
-      <div className="setting-action">
-        <SwitchRow
-          label="Sensor rotation"
-          value={false}
-          disabled
-          onChange={() => undefined}
-        />
-        <small className="setting-note">
-          Precise horizontal movement regardless of mouse grip style.
-        </small>
-        <Segmented
-          ariaLabel="Rotation angle"
-          options={[
-            { value: -30, label: "-30°" },
-            { value: -15, label: "-15°" },
-            { value: 0, label: "0°" },
-            { value: 15, label: "15°" },
-            { value: 30, label: "30°" },
-          ]}
-          value={0}
-          disabled
-          onChange={() => undefined}
-        />
-        <small className="setting-note">
-          Auto calibration: slide left-right inside the vendor HUB box — samples are collected and the path is calibrated in real time. Rotation writes are locked pending a USB capture; use ATK HUB for now.
         </small>
       </div>
     </article>

@@ -402,7 +402,39 @@ export function ProcessingCard({ snapshot }: { snapshot: ControlSnapshot }): Rea
         onChange={(next) => control.applyPulsarToggle("longRangeMode", next)}
       />
       {angleTuning != null ? (
-        capabilities?.angleTuningWritable
+        status.atkSensorMode != null ? (
+          <div className="angle-tuning-control" data-pending-key="atk-rotation">
+            <SwitchRow
+              id="atk-rotation-toggle"
+              label="Sensor rotation"
+              value={false}
+              disabled
+              onChange={() => undefined}
+            />
+            <div className="angle-tuning-head">
+              <span>Sensor rotation</span>
+              <output id="atk-rotation-value" htmlFor="atk-rotation-slider">0°</output>
+            </div>
+            <div className="angle-tuning-inputs">
+              <button type="button" aria-label="Sensor rotation: decrease" disabled>−</button>
+              <input
+                id="atk-rotation-slider"
+                type="range"
+                min={-30}
+                max={30}
+                step={15}
+                value={0}
+                disabled
+                aria-label="Sensor rotation"
+                aria-valuetext="0 degrees"
+                style={{ "--fill": "50%" }}
+              />
+              <button type="button" aria-label="Sensor rotation: increase" disabled>+</button>
+            </div>
+            <div className="angle-tuning-scale" aria-hidden="true"><span>−30°</span><i>0°</i><span>30°</span></div>
+            <small className="setting-note">Precise horizontal movement regardless of mouse grip style. Rotation writes touch calibration and stay locked pending a USB capture — calibrate in ATK HUB for now.</small>
+          </div>
+        ) : capabilities?.angleTuningWritable
           ? <AngleTuningControl value={angleTuning} label={t(locale, "adv.angleTune")} />
           : (
             <div className="angle-tuning-readonly field-label spaced">
