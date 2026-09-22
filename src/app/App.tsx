@@ -7,6 +7,7 @@ import { ArtworkRequestDialog } from "./ArtworkRequestDialog";
 import { OverviewPage } from "./OverviewPage";
 import { CaptureDialog } from "./CaptureDialog";
 import { FeedbackDialog } from "./FeedbackDialog";
+import { GamesPage, useBridgeActive } from "./GamesPage";
 import { InterfaceSettings } from "./InterfaceSettings";
 import { MouseTestPage } from "./MouseTestPage";
 import { NewsBanner } from "./NewsBanner";
@@ -33,7 +34,9 @@ export function App(): ReactNode {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const { preferences, status } = snapshot;
   const locale = preferences.locale;
-
+  const bridgeActive = useBridgeActive();
+  // Games only exists while Bridge does — if it goes away, fall back to Home.
+  const showingGames = page === "games" && bridgeActive;
 
   const showingSettings = page === "settings" || snapshot.interfaceSettingsOpen;
 
@@ -41,7 +44,9 @@ export function App(): ReactNode {
     ? "settings"
     : page === "test"
       ? "test"
-      : status !== null && snapshot.deviceView === "device"
+      : showingGames
+        ? "games"
+        : status !== null && snapshot.deviceView === "device"
         ? "dashboard"
         : "home";
 
@@ -102,6 +107,9 @@ export function App(): ReactNode {
     } else if (next === "test") {
       control.showDeviceList();
       setPage("test");
+    } else if (next === "games") {
+      control.showDeviceList();
+      setPage("games");
     } else {
       control.showDeviceList();
       setPage("home");
@@ -129,6 +137,8 @@ export function App(): ReactNode {
             <InterfaceSettings snapshot={snapshot} />
           ) : page === "test" ? (
             <MouseTestPage snapshot={snapshot} />
+          ) : showingGames ? (
+            <GamesPage snapshot={snapshot} />
           ) : (
             <OverviewPage
               snapshot={snapshot}

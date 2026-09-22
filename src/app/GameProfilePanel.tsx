@@ -76,8 +76,8 @@ export function GameProfilePanel({
 
   // Every save/load on this page goes straight to Bridge — if it goes away
   // mid-session (quit, crash, machine sleep), staying here just means a form
-  // that silently fails every action. Bounce back to the list, where
-  // BridgeCard's own `active` check already hides itself the same way.
+  // that silently fails every action. Bounce back; App then drops the
+  // Games page itself, since it only exists while Bridge is active.
   const onBackRef = useRef(onBack);
   onBackRef.current = onBack;
   useEffect(() => subscribeBridgeHidActive((active) => {
@@ -199,7 +199,7 @@ export function GameProfilePanel({
     <div className="game-profile-page">
       <button type="button" className="game-profile-back" onClick={onBack}>
         <ArrowLeft size={15} strokeWidth={2} aria-hidden="true" />
-        {t(locale, "bridge.games")}
+        {t(locale, "nav.games")}
       </button>
 
       <div className="game-profile-layout">

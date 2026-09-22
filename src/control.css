@@ -2248,72 +2248,117 @@ body { height: 100vh; overflow: hidden; }
   flex: none;
   padding: 3rem 2rem 0.5rem;
 }
-.bridge-card {
+.games-page {
   width: 100%;
-  max-width: 1000px;
+  max-width: 1100px;
   margin: 0 auto;
-  padding: 0.9rem 1.1rem;
-  border-radius: 14px;
+  padding: 1.5rem clamp(1rem, 2.5vw, 2rem) 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+.games-header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.25rem;
+}
+.games-title {
+  margin: 0;
+  font-size: 1.35rem;
+  font-weight: 750;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+.games-subtitle {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--dim);
+}
+.games-bridge-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-top: 0.5rem;
+  padding: 0.25rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  color: var(--muted);
   background: var(--surface-panel);
   box-shadow: 0 0 0 1px var(--line);
 }
-.bridge-card-header {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-.bridge-card-dot {
-  width: 8px;
-  height: 8px;
+.games-bridge-dot {
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
   background: #5dde89;
   box-shadow: 0 0 0 3px color-mix(in srgb, #5dde89 25%, transparent);
 }
-.bridge-card-title {
-  font-weight: 650;
-  color: var(--bright);
-}
-.bridge-card-status {
-  color: var(--muted);
-  font-size: 0.85rem;
-}
-.bridge-card-games {
-  margin-top: 0.7rem;
-  padding-top: 0.7rem;
-  border-top: 1px solid var(--line);
-}
-.bridge-card-games-label {
-  display: block;
-  font-size: 0.68rem;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  color: var(--muted);
-  margin-bottom: 0.5rem;
-}
-.bridge-card-games-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
+.games-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 1rem;
   list-style: none;
   margin: 0;
   padding: 0;
 }
-.bridge-card-game {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  font-size: 0.82rem;
-  color: var(--bright);
-  background: color-mix(in srgb, var(--ui-accent) 10%, transparent);
+.games-tile {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0;
   border: none;
-  border-radius: 999px;
-  padding: 0.3rem 0.7rem;
-  cursor: pointer;
+  background: none;
+  color: inherit;
   font-family: inherit;
+  text-align: left;
+  cursor: pointer;
 }
-.bridge-card-game:hover {
-  background: color-mix(in srgb, var(--ui-accent) 20%, transparent);
+.games-tile-art {
+  position: relative;
+  aspect-ratio: 2 / 3;
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted);
+  background: linear-gradient(160deg, var(--ui-accent-soft), var(--surface-panel));
+  box-shadow: 0 0 0 1px var(--line);
+  transition: transform 140ms ease, box-shadow 140ms ease;
 }
+.games-tile-art img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.games-tile:hover .games-tile-art,
+.games-tile:focus-visible .games-tile-art {
+  transform: translateY(-2px);
+  box-shadow: 0 0 0 2px var(--ui-accent);
+}
+.games-tile:focus-visible { outline: none; }
+.games-tile-badge {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: var(--ui-accent-ink);
+  background: var(--ui-accent);
+}
+.games-tile-name {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--bright);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.reduce-interface-motion .games-tile-art { transition: none; }
 .game-profile-page {
   width: 100%;
   max-width: 1000px;

@@ -14,12 +14,9 @@ import {
 } from "lucide-react";
 import { useEffect, useRef, useState, type KeyboardEvent, type ReactNode } from "react";
 import * as control from "../device/controller";
-import type { BridgeGame } from "../bridge";
 import type { ControlSnapshot, WorkspaceTab } from "../device/types";
 import { t, tp, connectionText, type I18nKey } from "../i18n";
-import { BridgeCard } from "./BridgeCard";
 import { Diagnostics, LogitechDetails } from "./Diagnostics";
-import { GameProfilePanel } from "./GameProfilePanel";
 import { KeychronNapeLayers } from "./KeychronNapeLayers";
 import { Profiles } from "./Profiles";
 import { Superstrike } from "./Superstrike";
@@ -689,7 +686,6 @@ export function OverviewPage({
   const panel = useRef<HTMLElement>(null);
   const { preferences } = snapshot;
   const locale = preferences.locale;
-  const [selectedGame, setSelectedGame] = useState<BridgeGame | null>(null);
 
   const tabs = availableWorkspaceTabs(status !== null, cardAvailability(snapshot));
   const workspaceTab = availableWorkspaceTab(snapshot.workspaceTab, tabs);
@@ -775,13 +771,8 @@ export function OverviewPage({
 
           <Workspace snapshot={workspaceSnapshot} onOpenCapture={onOpenCapture} onShareProfile={onShareProfile} onRequestArtwork={onRequestArtwork} />
         </>
-      ) : selectedGame ? (
-        <GameProfilePanel snapshot={snapshot} game={selectedGame} onBack={() => setSelectedGame(null)} />
       ) : (
-        <>
-          <BridgeCard locale={locale} onSelectGame={setSelectedGame} />
-          <DeviceListView snapshot={snapshot} />
-        </>
+        <DeviceListView snapshot={snapshot} />
       )}
     </section>
   );
