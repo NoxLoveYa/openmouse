@@ -16,6 +16,7 @@ import { ShareProfileDialog } from "./ShareProfileDialog";
 import { WhatsNewDialog } from "./WhatsNewDialog";
 import { AiOverlay } from "./AiOverlay";
 import { ToastHost } from "./Toasts";
+import { useBridgeBatteryReporter } from "./useBridgeBatteryReporter";
 import { useBridgeProfileApplier } from "./useBridgeProfileApplier";
 import { useControl } from "./useControl";
 import { setSoundsEnabled } from "../sound-manager";
@@ -23,6 +24,7 @@ import { setSoundsEnabled } from "../sound-manager";
 export function App(): ReactNode {
   const snapshot = useControl();
   useBridgeProfileApplier(snapshot);
+  useBridgeBatteryReporter(snapshot);
   const panel = useRef<HTMLDivElement>(null);
   const [captureOpen, setCaptureOpen] = useState(false);
   const [shareProfileOpen, setShareProfileOpen] = useState(false);
