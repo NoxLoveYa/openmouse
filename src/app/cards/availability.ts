@@ -178,7 +178,9 @@ export function cardAvailability(snapshot: ControlSnapshot): CardAvailability {
     atkProfile: status.atkProfileCount !== undefined && status.activeProfile !== null,
     atkReceiver: status.atkReceiver !== undefined,
     atkF1Sensor: status.atkSensorMode != null,
-    atkF1Dongle: status.atkDongleLight != null,
+    // Write-only with no read command: gate on F1 presence and default the
+    // selector to Battery (vendor default) until the first write lands.
+    atkF1Dongle: status.atkSensorMode != null,
     mxMasterButtons: traits.logitech && (snapshot.buttons?.length ?? 0) > 0,
     pulsarPro: host && isPulsarProProtocol(status),
   };

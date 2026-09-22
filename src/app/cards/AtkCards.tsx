@@ -154,7 +154,7 @@ export function AtkSensorCard({ snapshot }: { snapshot: ControlSnapshot }): Reac
 }
 
 export function AtkDongleCard({ snapshot }: { snapshot: ControlSnapshot }): ReactNode {
-  const dongleLight = snapshot.status?.atkDongleLight;
+  const dongleLight = snapshot.status?.atkDongleLight ?? (snapshot.status?.atkSensorMode != null ? 2 : null);
   if (dongleLight == null) return null;
   return (
     <article id="atk-dongle-light" className="setting-card">
