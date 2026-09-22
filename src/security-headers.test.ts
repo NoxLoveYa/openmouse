@@ -74,6 +74,13 @@ test("the deployed CSP allows every origin the app talks to", () => {
   assert.ok(directive("img-src").includes("https://img.openmouse.app"));
   assert.ok(directive("img-src").includes("blob:"), "artwork previews use blob: URLs");
   assert.ok(directive("img-src").includes("http://127.0.0.1:17846"), "Bridge app icons");
+  for (const origin of [
+    "https://cdn.cloudflare.steamstatic.com",
+    "https://shared.akamai.steamstatic.com",
+    "https://store-images.s-microsoft.com",
+  ]) {
+    assert.ok(directive("img-src").includes(origin), `game cover art needs ${origin}`);
+  }
 });
 
 test("the deployed CSP never upgrades the loopback bridge to https", () => {
