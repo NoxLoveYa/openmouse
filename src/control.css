@@ -946,6 +946,7 @@ nav { display: grid; gap: .3rem; margin-top: 1.4rem; }
 .angle-tuning-inputs input[type="range"] { width: 100%; margin: 0; accent-color: var(--ui-accent); cursor: pointer; }
 .angle-tuning-scale { display: flex; justify-content: space-between; margin: .12rem 2.15rem 0; color: var(--ghost); font: .48rem var(--font-mono); }
 .angle-tuning-scale i { font-style: normal; }
+.setting-separator { border-top: 1px solid var(--line-strong); margin-top: .55rem; }
 .teevolution-dpi-light-controls { margin-top: .55rem; }
 
 .egg-collapsible, .egg-experimental { overflow: hidden; border: 1px solid var(--line-strong); border-radius: 9px; background: var(--card); }

@@ -479,6 +479,7 @@ function AtkAntiMistouchControl({ milliseconds, busy }: { milliseconds: number; 
         <button type="button" aria-label="Anti-mistouch window: increase" disabled={milliseconds <= 0 || shown >= 1000} onClick={() => apply(shown + 50)}>+</button>
       </div>
       <div className="angle-tuning-scale" aria-hidden="true"><span>100 ms</span><i>500 ms</i><span>1000 ms</span></div>
+      <div className="setting-separator" aria-hidden="true" />
     </div>
   );
 }
