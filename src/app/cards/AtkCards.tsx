@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import * as control from "../../device/controller";
 import type { ControlSnapshot } from "../../device/types";
-import { Segmented, SwitchRow } from "../ui";
+import { Segmented } from "../ui";
 
 export function AtkProfileCard({ snapshot }: { snapshot: ControlSnapshot }): ReactNode {
   const status = snapshot.status;
@@ -149,40 +149,6 @@ export function AtkSensorCard({ snapshot }: { snapshot: ControlSnapshot }): Reac
               ? "ATK Shard competitive firmware: balanced scan rate for match play."
               : "Basic sensor mode for daily work and maximum battery life."}
         </small>
-      </div>
-    </article>
-  );
-}
-
-export function AtkAntiMistouchCard({ snapshot }: { snapshot: ControlSnapshot }): ReactNode {
-  const antiMistouchMs = snapshot.status?.atkAntiMistouchMs ?? null;
-  if (antiMistouchMs == null) return null;
-  return (
-    <article id="atk-anti-mistouch" className="setting-card">
-      <div className="setting-heading compact">
-        <div><p>PARAMETER</p><h2>Scroll Wheel Anti-Mistouch Mode</h2></div>
-      </div>
-      <div className="setting-action">
-        <SwitchRow
-          label="Anti-mistouch"
-          value={antiMistouchMs > 0}
-          disabled={snapshot.settingInProgress}
-          onChange={(next) => void control.applyAtkAntiMistouch(next ? 100 : 0)}
-        />
-        <small className="setting-note">
-          Helps prevent accidental scroll wheel input during gaming. When enabled, the first scroll wheel trigger is ignored by default, and the scroll function will only activate if triggered again within the set time.
-        </small>
-        <Segmented
-          ariaLabel="Anti-mistouch window"
-          options={[
-            { value: 0, label: "Close" },
-            { value: 100, label: "100 ms" },
-            { value: 500, label: "500 ms" },
-          ]}
-          value={antiMistouchMs}
-          disabled={snapshot.settingInProgress}
-          onChange={(ms) => void control.applyAtkAntiMistouch(ms)}
-        />
       </div>
     </article>
   );

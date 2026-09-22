@@ -24,7 +24,7 @@ import { DpiCard } from "./cards/DpiCard";
 import { LightforceCard, PollingCard, SensorCard } from "./cards/PerformanceCards";
 import { LightingCard } from "./cards/LightingCard";
 import { MxMasterButtonsCard, MxMasterCards } from "./cards/MxMasterCards";
-import { AtkAntiMistouchCard, AtkButtonCard, AtkDongleCard, AtkProfileCard, AtkReceiverCard, AtkSensorCard } from "./cards/AtkCards";
+import { AtkButtonCard, AtkDongleCard, AtkProfileCard, AtkReceiverCard, AtkSensorCard } from "./cards/AtkCards";
 import {
   DebounceCard,
   EggButtonCard,
@@ -431,7 +431,6 @@ export function Workspace({
     show(has.polling, ["performance"]) ? <PollingCard key="polling" snapshot={snapshot} /> : null,
     show(has.sensor, ["performance"]) ? <SensorCard key="sensor" snapshot={snapshot} /> : null,
     show(has.atkF1Sensor, ["performance"]) ? <AtkSensorCard key="atk-sensor" snapshot={snapshot} /> : null,
-    show(has.atkF1AntiMistouch, ["performance"]) ? <AtkAntiMistouchCard key="atk-antimistouch" snapshot={snapshot} /> : null,
     show(has.lightforce, ["buttons"]) ? <LightforceCard key="lightforce" snapshot={snapshot} /> : null,
     show(has.ninjutsoSensor, ["performance"])
       ? <NinjutsoSensorCard key="ninjutso-sensor" snapshot={snapshot} /> : null,

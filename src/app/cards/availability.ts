@@ -30,7 +30,6 @@ export interface CardAvailability {
   atkProfile: boolean;
   atkReceiver: boolean;
   atkF1Sensor: boolean;
-  atkF1AntiMistouch: boolean;
   atkF1Dongle: boolean;
   mxMasterButtons: boolean;
   pulsarPro: boolean;
@@ -71,7 +70,6 @@ const NOTHING: CardAvailability = {
   atkProfile: false,
   atkReceiver: false,
   atkF1Sensor: false,
-  atkF1AntiMistouch: false,
   atkF1Dongle: false,
   mxMasterButtons: false,
   pulsarPro: false,
@@ -180,7 +178,6 @@ export function cardAvailability(snapshot: ControlSnapshot): CardAvailability {
     atkProfile: status.atkProfileCount !== undefined && status.activeProfile !== null,
     atkReceiver: status.atkReceiver !== undefined,
     atkF1Sensor: status.atkSensorMode != null,
-    atkF1AntiMistouch: status.atkAntiMistouchMs != null,
     atkF1Dongle: status.atkDongleLight != null,
     mxMasterButtons: traits.logitech && (snapshot.buttons?.length ?? 0) > 0,
     pulsarPro: host && isPulsarProProtocol(status),

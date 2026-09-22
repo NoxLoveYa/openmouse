@@ -358,6 +358,12 @@ export function ProcessingCard({ snapshot }: { snapshot: ControlSnapshot }): Rea
         hidden={ui?.hideRippleControl === true || traits.finalmouse}
         onChange={(next) => control.applyPulsarToggle("rippleControl", next)}
       />
+      {status.atkAntiMistouchMs != null ? (
+        <AtkAntiMistouchControl
+          milliseconds={status.atkAntiMistouchMs}
+          busy={snapshot.settingInProgress}
+        />
+      ) : null}
       <SwitchRow
         id="performance-mode-toggle"
         labelId="performance-mode-label"
@@ -425,8 +431,59 @@ export function ProcessingCard({ snapshot }: { snapshot: ControlSnapshot }): Rea
   );
 }
 
-function AngleTuningControl({ value, label }: { value: number; label: string }): ReactNode {
+/**
+ * ATK F1 Ultimate scroll anti-mistouch: on/off plus a 100-1000 ms window
+ * slider on the line below, mirroring the vendor HUB layout. Verified
+ * 100/500 ms on hardware; the driver accepts 10 ms steps.
+ */
+function AtkAntiMistouchControl({ milliseconds, busy }: { milliseconds: number; busy: boolean }): ReactNode {
   const [dragging, setDragging] = useState<number | null>(null);
+  const shown = dragging ?? Math.max(100, milliseconds);
+  const apply = (next: number): void => {
+    void control.applyAtkAntiMistouch(Math.max(100, Math.min(1000, next)));
+  };
+  return (
+    <div className="angle-tuning-control" data-pending-key="atk-anti-mistouch">
+      <SwitchRow
+        id="atk-anti-mistouch-toggle"
+        label="Scroll Wheel Anti-Mistouch Mode"
+        value={milliseconds > 0}
+        disabled={busy}
+        onChange={(next) => void control.applyAtkAntiMistouch(next ? 100 : 0)}
+      />
+      <div className="angle-tuning-head">
+        <span>Anti-mistouch window</span>
+        <output id="atk-anti-mistouch-value" htmlFor="atk-anti-mistouch-slider">{milliseconds} ms</output>
+      </div>
+      <div className="angle-tuning-inputs">
+        <button type="button" aria-label="Anti-mistouch window: decrease" disabled={milliseconds <= 0 || shown <= 100} onClick={() => apply(shown - 50)}>−</button>
+        <input
+          id="atk-anti-mistouch-slider"
+          type="range"
+          min={100}
+          max={1000}
+          step={50}
+          value={shown}
+          disabled={milliseconds <= 0 || busy}
+          aria-label="Anti-mistouch window"
+          aria-valuetext={`${shown} milliseconds`}
+          style={{ "--fill": `${((shown - 100) / 900) * 100}%` }}
+          onInput={(event) => setDragging(Number(event.currentTarget.value))}
+          onChange={(event) => {
+            const next = Number(event.currentTarget.value);
+            setDragging(null);
+            apply(next);
+          }}
+          onBlur={() => setDragging(null)}
+        />
+        <button type="button" aria-label="Anti-mistouch window: increase" disabled={milliseconds <= 0 || shown >= 1000} onClick={() => apply(shown + 50)}>+</button>
+      </div>
+      <div className="angle-tuning-scale" aria-hidden="true"><span>100 ms</span><i>500 ms</i><span>1000 ms</span></div>
+    </div>
+  );
+}
+
+function AngleTuningControl({ value, label }: { value: number; label: string }): ReactNode {  const [dragging, setDragging] = useState<number | null>(null);
   const shown = dragging ?? value;
   const apply = (next: number): void => control.applyAngleTuning(Math.max(-30, Math.min(30, next)));
 
