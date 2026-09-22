@@ -2361,7 +2361,7 @@ body { height: 100vh; overflow: hidden; }
 .reduce-interface-motion .games-tile-art { transition: none; }
 .game-profile-page {
   width: 100%;
-  max-width: 1000px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 1.5rem 0;
 }
@@ -2477,6 +2477,33 @@ body { height: 100vh; overflow: hidden; }
 .game-profile-empty {
   color: var(--muted);
   font-size: 0.85rem;
+}
+.game-profile-changed {
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+.game-profile-workspace {
+  margin-top: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.game-profile-workspace-head {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+.game-profile-workspace-head .game-profile-section-title {
+  margin-top: 0;
+}
+.game-profile-tabs {
+  justify-content: flex-start;
+  padding: 0;
+}
+/* The device page reserves its first column for the mouse showcase, which
+   the game profile does not render. */
+.game-profile-workspace .performance-layout {
+  grid-template-columns: minmax(0, 1fr);
 }
 .game-profile-devices {
   list-style: none;

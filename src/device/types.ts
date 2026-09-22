@@ -205,6 +205,8 @@ export interface ControlSnapshot {
   eggPollingDivider: number | null;
 
   pending: PendingView;
+  /** True while the Games page is editing a game profile: edits are staged into a draft that is never flashed. */
+  gameProfileDraft: boolean;
   diagnostics: DiagnosticsView;
   diagnosticsOpen: boolean;
   captureAvailable: boolean;

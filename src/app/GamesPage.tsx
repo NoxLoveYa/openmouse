@@ -69,7 +69,9 @@ export function GamesPage({ snapshot }: { snapshot: ControlSnapshot }): ReactNod
     if (!active || selectedGame) return;
     const controller = new AbortController();
     void bridgeProfiles(controller.signal)
-      .then((profiles) => setProfiled(new Set(profiles.map((profile) => profile.application.name.toLowerCase()))))
+      .then((profiles) => setProfiled(new Set(profiles
+        .filter((profile) => profile.enabled !== false)
+        .map((profile) => profile.application.name.toLowerCase()))))
       .catch(() => undefined);
     return () => controller.abort();
   }, [active, selectedGame]);
