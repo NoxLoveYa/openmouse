@@ -139,7 +139,7 @@ export function AtkSensorCard({ snapshot }: { snapshot: ControlSnapshot }): Reac
             ariaLabel="Sensor sampling mode"
             options={ATK_SENSOR_MODE_LABELS.map((label, value) => ({ value, label }))}
             value={sensorMode}
-            disabled={busy}
+            disabled={snapshot.settingInProgress}
             className="three"
             onChange={(mode) => void control.selectAtkSensorMode(mode)}
           />
