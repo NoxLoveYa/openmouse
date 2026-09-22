@@ -138,6 +138,48 @@ export function DebounceCard({ snapshot }: { snapshot: ControlSnapshot }): React
   const status = snapshot.status;
   if (!status) return null;
   const locale = snapshot.preferences.locale;
+  // F1 Ultimate mirrors the vendor HUB: on/off plus a 0-20 ms slider. The HUB
+  // lists 0/1/2/4/8/15/20; the driver accepts the full range and the
+  // read-back rejects anything the firmware refuses.
+  if (status.atkSensorMode != null && status.debounceMs != null) {
+    const ms = status.debounceMs;
+    return (
+      <article id="debounce-settings" className="setting-card">
+        <div className="setting-heading compact"><div><p>CLICK</p><h2>{t(locale, "adv.debounce")}</h2></div></div>
+        <div className="angle-tuning-control" data-pending-key="debounce">
+          <SwitchRow
+            id="atk-debounce-toggle"
+            label="Key debounce"
+            value={ms > 0}
+            disabled={snapshot.settingInProgress}
+            onChange={(next) => control.applyPulsarValue("debounce", next ? 1 : 0)}
+          />
+          <div className="angle-tuning-head">
+            <span>Debounce delay</span>
+            <output id="atk-debounce-value" htmlFor="atk-debounce-slider">{ms} ms</output>
+          </div>
+          <div className="angle-tuning-inputs">
+            <button type="button" aria-label="Debounce delay: decrease" disabled={ms <= 0} onClick={() => control.applyPulsarValue("debounce", Math.max(0, ms - 1))}>−</button>
+            <input
+              id="atk-debounce-slider"
+              type="range"
+              min={0}
+              max={20}
+              step={1}
+              value={ms}
+              disabled={snapshot.settingInProgress}
+              aria-label="Debounce delay"
+              aria-valuetext={`${ms} milliseconds`}
+              style={{ "--fill": `${(ms / 20) * 100}%` }}
+              onChange={(event) => control.applyPulsarValue("debounce", Number(event.currentTarget.value))}
+            />
+            <button type="button" aria-label="Debounce delay: increase" disabled={ms >= 20} onClick={() => control.applyPulsarValue("debounce", Math.min(20, ms + 1))}>+</button>
+          </div>
+          <div className="angle-tuning-scale" aria-hidden="true"><span>0 ms</span><i>10 ms</i><span>20 ms</span></div>
+        </div>
+      </article>
+    );
+  }
   const max = snapshot.traits.directMode
     ? snapshot.capabilities?.debounceMaxMs ?? 20
     : snapshot.capabilities?.teevolutionProfile?.debounce.max ?? 20;
