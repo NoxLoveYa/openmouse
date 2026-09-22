@@ -116,8 +116,8 @@ export function AtkReceiverCard({ snapshot }: { snapshot: ControlSnapshot }): Re
   );
 }
 
-const ATK_SENSOR_MODE_LABELS = ["Basic", "Shard", "MAX"] as const;
-const ATK_DONGLE_LIGHT_LABELS = ["Off", "Polling", "Battery", "Low battery"] as const;
+const ATK_SENSOR_MODE_LABELS = ["Basic Mode", "ATK Shard Competitive Firmware", "ATK Shard Competitive Firmware MAX"] as const;
+const ATK_DONGLE_LIGHT_LABELS = ["Close", "Polling Rate Effect", "Battery Gradient Light Effect", "Low Battery Effect"] as const;
 
 /**
  * F1 Ultimate extras: sensor sampling mode, scroll anti-mistouch, and the
@@ -139,7 +139,7 @@ export function AtkF1ExtrasCard({ snapshot }: { snapshot: ControlSnapshot }): Re
       </div>
       {sensorMode != null ? (
         <div className="setting-action">
-          <span id="atk-sensor-mode-label">Sensor mode</span>
+          <span id="atk-sensor-mode-label">Sensor Sampling Rate</span>
           <Segmented
             ariaLabel="Sensor sampling mode"
             options={ATK_SENSOR_MODE_LABELS.map((label, value) => ({ value, label }))}
@@ -148,22 +148,29 @@ export function AtkF1ExtrasCard({ snapshot }: { snapshot: ControlSnapshot }): Re
             onChange={(mode) => void control.selectAtkSensorMode(mode)}
           />
           <small className="setting-note">
-            Shard is the stock firmware; MAX raises the sensor scan rate.
+            {sensorMode === 2
+              ? "In this mode, the mouse sensor is in high performance state, high scanning frequency, more responsive control."
+              : sensorMode === 1
+                ? "ATK Shard competitive firmware: balanced scan rate for match play."
+                : "Basic sensor mode for daily work and maximum battery life."}
           </small>
         </div>
       ) : null}
       {antiMistouchMs != null ? (
         <div className="setting-action">
           <SwitchRow
-            label="Scroll anti-mistouch"
+            label="Scroll Wheel Anti-Mistouch Mode"
             value={antiMistouchMs > 0}
             disabled={busy}
             onChange={(next) => void control.applyAtkAntiMistouch(next ? 100 : 0)}
           />
+          <small className="setting-note">
+            Helps prevent accidental scroll wheel input during gaming. When enabled, the first scroll wheel trigger is ignored by default, and the scroll function will only activate if triggered again within the set time.
+          </small>
           <Segmented
             ariaLabel="Anti-mistouch window"
             options={[
-              { value: 0, label: "Off" },
+              { value: 0, label: "Close" },
               { value: 100, label: "100 ms" },
               { value: 500, label: "500 ms" },
             ]}
@@ -171,14 +178,12 @@ export function AtkF1ExtrasCard({ snapshot }: { snapshot: ControlSnapshot }): Re
             disabled={busy}
             onChange={(ms) => void control.applyAtkAntiMistouch(ms)}
           />
-          <small className="setting-note">
-            First scroll tick is ignored unless repeated inside the window.
-          </small>
         </div>
       ) : null}
       {dongleLight != null ? (
         <div className="setting-action">
-          <span id="atk-dongle-light-label">Dongle light</span>
+          <span id="atk-dongle-light-label">Dongle Light Effect</span>
+          <small className="setting-note">Lighting Effect Mode</small>
           <Segmented
             ariaLabel="Dongle LED effect"
             options={ATK_DONGLE_LIGHT_LABELS.map((label, value) => ({ value, label }))}
