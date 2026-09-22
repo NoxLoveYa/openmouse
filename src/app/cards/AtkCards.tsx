@@ -120,82 +120,95 @@ const ATK_SENSOR_MODE_LABELS = ["Basic Mode", "ATK Shard Competitive Firmware", 
 const ATK_DONGLE_LIGHT_LABELS = ["Close", "Polling Rate Effect", "Battery Gradient Light Effect", "Low Battery Effect"] as const;
 
 /**
- * F1 Ultimate extras: sensor sampling mode, scroll anti-mistouch, and the
- * receiver dongle LED. Each control renders only when the driver actually
- * reported the field; all three were verified on the F1 Ultimate 2.0
- * (CID 01, MID 08 over 373B:11D9).
+ * F1 Ultimate extras, grouped like the ATK HUB pages: sensor sampling rate
+ * lives with polling under Performance, while scroll anti-mistouch and the
+ * receiver dongle LED live under Advanced (HUB Parameter page). Each control
+ * renders only when the driver actually reported the field; all three were
+ * verified on the F1 Ultimate 2.0 (CID 01, MID 08 over 373B:11D9).
  */
-export function AtkF1ExtrasCard({ snapshot }: { snapshot: ControlSnapshot }): ReactNode {
-  const status = snapshot.status;
-  const sensorMode = status?.atkSensorMode ?? null;
-  const antiMistouchMs = status?.atkAntiMistouchMs ?? null;
-  const dongleLight = status?.atkDongleLight;
-  if (sensorMode == null && antiMistouchMs == null && dongleLight == null) return null;
-  const busy = snapshot.settingInProgress;
+export function AtkSensorCard({ snapshot }: { snapshot: ControlSnapshot }): ReactNode {
+  const sensorMode = snapshot.status?.atkSensorMode ?? null;
+  if (sensorMode == null) return null;
   return (
-    <article id="atk-f1-extras" className="setting-card">
+    <article id="atk-sensor-mode" className="setting-card">
       <div className="setting-heading compact">
-        <div><p>ATK</p><h2>F1 Ultimate extras</h2></div>
+        <div><p>PERFORMANCE</p><h2>Sensor Sampling Rate</h2></div>
       </div>
-      {sensorMode != null ? (
-        <div className="setting-action">
-          <span id="atk-sensor-mode-label">Sensor Sampling Rate</span>
-          <Segmented
-            ariaLabel="Sensor sampling mode"
-            options={ATK_SENSOR_MODE_LABELS.map((label, value) => ({ value, label }))}
-            value={sensorMode}
-            disabled={busy}
-            onChange={(mode) => void control.selectAtkSensorMode(mode)}
-          />
-          <small className="setting-note">
-            {sensorMode === 2
-              ? "In this mode, the mouse sensor is in high performance state, high scanning frequency, more responsive control."
-              : sensorMode === 1
-                ? "ATK Shard competitive firmware: balanced scan rate for match play."
-                : "Basic sensor mode for daily work and maximum battery life."}
-          </small>
-        </div>
-      ) : null}
-      {antiMistouchMs != null ? (
-        <div className="setting-action">
-          <SwitchRow
-            label="Scroll Wheel Anti-Mistouch Mode"
-            value={antiMistouchMs > 0}
-            disabled={busy}
-            onChange={(next) => void control.applyAtkAntiMistouch(next ? 100 : 0)}
-          />
-          <small className="setting-note">
-            Helps prevent accidental scroll wheel input during gaming. When enabled, the first scroll wheel trigger is ignored by default, and the scroll function will only activate if triggered again within the set time.
-          </small>
-          <Segmented
-            ariaLabel="Anti-mistouch window"
-            options={[
-              { value: 0, label: "Close" },
-              { value: 100, label: "100 ms" },
-              { value: 500, label: "500 ms" },
-            ]}
-            value={antiMistouchMs}
-            disabled={busy}
-            onChange={(ms) => void control.applyAtkAntiMistouch(ms)}
-          />
-        </div>
-      ) : null}
-      {dongleLight != null ? (
-        <div className="setting-action">
-          <span id="atk-dongle-light-label">Dongle Light Effect</span>
-          <small className="setting-note">Lighting Effect Mode</small>
-          <Segmented
-            ariaLabel="Dongle LED effect"
-            options={ATK_DONGLE_LIGHT_LABELS.map((label, value) => ({ value, label }))}
-            value={dongleLight}
-            disabled={busy}
-            onChange={(mode) => void control.selectAtkDongleLight(mode)}
-          />
-          <small className="setting-note">
-            Effect on the 8K receiver; write-only, confirmed on the LED.
-          </small>
-        </div>
-      ) : null}
+      <div className="setting-action">
+        <Segmented
+          ariaLabel="Sensor sampling mode"
+          options={ATK_SENSOR_MODE_LABELS.map((label, value) => ({ value, label }))}
+          value={sensorMode}
+          disabled={snapshot.settingInProgress}
+          onChange={(mode) => void control.selectAtkSensorMode(mode)}
+        />
+        <small className="setting-note">
+          {sensorMode === 2
+            ? "In this mode, the mouse sensor is in high performance state, high scanning frequency, more responsive control."
+            : sensorMode === 1
+              ? "ATK Shard competitive firmware: balanced scan rate for match play."
+              : "Basic sensor mode for daily work and maximum battery life."}
+        </small>
+      </div>
+    </article>
+  );
+}
+
+export function AtkAntiMistouchCard({ snapshot }: { snapshot: ControlSnapshot }): ReactNode {
+  const antiMistouchMs = snapshot.status?.atkAntiMistouchMs ?? null;
+  if (antiMistouchMs == null) return null;
+  return (
+    <article id="atk-anti-mistouch" className="setting-card">
+      <div className="setting-heading compact">
+        <div><p>PARAMETER</p><h2>Scroll Wheel Anti-Mistouch Mode</h2></div>
+      </div>
+      <div className="setting-action">
+        <SwitchRow
+          label="Anti-mistouch"
+          value={antiMistouchMs > 0}
+          disabled={snapshot.settingInProgress}
+          onChange={(next) => void control.applyAtkAntiMistouch(next ? 100 : 0)}
+        />
+        <small className="setting-note">
+          Helps prevent accidental scroll wheel input during gaming. When enabled, the first scroll wheel trigger is ignored by default, and the scroll function will only activate if triggered again within the set time.
+        </small>
+        <Segmented
+          ariaLabel="Anti-mistouch window"
+          options={[
+            { value: 0, label: "Close" },
+            { value: 100, label: "100 ms" },
+            { value: 500, label: "500 ms" },
+          ]}
+          value={antiMistouchMs}
+          disabled={snapshot.settingInProgress}
+          onChange={(ms) => void control.applyAtkAntiMistouch(ms)}
+        />
+      </div>
+    </article>
+  );
+}
+
+export function AtkDongleCard({ snapshot }: { snapshot: ControlSnapshot }): ReactNode {
+  const dongleLight = snapshot.status?.atkDongleLight;
+  if (dongleLight == null) return null;
+  return (
+    <article id="atk-dongle-light" className="setting-card">
+      <div className="setting-heading compact">
+        <div><p>PARAMETER</p><h2>Dongle Light Effect</h2></div>
+      </div>
+      <div className="setting-action">
+        <small className="setting-note">Lighting Effect Mode</small>
+        <Segmented
+          ariaLabel="Dongle LED effect"
+          options={ATK_DONGLE_LIGHT_LABELS.map((label, value) => ({ value, label }))}
+          value={dongleLight}
+          disabled={snapshot.settingInProgress}
+          onChange={(mode) => void control.selectAtkDongleLight(mode)}
+        />
+        <small className="setting-note">
+          Effect on the 8K receiver; write-only, confirmed on the LED.
+        </small>
+      </div>
     </article>
   );
 }
