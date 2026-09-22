@@ -1303,53 +1303,59 @@ export async function selectAtkR1Profile(profile: number): Promise<void> {
 }
 
 /**
- * Immediate ATK F1 Ultimate writes (sensor mode, anti-mistouch, dongle
- * light). Unlike staged slider changes these apply at once with a read-back,
- * following selectAtkR1Profile above.
+ * ATK F1 Ultimate settings (sensor mode, anti-mistouch, dongle light) use the
+ * shared staged flow: edits preview instantly and join the footer Apply bar
+ * like every other control.
  */
-async function writeAtkF1Setting(
-  label: string,
-  apply: (client: AtkHidClient) => Promise<unknown>,
-): Promise<void> {
-  const client = activeAs(AtkHidClient);
-  if (!client || refreshInProgress || settingInProgress) return;
-  if (hasPendingChanges()) {
-    setReadStatus(st("ctl.atkPending"));
-    emit();
-    return;
-  }
-  const device = activeDevice;
-  settingInProgress = true;
-  setReadStatus(label);
-  emit();
-  recordDiagnosticCommand(label);
-  try {
-    await apply(client);
-    if (active !== client || activeDevice !== device) return;
-    const status = await statusAfterWrite(client);
-    if (active !== client || activeDevice !== device) return;
-    applyStatus(status);
-    setReadStatus(label);
-  } catch (error) {
-    if (active !== client || activeDevice !== device) return;
-    recordDiagnosticError(error, label);
-    setReadStatus(error instanceof Error ? error.message : label);
-  } finally {
-    settingInProgress = false;
-    emit();
-  }
+export function selectAtkSensorMode(mode: number): void {
+  if (!hasActiveClient()) return;
+  if (!Number.isInteger(mode) || mode < 0 || mode > 2) return;
+  stageChange({
+    key: "atk-sensor-mode",
+    label: `Sensor mode ${["Basic", "Shard", "MAX"][mode] ?? mode}`,
+    command: `Set ATK sensor mode to ${mode}`,
+    progress: `Setting ATK sensor mode…`,
+    preview: (status) => {
+      status.atkSensorMode = mode;
+    },
+    apply: async () => {
+      await requireClientMethod("setAtkSensorMode", "the sensor mode").setAtkSensorMode(mode);
+    },
+  });
 }
 
-export async function selectAtkSensorMode(mode: number): Promise<void> {
-  await writeAtkF1Setting(`Set ATK sensor mode to ${mode}`, (client) => client.setAtkSensorMode(mode));
+export function applyAtkAntiMistouch(milliseconds: number): void {
+  if (!hasActiveClient()) return;
+  if (!Number.isInteger(milliseconds) || milliseconds < 0 || milliseconds > 2550) return;
+  stageChange({
+    key: "atk-anti-mistouch",
+    label: milliseconds === 0 ? "Anti-mistouch off" : `Anti-mistouch ${milliseconds} ms`,
+    command: `Set ATK anti-mistouch to ${milliseconds} ms`,
+    progress: `Setting ATK anti-mistouch…`,
+    preview: (status) => {
+      status.atkAntiMistouchMs = milliseconds;
+    },
+    apply: async () => {
+      await requireClientMethod("setAntiMistouchMs", "anti-mistouch").setAntiMistouchMs(milliseconds);
+    },
+  });
 }
 
-export async function applyAtkAntiMistouch(milliseconds: number): Promise<void> {
-  await writeAtkF1Setting(`Set ATK anti-mistouch to ${milliseconds} ms`, (client) => client.setAntiMistouchMs(milliseconds));
-}
-
-export async function selectAtkDongleLight(mode: number): Promise<void> {
-  await writeAtkF1Setting(`Set ATK dongle light to ${mode}`, (client) => client.setDongleLight(mode));
+export function selectAtkDongleLight(mode: number): void {
+  if (!hasActiveClient()) return;
+  if (!Number.isInteger(mode) || mode < 0 || mode > 3) return;
+  stageChange({
+    key: "atk-dongle-light",
+    label: `Dongle light ${["Off", "Polling", "Battery", "Low battery"][mode] ?? mode}`,
+    command: `Set ATK dongle light to ${mode}`,
+    progress: `Setting ATK dongle light…`,
+    preview: (status) => {
+      status.atkDongleLight = mode;
+    },
+    apply: async () => {
+      await requireClientMethod("setDongleLight", "the dongle light").setDongleLight(mode);
+    },
+  });
 }
 
 export async function pairAtkR1SePlusReceiver(): Promise<void> {
