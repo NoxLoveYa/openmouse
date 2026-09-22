@@ -135,14 +135,15 @@ export function AtkSensorCard({ snapshot }: { snapshot: ControlSnapshot }): Reac
         <div><p>PERFORMANCE</p><h2>Sensor Sampling Rate</h2></div>
       </div>
       <div className="setting-action">
-        <Segmented
-          ariaLabel="Sensor sampling mode"
-          options={ATK_SENSOR_MODE_LABELS.map((label, value) => ({ value, label }))}
-          value={sensorMode}
-          disabled={snapshot.settingInProgress}
-          onChange={(mode) => void control.selectAtkSensorMode(mode)}
-        />
-        <small className="setting-note">
+          <Segmented
+            ariaLabel="Sensor sampling mode"
+            options={ATK_SENSOR_MODE_LABELS.map((label, value) => ({ value, label }))}
+            value={sensorMode}
+            disabled={busy}
+            className="three"
+            onChange={(mode) => void control.selectAtkSensorMode(mode)}
+          />
+          <small className="setting-note setting-note-stable">
           {sensorMode === 2
             ? "In this mode, the mouse sensor is in high performance state, high scanning frequency, more responsive control."
             : sensorMode === 1
