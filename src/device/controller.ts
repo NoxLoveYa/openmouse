@@ -1302,6 +1302,56 @@ export async function selectAtkR1Profile(profile: number): Promise<void> {
   }
 }
 
+/**
+ * Immediate ATK F1 Ultimate writes (sensor mode, anti-mistouch, dongle
+ * light). Unlike staged slider changes these apply at once with a read-back,
+ * following selectAtkR1Profile above.
+ */
+async function writeAtkF1Setting(
+  label: string,
+  apply: (client: AtkHidClient) => Promise<unknown>,
+): Promise<void> {
+  const client = activeAs(AtkHidClient);
+  if (!client || refreshInProgress || settingInProgress) return;
+  if (hasPendingChanges()) {
+    setReadStatus(st("ctl.atkPending"));
+    emit();
+    return;
+  }
+  const device = activeDevice;
+  settingInProgress = true;
+  setReadStatus(label);
+  emit();
+  recordDiagnosticCommand(label);
+  try {
+    await apply(client);
+    if (active !== client || activeDevice !== device) return;
+    const status = await statusAfterWrite(client);
+    if (active !== client || activeDevice !== device) return;
+    applyStatus(status);
+    setReadStatus(label);
+  } catch (error) {
+    if (active !== client || activeDevice !== device) return;
+    recordDiagnosticError(error, label);
+    setReadStatus(error instanceof Error ? error.message : label);
+  } finally {
+    settingInProgress = false;
+    emit();
+  }
+}
+
+export async function selectAtkSensorMode(mode: number): Promise<void> {
+  await writeAtkF1Setting(`Set ATK sensor mode to ${mode}`, (client) => client.setAtkSensorMode(mode));
+}
+
+export async function applyAtkAntiMistouch(milliseconds: number): Promise<void> {
+  await writeAtkF1Setting(`Set ATK anti-mistouch to ${milliseconds} ms`, (client) => client.setAntiMistouchMs(milliseconds));
+}
+
+export async function selectAtkDongleLight(mode: number): Promise<void> {
+  await writeAtkF1Setting(`Set ATK dongle light to ${mode}`, (client) => client.setDongleLight(mode));
+}
+
 export async function pairAtkR1SePlusReceiver(): Promise<void> {
   if (blockedByGameProfileDraft()) return;
   const client = activeAs(AtkHidClient);

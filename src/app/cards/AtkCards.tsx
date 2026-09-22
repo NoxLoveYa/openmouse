@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import * as control from "../../device/controller";
 import type { ControlSnapshot } from "../../device/types";
-import { Segmented } from "../ui";
+import { Segmented, SwitchRow } from "../ui";
 
 export function AtkProfileCard({ snapshot }: { snapshot: ControlSnapshot }): ReactNode {
   const status = snapshot.status;
@@ -112,6 +112,85 @@ export function AtkReceiverCard({ snapshot }: { snapshot: ControlSnapshot }): Re
       ) : (
         <small className="setting-note">Pairing controls are unavailable on this receiver model.</small>
       )}
+    </article>
+  );
+}
+
+const ATK_SENSOR_MODE_LABELS = ["Basic", "Shard", "MAX"] as const;
+const ATK_DONGLE_LIGHT_LABELS = ["Off", "Polling", "Battery", "Low battery"] as const;
+
+/**
+ * F1 Ultimate extras: sensor sampling mode, scroll anti-mistouch, and the
+ * receiver dongle LED. Each control renders only when the driver actually
+ * reported the field; all three were verified on the F1 Ultimate 2.0
+ * (CID 01, MID 08 over 373B:11D9).
+ */
+export function AtkF1ExtrasCard({ snapshot }: { snapshot: ControlSnapshot }): ReactNode {
+  const status = snapshot.status;
+  const sensorMode = status?.atkSensorMode ?? null;
+  const antiMistouchMs = status?.atkAntiMistouchMs ?? null;
+  const dongleLight = status?.atkDongleLight;
+  if (sensorMode == null && antiMistouchMs == null && dongleLight == null) return null;
+  const busy = snapshot.settingInProgress;
+  return (
+    <article id="atk-f1-extras" className="setting-card">
+      <div className="setting-heading compact">
+        <div><p>ATK</p><h2>F1 Ultimate extras</h2></div>
+      </div>
+      {sensorMode != null ? (
+        <div className="setting-action">
+          <span id="atk-sensor-mode-label">Sensor mode</span>
+          <Segmented
+            ariaLabel="Sensor sampling mode"
+            options={ATK_SENSOR_MODE_LABELS.map((label, value) => ({ value, label }))}
+            value={sensorMode}
+            disabled={busy}
+            onChange={(mode) => void control.selectAtkSensorMode(mode)}
+          />
+          <small className="setting-note">
+            Shard is the stock firmware; MAX raises the sensor scan rate.
+          </small>
+        </div>
+      ) : null}
+      {antiMistouchMs != null ? (
+        <div className="setting-action">
+          <SwitchRow
+            label="Scroll anti-mistouch"
+            value={antiMistouchMs > 0}
+            disabled={busy}
+            onChange={(next) => void control.applyAtkAntiMistouch(next ? 100 : 0)}
+          />
+          <Segmented
+            ariaLabel="Anti-mistouch window"
+            options={[
+              { value: 0, label: "Off" },
+              { value: 100, label: "100 ms" },
+              { value: 500, label: "500 ms" },
+            ]}
+            value={antiMistouchMs}
+            disabled={busy}
+            onChange={(ms) => void control.applyAtkAntiMistouch(ms)}
+          />
+          <small className="setting-note">
+            First scroll tick is ignored unless repeated inside the window.
+          </small>
+        </div>
+      ) : null}
+      {dongleLight != null ? (
+        <div className="setting-action">
+          <span id="atk-dongle-light-label">Dongle light</span>
+          <Segmented
+            ariaLabel="Dongle LED effect"
+            options={ATK_DONGLE_LIGHT_LABELS.map((label, value) => ({ value, label }))}
+            value={dongleLight}
+            disabled={busy}
+            onChange={(mode) => void control.selectAtkDongleLight(mode)}
+          />
+          <small className="setting-note">
+            Effect on the 8K receiver; write-only, confirmed on the LED.
+          </small>
+        </div>
+      ) : null}
     </article>
   );
 }

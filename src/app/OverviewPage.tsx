@@ -24,7 +24,7 @@ import { DpiCard } from "./cards/DpiCard";
 import { LightforceCard, PollingCard, SensorCard } from "./cards/PerformanceCards";
 import { LightingCard } from "./cards/LightingCard";
 import { MxMasterButtonsCard, MxMasterCards } from "./cards/MxMasterCards";
-import { AtkButtonCard, AtkProfileCard, AtkReceiverCard } from "./cards/AtkCards";
+import { AtkButtonCard, AtkF1ExtrasCard, AtkProfileCard, AtkReceiverCard } from "./cards/AtkCards";
 import {
   DebounceCard,
   EggButtonCard,
@@ -462,6 +462,7 @@ export function Workspace({
     show(has.incott, ["advanced"]) ? <IncottCard key="incott" snapshot={snapshot} /> : null,
     show(has.atkProfile, ["profiles"]) ? <AtkProfileCard key="atk-profile" snapshot={snapshot} /> : null,
     device && show(has.atkReceiver, ["advanced"]) ? <AtkReceiverCard key="atk-receiver" snapshot={snapshot} /> : null,
+    show(has.atkF1Extras, ["advanced"]) ? <AtkF1ExtrasCard key="atk-f1-extras" snapshot={snapshot} /> : null,
     show(has.onboardProfiles && !snapshot.traits.teevolution, ["profiles"])
       ? <OnboardProfileCard key="onboard-profile" snapshot={snapshot} /> : null,
     show(has.pulsarPro, ["profiles"]) ? <PulsarProCard key="pulsarpro" snapshot={snapshot} /> : null,
