@@ -6,6 +6,8 @@ import {
   deviceBrand,
   describeHidDevice,
   listLogicalDevices,
+  logicalDeviceGroups,
+  pickLogicalDevice,
   type PulsarClient,
   type SupportedClient,
 } from "../device-clients";
@@ -1881,9 +1883,14 @@ function sidebarEntryForm(client: SupportedClient): "mouse" | "keyboard" {
 }
 
 function sidebarEntries(devices: HIDDevice[]): SidebarDevice[] {
-  const supported = listLogicalDevices(devices);
-  return supported.map((device, index) => {
-    const client = createSupportedClient(device)!;
+  const groups = logicalDeviceGroups(devices);
+  const entries: SidebarDevice[] = [];
+  for (let index = 0; index < groups.length; index += 1) {
+    const group = groups[index];
+    const activeMember = group.find((member) => member === activeDevice);
+    const device = activeMember ?? pickLogicalDevice(group);
+    const client = createSupportedClient(device);
+    if (!client) continue;
     const status = deviceStatuses.get(device);
     const name = status?.name
       ?? status?.ui?.defaultDisplayName
@@ -1898,8 +1905,18 @@ function sidebarEntries(devices: HIDDevice[]): SidebarDevice[] {
     const transport = (device as HIDDevice & { openMouseTransport?: string }).openMouseTransport === "bridge"
       ? "bridge"
       : "webhid";
-    return { index, name, detail, selected: device === activeDevice, vendorId: device.vendorId, productId: device.productId, kind: sidebarEntryForm(client), transport };
-  });
+    entries.push({
+      index,
+      name,
+      detail,
+      selected: group.some((member) => member === activeDevice),
+      vendorId: device.vendorId,
+      productId: device.productId,
+      kind: sidebarEntryForm(client),
+      transport,
+    });
+  }
+  return entries;
 }
 
 async function refreshSidebar(devices?: HIDDevice[]): Promise<void> {
@@ -1935,35 +1952,45 @@ async function waitForControllerIdle(): Promise<void> {
 
 export async function selectAuthorizedDevice(index: number): Promise<void> {
   await waitForControllerIdle();
-  const devices = listLogicalDevices(await navigator.hid?.getDevices() ?? []);
-  const device = devices[index];
-  if (!device) return;
-  if (device === activeDevice && latestDeviceStatus !== null) return;
-  const client = createSupportedClient(device);
-  if (!client) return;
+  const groups = logicalDeviceGroups(await navigator.hid?.getDevices() ?? []);
+  const group = groups[index];
+  if (!group) return;
+  if (group.some((device) => device === activeDevice) && latestDeviceStatus !== null) return;
+  const candidates = group
+    .map((device) => ({ client: createSupportedClient(device), score: clientSupportScore(device) }))
+    .filter((entry): entry is { client: SupportedClient; score: number } => entry.client !== null)
+    .sort((left, right) => right.score - left.score);
+  if (candidates.length === 0) return;
   deviceStatusText = st("ctl.switching");
-  readStatus = st("ctl.reading", { name: statusNameForClient(client) });
+  readStatus = st("ctl.reading", { name: statusNameForClient(candidates[0].client) });
   emit();
-  try {
-    await activateClient(client);
-  } catch (error) {
-    deviceStatusText = st("ctl.connFailed");
-    readStatus = error instanceof Error ? error.message : st("ctl.unableSwitchDevices");
-    toastForError("Connection failed", error);
-    await refreshSidebar();
+  let lastError: unknown = null;
+  for (const { client } of candidates) {
+    if (hasActiveClient()) return;
+    try {
+      await activateClient(client);
+      return;
+    } catch (error) {
+      lastError = error;
+      await client.close().catch(() => undefined);
+    }
   }
+  deviceStatusText = st("ctl.connFailed");
+  readStatus = lastError instanceof Error ? lastError.message : st("ctl.unableSwitchDevices");
+  toastForError("Connection failed", lastError);
+  await refreshSidebar();
 }
 
 /** Open the given device's dashboard from the picker, connecting it first when needed. */
 export async function openDeviceOverview(index: number): Promise<void> {
   await waitForControllerIdle();
-  const devices = listLogicalDevices(await navigator.hid?.getDevices() ?? []);
-  const device = devices[index];
-  if (!device) {
+  const groups = logicalDeviceGroups(await navigator.hid?.getDevices() ?? []);
+  const group = groups[index];
+  if (!group) {
     await connect();
     return;
   }
-  if (device === activeDevice && latestDeviceStatus !== null) {
+  if (group.some((device) => device === activeDevice) && latestDeviceStatus !== null) {
     deviceListView = "device";
     activeWorkspaceTab = "overview";
     emit();

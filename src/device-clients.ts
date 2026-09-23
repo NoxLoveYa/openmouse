@@ -54,7 +54,42 @@ export function clientSupportScore(device: HIDDevice): number {
 }
 
 /** Supported devices for the sidebar; multi-path drivers collapse via their module. */
+export function logicalDeviceGroups(devices: HIDDevice[] = []): HIDDevice[][] {
+  const merged = collapseBoltPeers(
+    eggWeMergeLogicalDevices(devices, (device) => createSupportedClient(device) !== null),
+  );
+  const byPhysicalDevice = new Map<string, HIDDevice[]>();
+  for (const device of merged) {
+    const key = physicalDeviceKey(device);
+    const group = byPhysicalDevice.get(key);
+    if (group) group.push(device);
+    else byPhysicalDevice.set(key, [device]);
+  }
+  return [...byPhysicalDevice.values()];
+}
+
+/**
+ * One connect-page/sidebar card per physical mouse. WebHID returns a device
+ * object per top-level HID collection, so a single mouse without a multi-path
+ * driver would otherwise surface once per interface; the browser exposes no
+ * serial number, so vendor/product/name is the most specific identity it
+ * offers — the same trade-off Bridge already makes for its serial-less
+ * receivers. Bridge devices already group their report paths natively, and
+ * the Bridge's own session key keeps physically distinct identical mice
+ * apart, so that key is used verbatim.
+ */
+function physicalDeviceKey(device: HIDDevice): string {
+  if ((device as { openMouseTransport?: string }).openMouseTransport === "bridge") {
+    return `bridge:${(device as { key?: string }).key ?? ""}`;
+  }
+  return `${device.vendorId}:${device.productId}:${device.productName ?? ""}`;
+}
+
+export function pickLogicalDevice(group: HIDDevice[]): HIDDevice {
+  return group.reduce((best, device) => (clientSupportScore(device) > clientSupportScore(best) ? device : best));
+}
+
+/** Supported devices for the sidebar; multi-path drivers collapse via their module. */
 export function listLogicalDevices(devices: HIDDevice[] = []): HIDDevice[] {
-  const afterEgg = eggWeMergeLogicalDevices(devices, (device) => createSupportedClient(device) !== null);
-  return collapseBoltPeers(afterEgg);
+  return logicalDeviceGroups(devices).map(pickLogicalDevice);
 }
