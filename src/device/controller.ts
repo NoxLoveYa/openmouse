@@ -1965,8 +1965,10 @@ export async function selectAuthorizedDevice(index: number): Promise<void> {
   readStatus = st("ctl.reading", { name: statusNameForClient(candidates[0].client) });
   emit();
   let lastError: unknown = null;
+  // Switching always starts with another mouse active, and a failed candidate
+  // leaves itself as `active`, so unlike reconnectAuthorizedDevice this loop
+  // must not stop on hasActiveClient(); activateClient closes the old client.
   for (const { client } of candidates) {
-    if (hasActiveClient()) return;
     try {
       await activateClient(client);
       return;
