@@ -73,10 +73,12 @@ export function logicalDeviceGroups(devices: HIDDevice[] = []): HIDDevice[][] {
  * object per top-level HID collection, so a single mouse without a multi-path
  * driver would otherwise surface once per interface; the browser exposes no
  * serial number, so vendor/product/name is the most specific identity it
- * offers — the same trade-off Bridge already makes for its serial-less
- * receivers. Bridge devices already group their report paths natively, and
- * the Bridge's own session key keeps physically distinct identical mice
- * apart, so that key is used verbatim.
+ * offers. Bridge collapses each product's report paths into one device on its
+ * side — keyed by vendor/product[:serial] on every platform — so the app
+ * takes Bridge's session key verbatim, which still keeps physically distinct
+ * serial-bearing identical mice apart. Both paths merge two identical
+ * serial-less mice of one model into a single card: that is the most specific
+ * identity either platform offers.
  */
 function physicalDeviceKey(device: HIDDevice): string {
   if ((device as { openMouseTransport?: string }).openMouseTransport === "bridge") {
