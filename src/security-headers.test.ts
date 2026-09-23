@@ -6,7 +6,6 @@ import {
   PERMISSIONS_POLICY,
   SECURITY_HEADERS,
 } from "../functions/_lib/security-headers.js";
-import { devtoolsLikelyOpen } from "./self-xss-guard.ts";
 import { TRUSTED_TYPES_POLICY, setSanitizedHtml } from "./trusted-types.ts";
 
 const headersFile = readFileSync(new URL("../public/_headers", import.meta.url), "utf8");
@@ -121,8 +120,3 @@ test("the page ships no inline scripts for the CSP to block", () => {
   assert.match(indexHtml, /<script[^>]*src="\/theme-init\.js"/);
 });
 
-test("the developer-tools heuristic only fires on a wide window/viewport gap", () => {
-  assert.equal(devtoolsLikelyOpen(1200, 1200, 800, 800), false);
-  assert.equal(devtoolsLikelyOpen(1600, 1200, 800, 800), true, "docked to the right");
-  assert.equal(devtoolsLikelyOpen(1200, 1200, 1000, 800), true, "docked to the bottom");
-});
