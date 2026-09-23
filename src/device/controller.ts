@@ -631,6 +631,13 @@ function readCapabilities(): DeviceCapabilities {
   return {
     canDisableSleep: dm?.canDisableSleep === true,
     angleTuningWritable: clientHasMethod("setAngleTuning"),
+    // A driver that publishes a stage table without the stage-write methods
+    // (the classic Razer driver: writes there are deliberately unverified)
+    // renders the table read-only instead of offering edits that can never
+    // apply. `setDpi` alone must not count — it edits the live DPI on the
+    // active stage, not the table.
+    dpiStagesWritable: clientHasMethod("setDpiStageValue"),
+    activeDpiStageWritable: clientHasMethod("setActiveDpiStage"),
     // Any client may publish these; the two named drivers are just the ones
     // that predate the generic lookup below.
     sleepOptions: dm

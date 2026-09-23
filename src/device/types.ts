@@ -43,6 +43,10 @@ export interface TeevolutionProfile {
 export interface DeviceCapabilities {
   canDisableSleep: boolean;
   angleTuningWritable: boolean;
+  /** Whether the connected driver can write DPI stage table values, or reports the table read-only. */
+  dpiStagesWritable: boolean;
+  /** Whether the connected driver can select which DPI stage is active. */
+  activeDpiStageWritable: boolean;
   sleepOptions: number[] | null;
   debounceMaxMs: number | null;
   debounceOptions?: number[] | null;

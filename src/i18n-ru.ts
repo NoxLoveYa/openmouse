@@ -317,6 +317,7 @@ export const ru: Record<I18nKey, string> = {
   "dpi.stageToggle": "Include this DPI stage",
   "dpi.editorCountNote": "One row per DPI stage. Tick a row to include it in the DPI cycle; untick to disable it and keep the value for later. Click a number to make it the starting stage.",
   "dpi.editorFixedNote": "One row per DPI stage, {total} fixed. Edit the value or slider to change it. Click a number to make it the active stage.",
+  "dpi.stagesReadOnly": "These DPI stages come from the mouse read-only, and cannot be edited here. Change them in the vendor software.",
   "dpi.editorGenericNote": "One row per preset DPI. Tick a row (or click its number) to make it the current DPI; unticked rows are kept as picks for later.",
   "dpi.xAxis": "Ось X",
   "dpi.yAxis": "Ось Y",
