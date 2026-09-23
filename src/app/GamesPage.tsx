@@ -5,7 +5,7 @@
 // ships (github.com/OpenMouse-Project/Desktop), so this list always matches
 // what Desktop's own Games page would show. Picking one opens its profile.
 import { useEffect, useState, type ReactNode } from "react";
-import { Gamepad2 } from "lucide-react";
+import { Gamepad2, Plus } from "lucide-react";
 import { bridgeGames, bridgeProfiles, type BridgeGame, type BridgeStatus } from "../bridge";
 import { isBridgeHidActive, subscribeBridgeHidActive } from "../bridge-hid";
 import { subscribeBridgeStatus } from "../bridge-status-store";
@@ -13,6 +13,7 @@ import type { ControlSnapshot } from "../device/types";
 import { fetchGamesCatalog, gameArtwork } from "../games-catalog";
 import { t } from "../i18n";
 import { GameProfilePanel } from "./GameProfilePanel";
+import { GameRequestDialog } from "./GameRequestDialog";
 
 export function useBridgeActive(): boolean {
   const [active, setActive] = useState(isBridgeHidActive());
@@ -60,6 +61,7 @@ export function GamesPage({ snapshot }: { snapshot: ControlSnapshot }): ReactNod
   const [status, setStatus] = useState<BridgeStatus | null>(null);
   const [profiled, setProfiled] = useState<Set<string>>(new Set());
   const [selectedGame, setSelectedGame] = useState<BridgeGame | null>(null);
+  const [requestOpen, setRequestOpen] = useState(false);
 
   useEffect(() => subscribeBridgeStatus(setStatus), []);
 
@@ -113,7 +115,24 @@ export function GamesPage({ snapshot }: { snapshot: ControlSnapshot }): ReactNod
             </li>
           );
         })}
+        <li>
+          <button type="button" className="games-tile games-tile-request" onClick={() => setRequestOpen(true)}>
+            <span className="games-tile-art">
+              <Plus size={28} strokeWidth={2} aria-hidden="true" />
+              <span className="games-tile-request-copy">{t(locale, "gamereq.tileHint")}</span>
+            </span>
+            <span className="games-tile-name">{t(locale, "gamereq.tile")}</span>
+          </button>
+        </li>
       </ul>
+
+      <GameRequestDialog
+        open={requestOpen}
+        onClose={() => setRequestOpen(false)}
+        locale={locale}
+        bridgeActive={active}
+        knownGames={games}
+      />
     </div>
   );
 }

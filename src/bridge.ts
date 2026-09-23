@@ -73,6 +73,15 @@ export async function bridgeApplications(signal?: AbortSignal): Promise<BridgeAp
   return bridgeRequest<BridgeApplication[]>("/v1/applications", undefined, signal);
 }
 
+/**
+ * Every visible application, not just the registered games `/v1/applications`
+ * is limited to — the picker in GameRequestDialog. Bridge versions before the
+ * endpoint answer 404, which callers treat like an empty list.
+ */
+export async function bridgeRunningApplications(signal?: AbortSignal): Promise<BridgeApplication[]> {
+  return bridgeRequest<BridgeApplication[]>("/v1/running-applications", undefined, signal);
+}
+
 export async function bridgeProfiles(signal?: AbortSignal): Promise<BridgeProfile[]> {
   return bridgeRequest<BridgeProfile[]>("/v1/profiles", undefined, signal);
 }
