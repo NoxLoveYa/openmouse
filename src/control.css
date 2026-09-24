@@ -892,6 +892,7 @@ nav { display: grid; gap: .3rem; margin-top: 1.4rem; }
 #polling-card .title-row p, #host-lod-row .title-row p { margin: 0; }
 #polling-card .title-row h2, #host-lod-row .title-row h2 { font-size: 1.15rem; }
 .setting-note { display: block; margin-top: 1rem; color: var(--text-soft); font-size: .72rem; line-height: 1.5; }
+.setting-note-stable { min-height: 3em; }
 .setting-action { display: flex; align-items: center; justify-content: space-between; gap: .7rem; margin-top: .7rem; color: var(--text-soft); font-size: .7rem; font-weight: 500; }
 .setting-action #dpi-pending { color: var(--text-strong); font-weight: 650; }
 .setting-action button { padding: .4rem .65rem; border: 1px solid var(--text); border-radius: 6px; background: var(--text); color: var(--ink); font-size: .65rem; font-weight: 700; }
@@ -984,6 +985,7 @@ nav { display: grid; gap: .3rem; margin-top: 1.4rem; }
 .angle-tuning-inputs input[type="range"] { width: 100%; margin: 0; accent-color: var(--ui-accent); cursor: pointer; }
 .angle-tuning-scale { display: flex; justify-content: space-between; margin: .12rem 2.15rem 0; color: var(--ghost); font: .48rem var(--font-mono); }
 .angle-tuning-scale i { font-style: normal; }
+.setting-separator { border-top: 1px solid var(--line-strong); margin-top: .55rem; }
 .teevolution-dpi-light-controls { margin-top: .55rem; }
 
 .egg-collapsible, .egg-experimental { overflow: hidden; border: 1px solid var(--line-strong); border-radius: 9px; background: var(--card); }
