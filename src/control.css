@@ -91,6 +91,9 @@ button { cursor: pointer; }
 button:focus-visible, a:focus-visible, input:focus-visible { outline: 2px solid var(--info); outline-offset: 3px; }
 
 .control-shell { --accent: var(--ui-accent); --ui-accent: #0a84ff; --ui-accent-ink: #ffffff; --ui-accent-soft: rgb(10 132 255 / 16%); }
+/* Emerald — the default face: historic OpenMouse green, now properly scoped
+   to its own block instead of leaking from the base accent. */
+.control-shell[data-interface-theme="emerald"] { --ui-accent: #5dde89; --ui-accent-ink: #07160e; --ui-accent-soft: rgb(93 222 137 / 16%); }
 .control-shell[data-interface-theme="violet"] { --ui-accent: #a78bfa; --ui-accent-ink: #130b25; --ui-accent-soft: rgb(167 139 250 / 17%); }
 .control-shell[data-interface-theme="ice"] { --ui-accent: #67d8ff; --ui-accent-ink: #06161d; --ui-accent-soft: rgb(103 216 255 / 16%); }
 .control-shell[data-interface-theme="ember"] { --ui-accent: #ff9b62; --ui-accent-ink: #211006; --ui-accent-soft: rgb(255 155 98 / 17%); }
@@ -3509,7 +3512,7 @@ body { height: 100vh; overflow: hidden; }
   background: #f5975c;
   flex-shrink: 0;
 }
-.theme-preset-swatch[data-theme-preview="emerald"] .theme-preset-acc { background: #58c97c; }
+.theme-preset-swatch[data-theme-preview="emerald"] .theme-preset-acc { background: #5dde89; }
 .theme-preset-swatch[data-theme-preview="violet"] .theme-preset-acc { background: #a98bff; }
 .theme-preset-swatch[data-theme-preview="ice"] .theme-preset-acc { background: #54b6f5; }
 .theme-preset-swatch[data-theme-preview="mono"] .theme-preset-acc { background: #d0d0d3; }
