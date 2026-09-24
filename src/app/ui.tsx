@@ -263,6 +263,7 @@ export function StepperSlider({
   id,
   label,
   badge,
+  toggle,
   value,
   min,
   max,
@@ -278,6 +279,11 @@ export function StepperSlider({
   label: string;
   /** Small pill next to the label, e.g. "Locked" for write-locked rows. */
   badge?: string;
+  /**
+   * Optional control (e.g. an on/off SwitchRow) rendered at the top of the
+   * same zone, above the slider head.
+   */
+  toggle?: ReactNode;
   value: number;
   min: number;
   max: number;
@@ -299,6 +305,7 @@ export function StepperSlider({
 
   return (
     <div className="stepper-slider" data-pending-key={pendingKey}>
+      {toggle ? <div className="stepper-slider-toggle">{toggle}</div> : null}
       <div className="stepper-slider-head">
         <span className="stepper-slider-title">
           <span>{label}</span>

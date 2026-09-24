@@ -497,29 +497,29 @@ export function ProcessingCard({ snapshot }: { snapshot: ControlSnapshot }): Rea
  */
 function AtkAntiMistouchControl({ milliseconds, busy }: { milliseconds: number; busy: boolean }): ReactNode {
   return (
-    <div data-pending-key="atk-anti-mistouch">
-      <SwitchRow
-        id="atk-anti-mistouch-toggle"
-        label="Scroll Wheel Anti-Mistouch Mode"
-        value={milliseconds > 0}
-        disabled={busy}
-        onChange={(next) => void control.applyAtkAntiMistouch(next ? 100 : 0)}
-      />
-      <StepperSlider
-        id="atk-anti-mistouch-slider"
-        label="Anti-mistouch window"
-        value={Math.max(100, milliseconds)}
-        min={100}
-        max={1000}
-        step={50}
-        scale={["100 ms", "500 ms", "1000 ms"]}
-        formatValue={(shown) => `${shown} ms`}
-        ariaUnit="milliseconds"
-        disabled={milliseconds <= 0 || busy}
-        pendingKey="atk-anti-mistouch"
-        onCommit={(next) => void control.applyAtkAntiMistouch(next)}
-      />
-    </div>
+    <StepperSlider
+      id="atk-anti-mistouch-slider"
+      label="Anti-mistouch window"
+      toggle={
+        <SwitchRow
+          id="atk-anti-mistouch-toggle"
+          label="Scroll Wheel Anti-Mistouch Mode"
+          value={milliseconds > 0}
+          disabled={busy}
+          onChange={(next) => void control.applyAtkAntiMistouch(next ? 100 : 0)}
+        />
+      }
+      value={Math.max(100, milliseconds)}
+      min={100}
+      max={1000}
+      step={50}
+      scale={["100 ms", "500 ms", "1000 ms"]}
+      formatValue={(shown) => `${shown} ms`}
+      ariaUnit="milliseconds"
+      disabled={milliseconds <= 0 || busy}
+      pendingKey="atk-anti-mistouch"
+      onCommit={(next) => void control.applyAtkAntiMistouch(next)}
+    />
   );
 }
 

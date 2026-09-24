@@ -1038,6 +1038,7 @@ nav { display: grid; gap: .3rem; margin-top: 1.4rem; }
 .option-menu-list [role="option"][aria-disabled="true"] { opacity: .45; cursor: default; }
 
 .stepper-slider { margin-top: .55rem; padding-top: .55rem; border-top: 1px solid var(--line-strong); }
+.stepper-slider-toggle { margin-bottom: .3rem; }
 .stepper-slider-head { display: flex; align-items: baseline; justify-content: space-between; gap: .75rem; color: var(--dim); font-size: .7rem; }
 .stepper-slider-head output { min-width: 2.8rem; color: var(--text-input); font: 650 .72rem var(--font-mono); text-align: right; }
 .stepper-slider-title { display: inline-flex; align-items: center; gap: .45rem; }
