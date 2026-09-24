@@ -143,8 +143,9 @@ export function DebounceCard({ snapshot }: { snapshot: ControlSnapshot }): React
   // read-back rejects anything the firmware refuses.
   if (status.atkSensorMode != null && status.debounceMs != null) {
     const ms = status.debounceMs;
+    const staged = snapshot.pending.keys.includes("debounce");
     return (
-      <article id="debounce-settings" className="setting-card">
+      <article id="debounce-settings" className={`setting-card${staged ? " is-staged" : ""}`}>
         <div className="setting-heading compact"><div><p>CLICK</p><h2>{t(locale, "adv.debounce")}</h2></div></div>
         <div className="angle-tuning-control" data-pending-key="debounce">
           <SwitchRow

@@ -464,7 +464,6 @@ export function Workspace({
     show(has.atkProfile, ["profiles"]) ? <AtkProfileCard key="atk-profile" snapshot={snapshot} /> : null,
     device && show(has.atkReceiver, ["advanced"]) ? <AtkReceiverCard key="atk-receiver" snapshot={snapshot} /> : null,
     show(has.atkF1Dongle, ["advanced"]) ? <AtkDongleCard key="atk-dongle" snapshot={snapshot} /> : null,
-    show(has.atkF1Dongle, ["advanced"]) ? <AtkDongleCard key="atk-dongle" snapshot={snapshot} /> : null,
     show(has.onboardProfiles && !snapshot.traits.teevolution, ["profiles"])
       ? <OnboardProfileCard key="onboard-profile" snapshot={snapshot} /> : null,
     show(has.pulsarPro, ["profiles"]) ? <PulsarProCard key="pulsarpro" snapshot={snapshot} /> : null,
