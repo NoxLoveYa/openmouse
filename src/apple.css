@@ -9,8 +9,9 @@
 .control-shell.apple-redesign {
   grid-template-columns: 264px minmax(0, 1fr);
   background:
-    radial-gradient(1100px 480px at 72% -10%, rgb(10 132 255 / 7%), transparent 62%),
-    radial-gradient(900px 520px at 8% 108%, rgb(167 139 250 / 5%), transparent 60%),
+    radial-gradient(1000px 520px at 12% -6%, rgb(10 132 255 / 11%), transparent 60%),
+    radial-gradient(900px 620px at 92% 32%, rgb(167 139 250 / 8%), transparent 60%),
+    radial-gradient(1100px 620px at 50% 116%, rgb(48 209 88 / 6%), transparent 60%),
     #050507;
 }
 .control-shell.apple-redesign[data-surface-finish="flat"] {
@@ -646,8 +647,6 @@
   background: #ffffff;
 }
 
-/* --- Motion --- */
-
 @media (max-width: 1100px) {
   .control-shell.apple-redesign {
     grid-template-columns: 232px minmax(0, 1fr);
@@ -830,6 +829,61 @@
 }
 .control-shell.apple-redesign .lighting-zone-picker {
   border-radius: 14px;
+}
+
+/* --- Frosted finish: content surfaces turn to glass --- */
+.control-shell.apple-redesign[data-surface-finish="frosted"] .setting-card,
+.control-shell.apple-redesign[data-surface-finish="frosted"] .setting-row,
+.control-shell.apple-redesign[data-surface-finish="frosted"] .interface-setting-card,
+.control-shell.apple-redesign[data-surface-finish="frosted"] .performance-controls,
+.control-shell.apple-redesign[data-surface-finish="frosted"] .device-overview,
+.control-shell.apple-redesign[data-surface-finish="frosted"] .profile-disclosure,
+.control-shell.apple-redesign[data-surface-finish="frosted"] .egg-collapsible,
+.control-shell.apple-redesign[data-surface-finish="frosted"] .egg-experimental,
+.control-shell.apple-redesign[data-surface-finish="frosted"] .mouse-test-device-card,
+.control-shell.apple-redesign[data-surface-finish="frosted"] .mouse-test-area,
+.control-shell.apple-redesign[data-surface-finish="frosted"] .mouse-test-results .result-card,
+.control-shell.apple-redesign[data-surface-finish="frosted"] .games-tile,
+.control-shell.apple-redesign[data-surface-finish="frosted"] .game-profile-name-card,
+.control-shell.apple-redesign[data-surface-finish="frosted"] .hardware-test-terminal,
+.control-shell.apple-redesign[data-surface-finish="frosted"] .device-tile,
+.control-shell.apple-redesign[data-surface-finish="frosted"] .add-device-tile,
+.control-shell.apple-redesign[data-surface-finish="frosted"] .workspace-tab-empty,
+.control-shell.apple-redesign[data-surface-finish="frosted"] .support-dialog,
+.control-shell.apple-redesign[data-surface-finish="frosted"] .capture-dialog,
+.control-shell.apple-redesign[data-surface-finish="frosted"] .toast-stack,
+.control-shell.apple-redesign[data-surface-finish="frosted"] .locale-menu,
+.control-shell.apple-redesign[data-surface-finish="frosted"] .option-menu-list,
+.control-shell.apple-redesign[data-surface-finish="frosted"] .testing-note,
+.control-shell.apple-redesign[data-surface-finish="frosted"] .news-banner {
+  background: linear-gradient(180deg, rgb(22 22 26 / 72%), rgb(17 17 20 / 72%));
+  -webkit-backdrop-filter: blur(20px) saturate(150%);
+  backdrop-filter: blur(20px) saturate(150%);
+}
+/* Inner cards inside an already-frosted parent stay clear so the blur
+   doesn't stack into mud. */
+.control-shell.apple-redesign[data-surface-finish="frosted"] .performance-controls .setting-card {
+  background: transparent;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+.control-shell.apple-redesign[data-surface-finish="frosted"][data-interface-theme="light"] .setting-card,
+.control-shell.apple-redesign[data-surface-finish="frosted"][data-interface-theme="light"] .setting-row,
+.control-shell.apple-redesign[data-surface-finish="frosted"][data-interface-theme="light"] .interface-setting-card,
+.control-shell.apple-redesign[data-surface-finish="frosted"][data-interface-theme="light"] .performance-controls,
+.control-shell.apple-redesign[data-surface-finish="frosted"][data-interface-theme="light"] .device-overview,
+.control-shell.apple-redesign[data-surface-finish="frosted"][data-interface-theme="light"] .profile-disclosure,
+.control-shell.apple-redesign[data-surface-finish="frosted"][data-interface-theme="light"] .egg-collapsible,
+.control-shell.apple-redesign[data-surface-finish="frosted"][data-interface-theme="light"] .egg-experimental,
+.control-shell.apple-redesign[data-surface-finish="frosted"][data-interface-theme="light"] .mouse-test-device-card,
+.control-shell.apple-redesign[data-surface-finish="frosted"][data-interface-theme="light"] .games-tile,
+.control-shell.apple-redesign[data-surface-finish="frosted"][data-interface-theme="light"] .hardware-test-terminal,
+.control-shell.apple-redesign[data-surface-finish="frosted"][data-interface-theme="light"] .device-tile,
+.control-shell.apple-redesign[data-surface-finish="frosted"][data-interface-theme="light"] .add-device-tile,
+.control-shell.apple-redesign[data-surface-finish="frosted"][data-interface-theme="light"] .support-dialog,
+.control-shell.apple-redesign[data-surface-finish="frosted"][data-interface-theme="light"] .capture-dialog,
+.control-shell.apple-redesign[data-surface-finish="frosted"][data-interface-theme="light"] .toast-stack {
+  background: linear-gradient(180deg, rgb(255 255 255 / 72%), rgb(248 248 250 / 72%));
 }
 
 /* --- Motion --- */
