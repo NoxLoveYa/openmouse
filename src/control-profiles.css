@@ -180,36 +180,6 @@
   .profile-disclosure-body, .profile-summary-chevron, .profile-summary-main, .icon-button { transition:none }
 }
 
-/* Lift-off picker. A native select cannot be themed or animated, so it is a
-   button plus a listbox that shares the inputs' shape and colours. */
-.lod-select { position:relative;min-width:0 }
-.lod-select-value { display:flex;width:100%;box-sizing:border-box;align-items:center;justify-content:space-between;gap:.25rem;padding:.34rem .4rem;border:1px solid var(--border);border-radius:7px;background:var(--surface-raised);color:var(--text-input);font-size:.66rem;cursor:pointer;transition:border-color .16s ease,background .16s ease }
-.lod-select-value:hover:not(:disabled) { border-color:var(--ghost) }
-.lod-select-value:disabled { opacity:.55;cursor:not-allowed }
-.lod-select-value span { overflow:hidden;text-overflow:ellipsis;white-space:nowrap }
-.lod-select-value i { width:.32rem;height:.32rem;flex:0 0 auto;border-right:1.2px solid var(--muted);border-bottom:1.2px solid var(--muted);transform:translateY(-1px) rotate(45deg);transition:transform .18s ease }
-.lod-select.is-open .lod-select-value { border-color:var(--ui-accent) }
-.lod-select.is-open .lod-select-value i { transform:translateY(1px) rotate(-135deg) }
-.lod-select-menu { position:absolute;z-index:30;top:calc(100% + .25rem);right:0;left:0;margin:0;padding:.2rem;border:1px solid var(--border);border-radius:8px;background:var(--surface-menu);box-shadow:0 10px 22px rgb(0 0 0 / 45%);list-style:none;opacity:0;transform:translateY(-.25rem) scale(.97);transform-origin:top center;pointer-events:none;transition:opacity .16s ease,transform .16s ease }
-.lod-select.is-open .lod-select-menu { opacity:1;transform:none;pointer-events:auto }
-.lod-select-menu li { padding:.32rem .42rem;border-radius:5px;color:var(--dim);font-size:.64rem;cursor:pointer;transition:background .12s ease,color .12s ease }
-.lod-select-menu li:hover { background:var(--surface-hover-soft);color:var(--text-hover) }
-.lod-select-menu li[aria-selected="true"] { color:var(--ui-accent) }
-@media (prefers-reduced-motion:reduce) {
-  .lod-select-value, .lod-select-value i, .lod-select-menu, .lod-select-menu li, .dpi-view-toggle button { transition:none }
-}
-/* Report rate as a slider with one stop per supported rate. */
-.rate-slider { display:grid;gap:.1rem }
-.rate-slider + .rate-slider { margin-top:.65rem }
-.rate-slider-head { display:flex;align-items:baseline;justify-content:space-between;gap:.5rem;color:var(--text-soft);font-size:.62rem }
-.rate-slider-head output { color:var(--text-input);font-family:'JetBrains Mono',monospace;font-size:.68rem }
-.rate-slider-buttons { display:flex;gap:.4rem }
-.rate-slider-buttons button { flex:1 1 0;min-width:2.5rem;padding:.6rem .3rem;border:1px solid var(--border);border-radius:8px;background:var(--surface-control);color:var(--text-soft);font:600 .74rem/1 var(--font-sans);white-space:nowrap;cursor:pointer;transition:background .15s,color .15s,border-color .15s }
-.rate-slider-buttons button:hover:not(:disabled) { border-color:var(--line-strong);background:var(--surface-hover-soft);color:var(--text-hover) }
-.rate-slider-buttons button.is-on { border-color:var(--ui-accent);background:var(--ui-accent);color:var(--ui-accent-ink) }
-.rate-slider-buttons button.is-on:hover:not(:disabled) { border-color:var(--ui-accent);background:var(--ui-accent);color:var(--ui-accent-ink) }
-.rate-slider-buttons button:disabled { opacity:.5;cursor:not-allowed }
-
 /* The compact layout pins the settings grid to a 176px row. Five slot rows are
    far taller than that, so the grid falls back to sizing by content while the
    slot editor is showing. */

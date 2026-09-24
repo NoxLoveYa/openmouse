@@ -4554,7 +4554,9 @@ body { height: 100vh; overflow: hidden; }
 .control-shell[data-surface-finish="flat"] .locale-menu,
 .control-shell[data-surface-finish="flat"] .option-menu-list,
 .control-shell[data-surface-finish="flat"] .support-dialog,
-.control-shell[data-surface-finish="flat"] .capture-dialog {
+.control-shell[data-surface-finish="flat"] .capture-dialog,
+.control-shell[data-surface-finish="flat"] .lod-select-menu,
+.control-shell[data-surface-finish="flat"] .shortcut-dialog {
   -webkit-backdrop-filter: none;
   backdrop-filter: none;
   background: var(--surface-panel);
