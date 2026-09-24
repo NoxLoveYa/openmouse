@@ -149,11 +149,11 @@ export function DebounceCard({ snapshot }: { snapshot: ControlSnapshot }): React
         <div className="setting-heading compact"><div><p>CLICK</p><h2>{t(locale, "adv.debounce")}</h2></div></div>
         <StepperSlider
           id="atk-debounce-slider"
-          label="Debounce delay"
+          label={t(locale, "adv.debounceDelay")}
           toggle={
             <SwitchRow
               id="atk-debounce-toggle"
-              label="Key debounce"
+              label={t(locale, "adv.keyDebounce")}
               value={ms > 0}
               disabled={snapshot.settingInProgress}
               onChange={(next) => control.applyPulsarValue("debounce", next ? 1 : 0)}
@@ -165,7 +165,6 @@ export function DebounceCard({ snapshot }: { snapshot: ControlSnapshot }): React
           step={1}
           scale={["0 ms", "10 ms", "20 ms"]}
           formatValue={(shown) => `${shown} ms`}
-          ariaUnit="milliseconds"
           disabled={snapshot.settingInProgress}
           pendingKey="debounce"
           onCommit={(next) => control.applyPulsarValue("debounce", next)}
@@ -354,10 +353,10 @@ export function ProcessingCard({ snapshot }: { snapshot: ControlSnapshot }): Rea
 
       {status.sensorMode != null && !traits.teevolution ? (
         <div id="sensor-mode-row" className="field-label spaced">
-          <span>Sensor sampling mode</span>
+          <span>{t(locale, "adv.sensorSampling")}</span>
           <OptionMenu
             id="sensor-mode"
-            ariaLabel="Sensor sampling mode"
+            ariaLabel={t(locale, "adv.sensorSampling")}
             options={(["Eco", "High", "Ultra"] as const).map((mode) => ({ value: mode, label: mode }))}
             value={status.sensorMode}
             disabled={status.sensorModeEditable === false}
@@ -393,6 +392,7 @@ export function ProcessingCard({ snapshot }: { snapshot: ControlSnapshot }): Rea
         <AtkAntiMistouchControl
           milliseconds={status.atkAntiMistouchMs}
           busy={snapshot.settingInProgress}
+          locale={locale}
         />
       ) : null}
       <SwitchRow
@@ -437,7 +437,7 @@ export function ProcessingCard({ snapshot }: { snapshot: ControlSnapshot }): Rea
           <>
             <StepperSlider
               id="atk-rotation-slider"
-              label="Sensor rotation"
+              label={t(locale, "adv.sensorRotation")}
               badge={t(locale, "adv.locked")}
               value={0}
               min={-30}
@@ -445,7 +445,6 @@ export function ProcessingCard({ snapshot }: { snapshot: ControlSnapshot }): Rea
               step={15}
               scale={["−30°", "0°", "+30°"]}
               formatValue={() => "0°"}
-              ariaUnit="degrees"
               disabled
               pendingKey="atk-rotation"
               onCommit={() => undefined}
@@ -464,7 +463,6 @@ export function ProcessingCard({ snapshot }: { snapshot: ControlSnapshot }): Rea
               step={1}
               scale={["−30°", "0°", "+30°"]}
               formatValue={(shown) => `${shown > 0 ? "+" : ""}${shown}°`}
-              ariaUnit="degrees"
               disabled
               pendingKey="angle-tuning"
               onCommit={() => undefined}
@@ -497,15 +495,15 @@ export function ProcessingCard({ snapshot }: { snapshot: ControlSnapshot }): Rea
  * slider on the line below, mirroring the vendor HUB layout. Verified
  * 100/500 ms on hardware; the driver accepts 10 ms steps.
  */
-function AtkAntiMistouchControl({ milliseconds, busy }: { milliseconds: number; busy: boolean }): ReactNode {
+function AtkAntiMistouchControl({ milliseconds, busy, locale }: { milliseconds: number; busy: boolean; locale: InterfaceLocale }): ReactNode {
   return (
     <StepperSlider
       id="atk-anti-mistouch-slider"
-      label="Anti-mistouch window"
+      label={t(locale, "adv.antiMistouchWindow")}
       toggle={
         <SwitchRow
           id="atk-anti-mistouch-toggle"
-          label="Scroll Wheel Anti-Mistouch Mode"
+          label={t(locale, "adv.antiMistouchMode")}
           value={milliseconds > 0}
           disabled={busy}
           onChange={(next) => void control.applyAtkAntiMistouch(next ? 100 : 0)}
@@ -517,7 +515,6 @@ function AtkAntiMistouchControl({ milliseconds, busy }: { milliseconds: number; 
       step={50}
       scale={["100 ms", "500 ms", "1000 ms"]}
       formatValue={(shown) => `${shown} ms`}
-      ariaUnit="milliseconds"
       disabled={milliseconds <= 0 || busy}
       pendingKey="atk-anti-mistouch"
       onCommit={(next) => void control.applyAtkAntiMistouch(next)}
@@ -538,7 +535,6 @@ function AngleTuningControl({ value, label }: { value: number; label: string }):
       step={1}
       scale={["−30°", "0°", "+30°"]}
       formatValue={(shown) => `${shown > 0 ? "+" : ""}${shown}°`}
-      ariaUnit="degrees"
       pendingKey="angle-tuning"
       onCommit={apply}
     />

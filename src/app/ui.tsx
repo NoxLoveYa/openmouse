@@ -259,8 +259,8 @@ export function OptionMenu<T extends string | number>({
  * `.angle-tuning-control` clones (debounce, anti-mistouch, angle-tune,
  * sensor rotation). Drag previews locally and commits on release;
  * steppers commit immediately. Format the readout via `formatValue`
- * (e.g. `12 ms`, `+5°`); describe the unit for screen readers via
- * `ariaUnit` (e.g. `milliseconds`, `degrees`).
+ * (e.g. `12 ms`, `+5°`) — the same text doubles as the slider's
+ * screen-reader value, so it stays locale-neutral.
  */
 export function StepperSlider({
   id,
@@ -273,7 +273,6 @@ export function StepperSlider({
   step,
   scale,
   formatValue,
-  ariaUnit,
   disabled,
   pendingKey,
   onCommit,
@@ -293,7 +292,6 @@ export function StepperSlider({
   step: number;
   scale: readonly [string, string, string];
   formatValue: (shown: number) => string;
-  ariaUnit: string;
   disabled?: boolean;
   pendingKey?: string;
   onCommit: (next: number) => void;
@@ -334,7 +332,7 @@ export function StepperSlider({
           value={shown}
           disabled={disabled}
           aria-label={label}
-          aria-valuetext={`${shown} ${ariaUnit}`}
+          aria-valuetext={formatValue(shown)}
           style={{ "--fill": `${((shown - min) / span) * 100}%` }}
           onInput={(event) => setDragging(Number(event.currentTarget.value))}
           onChange={(event) => {
