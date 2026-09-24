@@ -1319,7 +1319,9 @@ export function selectAtkSensorMode(mode: number): void {
       status.atkSensorMode = mode;
     },
     apply: async () => {
-      await requireClientMethod("setAtkSensorMode", "the sensor mode").setAtkSensorMode(mode);
+      await (requireClientMethod("setAtkSensorMode", "the sensor mode") as unknown as {
+        setAtkSensorMode: (mode: number) => Promise<unknown>;
+      }).setAtkSensorMode(mode);
     },
   });
 }
@@ -1336,7 +1338,9 @@ export function applyAtkAntiMistouch(milliseconds: number): void {
       status.atkAntiMistouchMs = milliseconds;
     },
     apply: async () => {
-      await requireClientMethod("setAntiMistouchMs", "anti-mistouch").setAntiMistouchMs(milliseconds);
+      await (requireClientMethod("setAntiMistouchMs", "anti-mistouch") as unknown as {
+        setAntiMistouchMs: (milliseconds: number) => Promise<unknown>;
+      }).setAntiMistouchMs(milliseconds);
     },
   });
 }
@@ -1353,7 +1357,9 @@ export function selectAtkDongleLight(mode: number): void {
       status.atkDongleLight = mode;
     },
     apply: async () => {
-      await requireClientMethod("setDongleLight", "the dongle light").setDongleLight(mode);
+      await (requireClientMethod("setDongleLight", "the dongle light") as unknown as {
+        setDongleLight: (mode: number) => Promise<unknown>;
+      }).setDongleLight(mode);
     },
   });
 }
