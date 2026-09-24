@@ -521,6 +521,7 @@
   position: static;
   flex: 0 0 auto;
   transform: none;
+  margin-right: 6px;
   border-color: transparent;
   border-radius: 999px;
   background: transparent;
@@ -533,6 +534,9 @@
   color: var(--bright);
 }
 .control-shell.apple-redesign .device-tab-pill {
+  flex: 1 1 0;
+  justify-content: center;
+  min-width: 0;
   background: transparent;
   border-color: transparent;
   color: var(--dim);
