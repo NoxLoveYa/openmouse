@@ -33,20 +33,19 @@ export function AppSidebar({
   const bridgeActive = useBridgeActive();
   return (
     <aside className={`app-sidebar${collapsed ? " app-sidebar-collapsed" : ""}`}>
-      {page === "dashboard" ? (
-        <button
-          type="button"
-          className="app-sidebar-collapse-toggle"
-          title={collapsed ? t(locale, "nav.expand") : t(locale, "nav.collapse")}
-          onClick={onToggleCollapsed}
-        >
-          {collapsed ? (
-            <ChevronRight size={16} strokeWidth={2.4} aria-hidden="true" />
-          ) : (
-            <ChevronLeft size={16} strokeWidth={2.4} aria-hidden="true" />
-          )}
-        </button>
-      ) : null}
+      <button
+        type="button"
+        className="app-sidebar-collapse-toggle"
+        title={collapsed ? t(locale, "nav.expand") : t(locale, "nav.collapse")}
+        aria-label={collapsed ? t(locale, "nav.expand") : t(locale, "nav.collapse")}
+        onClick={onToggleCollapsed}
+      >
+        {collapsed ? (
+          <ChevronRight size={16} strokeWidth={2.4} aria-hidden="true" />
+        ) : (
+          <ChevronLeft size={16} strokeWidth={2.4} aria-hidden="true" />
+        )}
+      </button>
       <div className="app-sidebar-top">
         <a
           className="app-sidebar-brand"

@@ -34,7 +34,6 @@ export function App(): ReactNode {
   const [artworkDeviceName, setArtworkDeviceName] = useState("");
   const [whatsNewOpen, setWhatsNewOpen] = useState(false);
   const [page, setPage] = useState<DesktopPage>("home");
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const { preferences, status } = snapshot;
   const locale = preferences.locale;
   const bridgeActive = useBridgeActive();
@@ -87,10 +86,6 @@ export function App(): ReactNode {
   }, [page, snapshot.workspaceTab, preferences.reducedMotion]);
 
   useEffect(() => {
-    setSidebarCollapsed(resolvedPage === "dashboard");
-  }, [resolvedPage]);
-
-  useEffect(() => {
     setSoundsEnabled(preferences.enabledSounds);
   }, [preferences.enabledSounds]);
 
@@ -131,7 +126,7 @@ export function App(): ReactNode {
         "full-desktop-shell",
         "apple-redesign",
         status ? "" : "is-empty",
-        sidebarCollapsed ? "sidebar-collapsed" : "",
+        preferences.sidebarCollapsed ? "sidebar-collapsed" : "",
         preferences.reducedMotion ? "reduce-interface-motion" : "",
         snapshot.pending.count > 0 ? "has-pending-changes" : "",
       ].filter(Boolean).join(" ")}
@@ -139,7 +134,7 @@ export function App(): ReactNode {
       data-surface-finish={preferences.surfaceFinish === "Flat" ? "flat" : "frosted"}
     >
       <NewsBanner locale={locale} />
-      <AppSidebar snapshot={snapshot} page={resolvedPage} collapsed={sidebarCollapsed} onToggleCollapsed={() => setSidebarCollapsed(!sidebarCollapsed)} onNavigate={navigate} onOpenFeedback={() => setFeedbackOpen(true)} onOpenWhatsNew={() => setWhatsNewOpen(true)} />
+      <AppSidebar snapshot={snapshot} page={resolvedPage} collapsed={preferences.sidebarCollapsed} onToggleCollapsed={() => control.setPreference("sidebarCollapsed", !preferences.sidebarCollapsed)} onNavigate={navigate} onOpenFeedback={() => setFeedbackOpen(true)} onOpenWhatsNew={() => setWhatsNewOpen(true)} />
 
       <main className="full-desktop-main">
         <div className="full-desktop-content" ref={panel}>

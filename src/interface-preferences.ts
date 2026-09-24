@@ -43,6 +43,7 @@ export interface InterfacePreferences {
   enabledSounds: boolean;
   glassIntensity: number;
   surfaceFinish: InterfaceSurfaceFinish;
+  sidebarCollapsed: boolean;
 }
 
 const STORAGE_KEY = "openmouse-interface-settings-v1";
@@ -72,6 +73,7 @@ export const DEFAULT_INTERFACE_PREFERENCES: InterfacePreferences = {
   enabledSounds: true,
   glassIntensity: 100,
   surfaceFinish: "Frosted",
+  sidebarCollapsed: false,
 };
 
 function clampGlassIntensity(value: unknown): number {
@@ -132,6 +134,7 @@ export function loadInterfacePreferences(storage: Storage): InterfacePreferences
       enabledSounds: saved.enabledSounds !== false,
       glassIntensity: clampGlassIntensity(saved.glassIntensity),
       surfaceFinish: coerceSurfaceFinish(saved.surfaceFinish),
+      sidebarCollapsed: saved.sidebarCollapsed === true,
     };
   } catch {
     return { ...DEFAULT_INTERFACE_PREFERENCES, reducedMotion: systemPrefersReducedMotion(), locale: detectLocale() };

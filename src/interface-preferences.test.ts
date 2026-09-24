@@ -33,6 +33,7 @@ test("interface preferences restore only supported values", () => {
     instantFlash: true,
     glassIntensity: 100,
     surfaceFinish: "Frosted",
+    sidebarCollapsed: false,
   });
 
   assert.deepEqual(loadInterfacePreferences(storage), {
@@ -46,6 +47,7 @@ test("interface preferences restore only supported values", () => {
     instantFlash: true,
     glassIntensity: 100,
     surfaceFinish: "Frosted",
+    sidebarCollapsed: false,
   });
 });
 
@@ -109,8 +111,19 @@ test("every interface theme persists and maps to its stylesheet slug", () => {
   }
 });
 
-test("interface surface finish persists and falls back to frosted", () => {
+test("sidebar collapse persists and defaults to expanded", () => {
   const storage = new MemoryStorage();
+  saveInterfacePreferences(storage, {
+    ...DEFAULT_INTERFACE_PREFERENCES,
+    sidebarCollapsed: true,
+  });
+  assert.equal(loadInterfacePreferences(storage).sidebarCollapsed, true);
+
+  const fresh = new MemoryStorage();
+  assert.equal(loadInterfacePreferences(fresh).sidebarCollapsed, false);
+});
+
+test("interface surface finish persists and falls back to frosted", () => {  const storage = new MemoryStorage();
   saveInterfacePreferences(storage, {
     ...DEFAULT_INTERFACE_PREFERENCES,
     surfaceFinish: "Flat",
