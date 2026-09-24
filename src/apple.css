@@ -138,6 +138,10 @@
 .control-shell.apple-redesign .app-sidebar-collapse-toggle {
   border-radius: 8px;
 }
+.control-shell.apple-redesign.sidebar-collapsed .app-sidebar-caption,
+.control-shell.apple-redesign .app-sidebar-collapsed .app-sidebar-caption {
+  display: none;
+}
 
 /* --- News banner: slim translucent strip --- */
 .control-shell.apple-redesign .news-banner {
