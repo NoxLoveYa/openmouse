@@ -1,12 +1,16 @@
 import {
   ArrowLeft,
+  ArrowRight,
   BarChart3,
   Clock,
+  Cpu,
   Gauge,
+  Globe,
   ImageUp,
   Layers,
   Lightbulb,
   MousePointerClick,
+  Palette,
   Plus,
   Settings2,
   Wifi,
@@ -359,17 +363,57 @@ function AddDeviceCard({ snapshot }: { snapshot: ControlSnapshot }): ReactNode {
 
 function OverviewEmpty({ snapshot, compact = false }: { snapshot: ControlSnapshot; compact?: boolean }): ReactNode {
   const locale = snapshot.preferences.locale;
+  const [busy, setBusy] = useState(false);
+  const connectLabel = busy ? t(locale, "conn.connecting") : t(locale, "conn.addMouse");
+  const features: Array<{ icon: LucideIcon; title: string; body: string }> = [
+    { icon: Globe, title: t(locale, "empty.f1t"), body: t(locale, "empty.f1b") },
+    { icon: Cpu, title: t(locale, "empty.f2t"), body: t(locale, "empty.f2b") },
+    { icon: Palette, title: t(locale, "empty.f3t"), body: t(locale, "empty.f3b") },
+  ];
   return (
     <div className={`welcome-screen${compact ? " is-compact" : ""}`}>
       <div className="welcome-aurora" aria-hidden="true">
         <i /><i /><i />
       </div>
       <div className="welcome-hero">
-        <h2 className="welcome-title">{t(locale, "empty.title")}</h2>
-        <p className="welcome-body">{t(locale, "empty.body")}</p>
+        <div className="welcome-copy">
+          <p className="welcome-eyebrow">{t(locale, "empty.eyebrow")}</p>
+          <h2 className="welcome-title">{t(locale, "empty.title")}</h2>
+          <p className="welcome-body">{t(locale, "empty.body")}</p>
+          {!compact ? (
+            <div className="welcome-cta-row">
+              <button
+                type="button"
+                className="welcome-cta"
+                disabled={busy || snapshot.connectDisabled}
+                onClick={() => {
+                  if (busy) return;
+                  setBusy(true);
+                  void control.connect().finally(() => setBusy(false));
+                }}
+              >
+                {connectLabel}
+                <ArrowRight size={16} strokeWidth={2.2} aria-hidden="true" />
+              </button>
+            </div>
+          ) : null}
+          <ul className="welcome-features">
+            {features.map((feature) => (
+              <li key={feature.title} className="welcome-feature">
+                <span className="welcome-feature-icon" aria-hidden="true">
+                  <feature.icon size={17} strokeWidth={1.8} />
+                </span>
+                <span className="welcome-feature-text">
+                  <strong>{feature.title}</strong>
+                  <small>{feature.body}</small>
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
         {!compact ? (
-          <div className="add-device-grid">
-            <AddDeviceCard snapshot={snapshot} />
+          <div className="welcome-art">
+            <MouseArtworkShowcase reducedMotion={snapshot.preferences.reducedMotion} />
           </div>
         ) : null}
       </div>

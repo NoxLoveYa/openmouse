@@ -1,5 +1,6 @@
 @import "./control-devices.css";
 @import "./control-profiles.css";
+@import "./apple.css";
 
 /* Any author-level `display` beats the browser's own `[hidden]` rule, so a
    `hidden` property set from script silently does nothing on anything laid out

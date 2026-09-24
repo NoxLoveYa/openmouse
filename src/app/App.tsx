@@ -129,6 +129,7 @@ export function App(): ReactNode {
       className={[
         "control-shell",
         "full-desktop-shell",
+        "apple-redesign",
         status ? "" : "is-empty",
         sidebarCollapsed ? "sidebar-collapsed" : "",
         preferences.reducedMotion ? "reduce-interface-motion" : "",

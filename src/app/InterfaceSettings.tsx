@@ -1,4 +1,17 @@
 import { useState, type ReactNode } from "react";
+import {
+  Blend,
+  Eye,
+  FlaskConical,
+  Heart,
+  KeyRound,
+  Languages,
+  Palette,
+  SlidersHorizontal,
+  Volume2,
+  Zap,
+  type LucideIcon,
+} from "lucide-react";
 import * as control from "../device/controller";
 import type { ControlSnapshot } from "../device/types";
 import { LOCALE_NAME_KEYS, t } from "../i18n";
@@ -20,6 +33,14 @@ const THEME_ORDER: readonly InterfaceTheme[] = [
   "NieR: Automata",
   "Light",
 ];
+
+function RowIcon({ icon: Icon, tint }: { icon: LucideIcon; tint: string }): ReactNode {
+  return (
+    <span className={`setting-row-icon is-${tint}`} aria-hidden="true">
+      <Icon size={16} strokeWidth={1.9} />
+    </span>
+  );
+}
 
 function ToggleSwitch({
   id,
@@ -113,8 +134,11 @@ export function InterfaceSettings({ snapshot }: { snapshot: ControlSnapshot }): 
     description: string,
     checked: boolean,
     onChange: (next: boolean) => void,
+    icon: LucideIcon,
+    tint: string,
   ): ReactNode => (
     <div className="setting-row">
+      <RowIcon icon={icon} tint={tint} />
       <div className="setting-label">
         <span className="setting-title">{title}</span>
         <span className="setting-description">{description}</span>
@@ -134,17 +158,23 @@ export function InterfaceSettings({ snapshot }: { snapshot: ControlSnapshot }): 
       </h1>
 
       <div className="setting-row setting-row-block">
-        <div className="setting-label">
-          <span className="setting-title">{t(locale, "set.profileKey")}</span>
-          <span className="setting-description">{t(locale, "set.profileKeyBody")}</span>
+        <div className="setting-label setting-label-with-icon">
+          <RowIcon icon={KeyRound} tint="gray" />
+          <span>
+            <span className="setting-title">{t(locale, "set.profileKey")}</span>
+            <span className="setting-description">{t(locale, "set.profileKeyBody")}</span>
+          </span>
         </div>
         <ProfileKeyFields snapshot={snapshot} />
       </div>
 
       <div className="setting-row setting-row-block">
-        <div className="setting-label">
-          <span className="setting-title">{t(locale, "set.accentTheme")}</span>
-          <span className="setting-description">{t(locale, "set.accentBody")}</span>
+        <div className="setting-label setting-label-with-icon">
+          <RowIcon icon={Palette} tint="blue" />
+          <span>
+            <span className="setting-title">{t(locale, "set.accentTheme")}</span>
+            <span className="setting-description">{t(locale, "set.accentBody")}</span>
+          </span>
         </div>
         <fieldset id="interface-theme" className="theme-preset-picker" aria-label={t(locale, "set.accentTheme")}>
           {THEME_ORDER.map((name) => (
@@ -164,6 +194,7 @@ export function InterfaceSettings({ snapshot }: { snapshot: ControlSnapshot }): 
       </div>
 
       <div className="setting-row">
+        <RowIcon icon={Blend} tint="violet" />
         <div className="setting-label">
           <span className="setting-title">{t(locale, "set.finishTitle")}</span>
           <span className="setting-description">{t(locale, "set.finishBody")}</span>
@@ -181,6 +212,7 @@ export function InterfaceSettings({ snapshot }: { snapshot: ControlSnapshot }): 
       </div>
 
       <div className="setting-row">
+        <RowIcon icon={Languages} tint="blue" />
         <div className="setting-label">
           <span className="setting-title">{t(locale, "set.languageTitle")}</span>
           <span className="setting-description">{t(locale, "set.languageBody")}</span>
@@ -200,6 +232,8 @@ export function InterfaceSettings({ snapshot }: { snapshot: ControlSnapshot }): 
         t(locale, "set.soundDescription"),
         preferences.enabledSounds,
         set("enabledSounds"),
+        Volume2,
+        "pink",
       )}
 
       {switchRow(
@@ -208,6 +242,8 @@ export function InterfaceSettings({ snapshot }: { snapshot: ControlSnapshot }): 
         t(locale, "set.animationsBody"),
         !preferences.reducedMotion,
         (next) => set("reducedMotion")(!next),
+        Eye,
+        "teal",
       )}
 
       {switchRow(
@@ -216,6 +252,8 @@ export function InterfaceSettings({ snapshot }: { snapshot: ControlSnapshot }): 
         t(locale, "set.instantFlashBody"),
         preferences.instantFlash,
         set("instantFlash"),
+        Zap,
+        "orange",
       )}
 
       {switchRow(
@@ -224,6 +262,8 @@ export function InterfaceSettings({ snapshot }: { snapshot: ControlSnapshot }): 
         t(locale, "set.advancedEditorsBody"),
         preferences.expandSections,
         set("expandSections"),
+        SlidersHorizontal,
+        "gray",
       )}
 
       {switchRow(
@@ -232,15 +272,20 @@ export function InterfaceSettings({ snapshot }: { snapshot: ControlSnapshot }): 
         t(locale, "set.experimentalBody"),
         preferences.showExperimental,
         set("showExperimental"),
+        FlaskConical,
+        "orange",
       )}
 
       {snapshot.previewEnabled && snapshot.previewEntries.length > 0 ? (
         <div className="setting-row setting-row-block">
-          <div className="setting-label">
-            <span className="setting-title" id="preview-launcher-title">
-              {t(locale, "set.previewsTitle")}
+          <div className="setting-label setting-label-with-icon">
+            <RowIcon icon={Eye} tint="teal" />
+            <span>
+              <span className="setting-title" id="preview-launcher-title">
+                {t(locale, "set.previewsTitle")}
+              </span>
+              <span className="setting-description">{t(locale, "set.previewsBody")}</span>
             </span>
-            <span className="setting-description">{t(locale, "set.previewsBody")}</span>
           </div>
           <div id="preview-launcher-list" className="preview-launcher-list">
             {snapshot.previewEntries.map(([key, label]) => (
@@ -258,9 +303,12 @@ export function InterfaceSettings({ snapshot }: { snapshot: ControlSnapshot }): 
       ) : null}
 
       <div className="setting-row setting-row-block">
-        <div className="setting-label">
-          <span className="setting-title">{t(locale, "set.supportTitle")}</span>
-          <span className="setting-description">{t(locale, "set.supportBody")}</span>
+        <div className="setting-label setting-label-with-icon">
+          <RowIcon icon={Heart} tint="red" />
+          <span>
+            <span className="setting-title">{t(locale, "set.supportTitle")}</span>
+            <span className="setting-description">{t(locale, "set.supportBody")}</span>
+          </span>
         </div>
         <div className="settings-support">
           <a className="app-donate" href="https://openmouse.app/supported" target="_blank" rel="noreferrer">

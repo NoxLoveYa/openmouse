@@ -64,6 +64,7 @@ export function AppSidebar({
         </a>
 
         <nav className="app-sidebar-nav" aria-label="Primary">
+          <p className="app-sidebar-caption">{t(locale, "side.devices")}</p>
           <button
             className={`app-sidebar-nav-item${page === "home" ? " active" : ""}`}
             type="button"
@@ -130,6 +131,7 @@ export function AppSidebar({
       </div>
 
       <div className="app-sidebar-bottom">
+        <p className="app-sidebar-caption">{t(locale, "side.general")}</p>
         <button
           className="app-sidebar-nav-item"
           type="button"

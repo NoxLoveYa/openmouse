@@ -1,0 +1,604 @@
+/* ============================================================
+   Apple redesign — macOS Settings / Apple.com dark aesthetic.
+   Scoped under `.control-shell.apple-redesign` so every rule wins
+   over legacy chrome by specificity. Legacy accent themes keep
+   working: this file only reads tokens, never raw hues.
+   ============================================================ */
+
+/* --- Backdrop: lifted black with a faint keynote mesh --- */
+.control-shell.apple-redesign {
+  grid-template-columns: 264px minmax(0, 1fr);
+  background:
+    radial-gradient(1100px 480px at 72% -10%, rgb(10 132 255 / 7%), transparent 62%),
+    radial-gradient(900px 520px at 8% 108%, rgb(167 139 250 / 5%), transparent 60%),
+    #050507;
+}
+.control-shell.apple-redesign[data-surface-finish="flat"] {
+  background: #050507;
+}
+
+/* --- Sidebar: translucent settings rail --- */
+.control-shell.apple-redesign .app-sidebar {
+  width: 264px;
+  box-sizing: border-box;
+  padding: 18px 14px 14px;
+  border: 0;
+  border-right: 1px solid rgb(255 255 255 / 8%);
+  border-radius: 0;
+  background: rgb(20 20 23 / 82%);
+  box-shadow: none;
+}
+.control-shell.apple-redesign[data-surface-finish="frosted"] .app-sidebar {
+  -webkit-backdrop-filter: blur(24px) saturate(170%);
+  backdrop-filter: blur(24px) saturate(170%);
+}
+.control-shell.apple-redesign[data-surface-finish="flat"] .app-sidebar {
+  background: #101013;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+.control-shell.apple-redesign .app-sidebar-top {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.control-shell.apple-redesign .app-sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 2px 10px;
+}
+.control-shell.apple-redesign .app-sidebar-brand .brand-mark {
+  width: 22px;
+  height: auto;
+}
+.control-shell.apple-redesign .app-sidebar-brand-text {
+  font-family: var(--font-display);
+  font-size: 1.02rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--bright);
+}
+.control-shell.apple-redesign .app-sidebar-brand-version {
+  margin-left: auto;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--surface-hover);
+  color: var(--faint);
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.04em;
+}
+.control-shell.apple-redesign .app-sidebar-caption {
+  margin: 6px 10px 2px;
+  color: var(--faint);
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.control-shell.apple-redesign .app-sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.control-shell.apple-redesign .app-sidebar-nav-item {
+  min-height: 40px;
+  padding: 0 10px;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--dim);
+  font-size: 0.83rem;
+  font-weight: 500;
+}
+.control-shell.apple-redesign .app-sidebar-nav-item:hover {
+  background: rgb(255 255 255 / 6%);
+  color: var(--text-hover);
+}
+.control-shell.apple-redesign .app-sidebar-nav-item.active {
+  background: color-mix(in srgb, var(--ui-accent) 18%, rgb(255 255 255 / 5%));
+  color: var(--bright);
+  font-weight: 600;
+}
+.control-shell.apple-redesign .app-sidebar-nav-icon {
+  width: 1.1rem;
+  height: 1.1rem;
+  color: var(--muted);
+}
+.control-shell.apple-redesign .app-sidebar-nav-item.active .app-sidebar-nav-icon {
+  color: var(--ui-accent);
+}
+.control-shell.apple-redesign .app-sidebar-bottom {
+  margin-top: auto;
+  padding-top: 10px;
+  border-top: 1px solid rgb(255 255 255 / 8%);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.control-shell.apple-redesign .app-sidebar-collapse-toggle {
+  border-radius: 8px;
+}
+
+/* --- News banner: slim translucent strip --- */
+.control-shell.apple-redesign .news-banner {
+  min-height: 0;
+  padding: 7px 16px;
+  border-bottom: 1px solid rgb(255 255 255 / 8%);
+  background: rgb(20 20 23 / 72%);
+  font-size: 0.74rem;
+  font-weight: 500;
+}
+.control-shell.apple-redesign[data-surface-finish="frosted"] .news-banner {
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  backdrop-filter: blur(20px) saturate(160%);
+}
+.control-shell.apple-redesign .news-banner-info,
+.control-shell.apple-redesign .news-banner-warning,
+.control-shell.apple-redesign .news-banner-critical {
+  padding: 8px 16px;
+  font-size: 0.76rem;
+}
+
+/* --- Content canvas --- */
+.control-shell.apple-redesign .full-desktop-main {
+  min-width: 0;
+  overflow: hidden;
+}
+.control-shell.apple-redesign .full-desktop-content {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 44px 48px 120px;
+  overflow-y: auto;
+}
+
+/* --- Empty-state hero --- */
+.control-shell.apple-redesign .welcome-screen {
+  max-width: none;
+  margin: 0;
+  padding: 24px 0 0;
+}
+.control-shell.apple-redesign .welcome-aurora {
+  opacity: 0.7;
+}
+.control-shell.apple-redesign .welcome-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  align-items: center;
+  gap: 48px;
+}
+.control-shell.apple-redesign .welcome-copy {
+  min-width: 0;
+  text-align: left;
+}
+.control-shell.apple-redesign .welcome-eyebrow {
+  margin: 0 0 14px;
+  color: var(--ui-accent);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.control-shell.apple-redesign .welcome-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(2.4rem, 4.2vw, 3.3rem);
+  font-weight: 800;
+  line-height: 1.04;
+  letter-spacing: -0.035em;
+  text-wrap: balance;
+}
+.control-shell.apple-redesign .welcome-body {
+  max-width: 30rem;
+  margin: 16px 0 0;
+  color: var(--dim);
+  font-size: 1.02rem;
+  line-height: 1.55;
+}
+.control-shell.apple-redesign .welcome-cta-row {
+  margin-top: 26px;
+  text-align: left;
+}
+.control-shell.apple-redesign .welcome-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 13px 26px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--ui-accent);
+  color: var(--ui-accent-ink);
+  font-size: 0.92rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 8px 28px -8px color-mix(in srgb, var(--ui-accent) 65%, transparent);
+  transition: transform 0.16s ease, filter 0.16s ease;
+}
+.control-shell.apple-redesign .welcome-cta:hover:not(:disabled) {
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+}
+.control-shell.apple-redesign .welcome-cta:disabled {
+  cursor: wait;
+  opacity: 0.6;
+}
+.control-shell.apple-redesign .welcome-features {
+  display: grid;
+  gap: 14px;
+  margin: 34px 0 0;
+  padding: 22px 0 0;
+  border-top: 1px solid rgb(255 255 255 / 8%);
+  list-style: none;
+}
+.control-shell.apple-redesign .welcome-feature {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+.control-shell.apple-redesign .welcome-feature-icon {
+  display: grid;
+  flex: 0 0 auto;
+  width: 32px;
+  height: 32px;
+  place-items: center;
+  border-radius: 9px;
+  background: color-mix(in srgb, var(--ui-accent) 14%, rgb(255 255 255 / 4%));
+  color: var(--ui-accent);
+}
+.control-shell.apple-redesign .welcome-feature-text {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+.control-shell.apple-redesign .welcome-feature-text strong {
+  color: var(--bright);
+  font-size: 0.86rem;
+  font-weight: 600;
+}
+.control-shell.apple-redesign .welcome-feature-text small {
+  color: var(--muted);
+  font-size: 0.78rem;
+  line-height: 1.45;
+}
+.control-shell.apple-redesign .welcome-art {
+  position: relative;
+  min-width: 0;
+  min-height: 380px;
+  border: 1px solid rgb(255 255 255 / 9%);
+  border-radius: 24px;
+  background:
+    radial-gradient(420px 300px at 50% 38%, color-mix(in srgb, var(--ui-accent) 16%, transparent), transparent 70%),
+    linear-gradient(180deg, #17171b, #101013);
+  box-shadow: 0 30px 80px -30px rgb(0 0 0 / 80%);
+  overflow: hidden;
+}
+.control-shell.apple-redesign .welcome-art .add-device-mouse-showcase {
+  position: absolute;
+  inset: 24px;
+}
+.control-shell.apple-redesign .welcome-art .add-device-mouse-showcase-frame {
+  object-fit: contain;
+  filter: drop-shadow(0 30px 40px rgb(0 0 0 / 55%));
+}
+@media (max-width: 900px) {
+  .control-shell.apple-redesign .welcome-hero {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .control-shell.apple-redesign .welcome-art {
+    min-height: 300px;
+    order: -1;
+  }
+}
+
+/* --- Device tiles: tall cards, art-forward --- */
+.control-shell.apple-redesign .device-grid {
+  gap: 18px;
+}
+.control-shell.apple-redesign .device-tile,
+.control-shell.apple-redesign .add-device-tile {
+  border: 1px solid rgb(255 255 255 / 9%);
+  border-radius: 20px;
+  background: linear-gradient(180deg, #17171b, #121215);
+  box-shadow: 0 18px 50px -20px rgb(0 0 0 / 70%);
+  overflow: hidden;
+  transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+}
+.control-shell.apple-redesign .device-tile:hover,
+.control-shell.apple-redesign .add-device-tile:hover {
+  border-color: color-mix(in srgb, var(--ui-accent) 45%, rgb(255 255 255 / 10%));
+  transform: translateY(-3px);
+  box-shadow: 0 26px 60px -20px rgb(0 0 0 / 80%);
+}
+.control-shell.apple-redesign .device-tile.is-connected {
+  border-color: color-mix(in srgb, var(--success) 50%, rgb(255 255 255 / 10%));
+}
+.control-shell.apple-redesign .device-tile-name {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+.control-shell.apple-redesign .device-tile-gear {
+  border-radius: 50%;
+  background: rgb(255 255 255 / 6%);
+  color: var(--dim);
+}
+.control-shell.apple-redesign .device-tile-gear:hover {
+  background: rgb(255 255 255 / 12%);
+  color: var(--bright);
+}
+.control-shell.apple-redesign .add-device-button {
+  border-radius: 999px;
+  font-weight: 600;
+}
+
+/* --- Settings: iOS-style icon rows in grouped sections --- */
+.control-shell.apple-redesign .page-title,
+.control-shell.apple-redesign #interface-settings-title {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+.control-shell.apple-redesign .setting-row {
+  gap: 14px;
+  align-items: center;
+  padding: 14px 16px;
+  border: 1px solid rgb(255 255 255 / 8%);
+  border-radius: 16px;
+  background: #131316;
+}
+.control-shell.apple-redesign .setting-row + .setting-row {
+  margin-top: 10px;
+}
+.control-shell.apple-redesign .setting-row-block {
+  display: grid;
+}
+.control-shell.apple-redesign .setting-row-icon {
+  display: grid;
+  flex: 0 0 auto;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  border-radius: 9px;
+  background: rgb(255 255 255 / 7%);
+  color: var(--dim);
+}
+.control-shell.apple-redesign .setting-row-icon.is-blue { background: rgb(10 132 255 / 18%); color: #5eb2ff; }
+.control-shell.apple-redesign .setting-row-icon.is-green { background: rgb(48 209 88 / 16%); color: #4be07a; }
+.control-shell.apple-redesign .setting-row-icon.is-orange { background: rgb(255 159 10 / 16%); color: #ffb340; }
+.control-shell.apple-redesign .setting-row-icon.is-red { background: rgb(255 69 58 / 15%); color: #ff7a70; }
+.control-shell.apple-redesign .setting-row-icon.is-violet { background: rgb(167 139 250 / 16%); color: #c0aaff; }
+.control-shell.apple-redesign .setting-row-icon.is-pink { background: rgb(255 55 95 / 15%); color: #ff6b93; }
+.control-shell.apple-redesign .setting-row-icon.is-teal { background: rgb(100 210 255 / 14%); color: #70d7ff; }
+.control-shell.apple-redesign .setting-row-icon.is-gray { background: rgb(255 255 255 / 8%); color: var(--dim); }
+.control-shell.apple-redesign .setting-label-with-icon {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 14px;
+  text-align: left;
+}
+.control-shell.apple-redesign .setting-row-block .setting-label-with-icon {
+  align-items: center;
+}
+.control-shell.apple-redesign .setting-label-with-icon > span:last-child {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+.control-shell.apple-redesign .setting-title {
+  font-size: 0.92rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+.control-shell.apple-redesign .theme-preset-picker {
+  gap: 10px;
+}
+.control-shell.apple-redesign .theme-preset-swatch {
+  border-radius: 14px;
+  overflow: hidden;
+}
+.control-shell.apple-redesign .connect-button,
+.control-shell.apple-redesign .profile-key-action {
+  border-radius: 999px;
+}
+
+/* --- Dashboard: showcase header, segmented tabs, roomy cards --- */
+.control-shell.apple-redesign .device-showcase-name {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+.control-shell.apple-redesign .device-showcase-brand {
+  color: var(--ui-accent);
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.control-shell.apple-redesign .device-diagram-chip {
+  border: 1px solid rgb(255 255 255 / 10%);
+  border-radius: 999px;
+  background: rgb(20 20 23 / 70%);
+  box-shadow: 0 8px 24px -10px rgb(0 0 0 / 70%);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+}
+.control-shell.apple-redesign .device-showcase-image {
+  filter: drop-shadow(0 0 44px color-mix(in srgb, var(--ui-accent) 22%, transparent)) drop-shadow(0 24px 40px rgb(0 0 0 / 60%));
+}
+.control-shell.apple-redesign .device-tabs-bar {
+  padding: 4px;
+  border-radius: 999px;
+  gap: 2px;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.control-shell.apple-redesign .device-tabs-bar::-webkit-scrollbar {
+  display: none;
+}
+.control-shell.apple-redesign .device-tab-back {
+  position: static;
+  flex: 0 0 auto;
+  transform: none;
+  border-color: transparent;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--dim);
+  font-weight: 500;
+}
+.control-shell.apple-redesign .device-tab-back:hover {
+  background: rgb(255 255 255 / 8%);
+  border-color: transparent;
+  color: var(--bright);
+}
+.control-shell.apple-redesign .device-tab-pill {
+  background: transparent;
+  border-color: transparent;
+  color: var(--dim);
+  box-shadow: none;
+}
+.control-shell.apple-redesign .device-tab-pill:hover {
+  background: rgb(255 255 255 / 7%);
+  border-color: transparent;
+  color: var(--bright);
+}
+.control-shell.apple-redesign .device-tab-pill.active {
+  background: rgb(255 255 255 / 11%);
+  border-color: transparent;
+  color: var(--bright);
+  box-shadow: none;
+}
+.control-shell.apple-redesign .device-tab-pill.active::after {
+  display: none;
+}
+.control-shell.apple-redesign .device-tab-back {
+  border-radius: 999px;
+}
+.control-shell.apple-redesign .setting-card {
+  border-radius: 20px;
+  border-color: rgb(255 255 255 / 9%);
+  background: linear-gradient(180deg, #151519, #121215);
+  padding: 22px;
+  box-shadow: 0 18px 50px -24px rgb(0 0 0 / 80%);
+}
+.control-shell.apple-redesign .setting-heading h2 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+.control-shell.apple-redesign .dpi-card .setting-heading {
+  flex-wrap: wrap;
+  row-gap: 10px;
+}
+.control-shell.apple-redesign .dpi-header-actions input {
+  font-size: 1.7rem;
+}
+.control-shell.apple-redesign .showcase-sidebar-status {
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--success) 12%, rgb(255 255 255 / 4%));
+  border-color: color-mix(in srgb, var(--success) 30%, transparent);
+}
+
+/* --- Test pages + games headers --- */
+.control-shell.apple-redesign .mouse-test-header h1,
+.control-shell.apple-redesign .games-title {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+.control-shell.apple-redesign .games-tile {
+  border-radius: 20px;
+}
+.control-shell.apple-redesign .hardware-test-terminal {
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+/* --- Sheets, toasts, pending bar --- */
+.control-shell.apple-redesign .support-dialog,
+.control-shell.apple-redesign .capture-dialog {
+  border-radius: 20px;
+}
+.control-shell.apple-redesign .apply-bar {
+  border-radius: 16px;
+  box-shadow: 0 18px 50px -18px rgb(0 0 0 / 80%);
+}
+.control-shell.apple-redesign .apply-bar-apply {
+  border-radius: 999px;
+  padding-left: 1.4rem;
+  padding-right: 1.4rem;
+}
+.control-shell.apple-redesign .apply-bar-revert {
+  border-radius: 999px;
+}
+.control-shell.apple-redesign .toast-stack {
+  border-radius: 16px;
+}
+
+/* --- Light theme + flat finish --- */
+.control-shell.apple-redesign[data-interface-theme="light"] {
+  background:
+    radial-gradient(1100px 480px at 72% -10%, rgb(0 113 227 / 6%), transparent 62%),
+    #f5f5f7;
+}
+.control-shell.apple-redesign[data-interface-theme="light"] .app-sidebar {
+  background: rgb(244 244 247 / 82%);
+  border-right-color: rgb(0 0 0 / 8%);
+}
+.control-shell.apple-redesign[data-interface-theme="light"] .app-sidebar-nav-item:hover {
+  background: rgb(0 0 0 / 5%);
+}
+.control-shell.apple-redesign[data-interface-theme="light"] .setting-row,
+.control-shell.apple-redesign[data-interface-theme="light"] .setting-card,
+.control-shell.apple-redesign[data-interface-theme="light"] .device-tile,
+.control-shell.apple-redesign[data-interface-theme="light"] .add-device-tile {
+  background: #ffffff;
+  border-color: rgb(0 0 0 / 8%);
+  box-shadow: 0 10px 30px -18px rgb(0 0 0 / 25%);
+}
+.control-shell.apple-redesign[data-interface-theme="light"] .welcome-art {
+  background:
+    radial-gradient(420px 300px at 50% 38%, rgb(0 113 227 / 10%), transparent 70%),
+    linear-gradient(180deg, #ffffff, #f0f0f4);
+}
+.control-shell.apple-redesign[data-interface-theme="light"] .app-sidebar-bottom {
+  border-top-color: rgb(0 0 0 / 8%);
+}
+.control-shell.apple-redesign[data-interface-theme="light"] .welcome-features {
+  border-top-color: rgb(0 0 0 / 8%);
+}
+.control-shell.apple-redesign[data-surface-finish="flat"] .welcome-art {
+  background: #101013;
+}
+.control-shell.apple-redesign[data-surface-finish="flat"][data-interface-theme="light"] .welcome-art {
+  background: #ffffff;
+}
+
+/* --- Motion --- */
+.control-shell.apple-redesign .welcome-cta,
+.control-shell.apple-redesign .device-tile,
+.control-shell.apple-redesign .app-sidebar-nav-item {
+  transition: background 0.18s ease, color 0.18s ease, border-color 0.18s ease, transform 0.18s ease, filter 0.18s ease;
+}
+.control-shell.apple-redesign.reduce-interface-motion .welcome-art .add-device-mouse-showcase-frame {
+  animation: none;
+}
+
+@media (max-width: 1100px) {
+  .control-shell.apple-redesign {
+    grid-template-columns: 232px minmax(0, 1fr);
+  }
+  .control-shell.apple-redesign .app-sidebar {
+    width: 232px;
+  }
+  .control-shell.apple-redesign .full-desktop-content {
+    padding: 32px 24px 120px;
+  }
+}
