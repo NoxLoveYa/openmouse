@@ -115,10 +115,12 @@ test("statuses other than supported and likely phrase the page row", () => {
   assert.equal(quickwin.label, "Quick Win");
   assert.match(quickwin.detail, /supports moving it to Supported/);
 
-  // PR-pending row pinned by PID.
-  const pr = crosscheckSupportedDevices(device({ brand: "Lamzu", name: "Inca", productId: 0x10 }), "fail");
-  assert.equal(pr.status, "pr");
-  assert.match(pr.detail, /keep the status as-is/);
+  // Bridge row matched by name: a non-passing run still keeps the status.
+  const bridge = crosscheckSupportedDevices(device({ brand: "Attack Shark", name: "X3" }), "fail");
+  assert.equal(bridge.status, "bridge");
+  assert.equal(bridge.label, "Needs Bridge");
+  assert.match(bridge.detail, /listed as Needs Bridge/);
+  assert.match(bridge.detail, /keep the status as-is/);
 });
 
 test("detail stays within a single embed field", () => {
