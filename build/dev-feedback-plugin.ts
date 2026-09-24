@@ -36,6 +36,19 @@ export interface DiscordForwardResult {
   status: number;
 }
 
+/**
+ * Boot-time hint printed by the dev server so the state of the relay is
+ * visible before anyone clicks Share: configured and delivering, or about to
+ * refuse every share with 503 until `DISCORD_FEEDBACK_WEBHOOK` exists in
+ * `.env.local` (and the server is restarted, since the env is read at boot).
+ */
+export function feedbackRelayHint(webhook: string | undefined): string {
+  if (!webhook || !webhook.startsWith("https://discord")) {
+    return "[dev-feedback] relay up, but DISCORD_FEEDBACK_WEBHOOK is not set in .env.local — Share report will answer 503 until it is; add it and restart the dev server";
+  }
+  return "[dev-feedback] relay up — DISCORD_FEEDBACK_WEBHOOK set; Share report delivers to Discord";
+}
+
 const MAX_DEV_BODY_BYTES = 1024 * 1024;
 
 /**
@@ -102,6 +115,7 @@ export function devFeedback(): Plugin {
       // loadEnv reads .env / .env.local etc. (both are gitignored).
       const env = loadEnv(server.config.mode, server.config.root, "");
       const webhook = env.DISCORD_FEEDBACK_WEBHOOK;
+      server.config.logger.info(feedbackRelayHint(webhook));
       server.middlewares.use("/api/feedback", (req: IncomingMessage, res: ServerResponse) => {
         const chunks: Buffer[] = [];
         let size = 0;

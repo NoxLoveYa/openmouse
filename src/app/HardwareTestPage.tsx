@@ -418,7 +418,11 @@ export function HardwareTestPage({ snapshot }: { snapshot: ControlSnapshot }): R
             message = null;
           }
           pushLine("err", `could not send the report${message ? ` — ${message}` : " — try again in a moment"}`);
-          control.pushToast("error", t(locale, "hw.reportError"), t(locale, "hw.reportErrorDetail"));
+          // Surface the relay's own reason when it answered (e.g. "Feedback is
+          // not configured." or "Discord rejected the feedback.") instead of a
+          // generic "unreachable" toast that hides whether this is a config,
+          // delivery, or network problem.
+          control.pushToast("error", t(locale, "hw.reportError"), message ?? t(locale, "hw.reportErrorDetail"));
           return;
         }
         pushLine("ok", "report sent to the OpenMouse feedback channel ✓");

@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import { sendToDiscord, validateFeedbackRequest } from "./dev-feedback-plugin.ts";
+import { feedbackRelayHint, sendToDiscord, validateFeedbackRequest } from "./dev-feedback-plugin.ts";
 
 test("validateFeedbackRequest accepts a POST carrying an embeds array", () => {
   const raw = JSON.stringify({ embeds: [{ title: "Hardware Test Report" }] });
@@ -53,4 +53,19 @@ test("sendToDiscord maps network failures to 502", async () => {
   }) as unknown as typeof fetch;
   const result = await sendToDiscord("https://discord.example/webhook", "{}", fakeFetch);
   assert.deepEqual(result, { ok: false, status: 502 });
+});
+
+test("feedbackRelayHint announces live delivery when the webhook is configured", () => {
+  const hint = feedbackRelayHint("https://discord.com/api/webhooks/1/abc");
+  assert.match(hint, /delivers to Discord/);
+  assert.doesNotMatch(hint, /503/);
+});
+
+test("feedbackRelayHint tells the developer to configure the webhook when it is missing", () => {
+  for (const webhook of [undefined, "", "https://example.com/not-discord"]) {
+    const hint = feedbackRelayHint(webhook);
+    assert.match(hint, /DISCORD_FEEDBACK_WEBHOOK/);
+    assert.match(hint, /503/);
+    assert.match(hint, /restart the dev server/);
+  }
 });
