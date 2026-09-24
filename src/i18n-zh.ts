@@ -465,6 +465,7 @@ export const zh: Record<I18nKey, string> = {
   "adv.sensorMode": "传感器模式",
   "adv.ecoNote": "节能模式在 125–1000 Hz 无线下省电。高性能模式使用高性能传感器配置。",
   "adv.lockedNote": "已锁定为 {mode}，{hz} Hz，{conn}。",
+  "adv.locked": "已锁定",
   "adv.duration": "持续时间",
   "adv.dpiIndicator": "DPI 指示灯",
   "adv.effect": "效果",

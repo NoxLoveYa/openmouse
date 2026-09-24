@@ -434,11 +434,11 @@ export function ProcessingCard({ snapshot }: { snapshot: ControlSnapshot }): Rea
       />
       {angleTuning != null ? (
         status.atkSensorMode != null ? (
-          <div data-pending-key="atk-rotation">
+          <>
             <StepperSlider
               id="atk-rotation-slider"
               label="Sensor rotation"
-              badge="Locked"
+              badge={t(locale, "adv.locked")}
               value={0}
               min={-30}
               max={30}
@@ -451,7 +451,7 @@ export function ProcessingCard({ snapshot }: { snapshot: ControlSnapshot }): Rea
               onCommit={() => undefined}
             />
             <small className="setting-note">Precise horizontal movement regardless of mouse grip style. Rotation writes touch calibration and stay locked pending a USB capture — calibrate in ATK HUB for now.</small>
-          </div>
+          </>
         ) : capabilities?.angleTuningWritable
           ? <AngleTuningControl value={angleTuning} label={t(locale, "adv.angleTune")} />
           : (

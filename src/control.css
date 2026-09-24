@@ -980,7 +980,6 @@ nav { display: grid; gap: .3rem; margin-top: 1.4rem; }
 .switch-row { display: flex; align-items: center; justify-content: space-between; gap: .5rem; padding: .2rem 0; color: var(--dim); font-size: .75rem; }
 .field-label { display: block; color: var(--faint); font-size: .72rem; }
 .field-label.spaced { margin-top: .35rem; }
-.setting-separator { border-top: 1px solid var(--line-strong); margin-top: .55rem; }
 .teevolution-dpi-light-controls { margin-top: .55rem; }
 
 /* ═══════════════════════════════════════════════════════════════════════
@@ -1117,6 +1116,9 @@ nav { display: grid; gap: .3rem; margin-top: 1.4rem; }
 .egg-collapsible summary i { width: .42rem; height: .42rem; }
 .egg-experimental summary i { width: .45rem; height: .45rem; }
 .egg-collapsible[open] summary i, .egg-experimental[open] summary i { transform: rotate(225deg); }
+/* An open OptionMenu must escape the collapsible's rounded-corner clipping;
+   the inner card keeps its own background so nothing leaks visually. */
+.egg-collapsible:has(.option-menu.is-open), .egg-experimental:has(.option-menu.is-open) { overflow: visible; }
 .egg-collapsible-body { padding: .6rem; border-top: 1px solid var(--line); }
 .egg-experimental-body { padding: 0 .65rem .65rem; border-top: 1px solid var(--line); }
 .egg-collapsible-body > .setting-card { min-height: 0 !important; padding: .7rem !important; }

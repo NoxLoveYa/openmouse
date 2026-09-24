@@ -465,6 +465,7 @@ export const es: Record<I18nKey, string> = {
   "adv.sensorMode": "Modo del sensor",
   "adv.ecoNote": "Eco ahorra energía a 125–1000 Hz inalámbrico. Alto usa el perfil de sensor de rendimiento.",
   "adv.lockedNote": "Bloqueado en {mode} a {hz} Hz {conn}.",
+  "adv.locked": "Bloqueado",
   "adv.duration": "Duración",
   "adv.dpiIndicator": "Indicador de DPI",
   "adv.effect": "Efecto",

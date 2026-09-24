@@ -464,6 +464,7 @@ export const ru: Record<I18nKey, string> = {
   "adv.sensorMode": "Режим сенсора",
   "adv.ecoNote": "Eco экономит заряд на 125–1000 Гц по радио. High использует производительный профиль сенсора.",
   "adv.lockedNote": "Зафиксировано в режиме {mode} на {hz} Гц {conn}.",
+  "adv.locked": "Зафиксировано",
   "adv.duration": "Длительность",
   "adv.dpiIndicator": "Индикатор DPI",
   "adv.effect": "Эффект",

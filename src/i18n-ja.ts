@@ -465,6 +465,7 @@ export const ja: Record<I18nKey, string> = {
   "adv.sensorMode": "センサーモード",
   "adv.ecoNote": "エコモードは無線125〜1000 Hzで省電力になります。ハイはパフォーマンス用センサープロファイルを使用します。",
   "adv.lockedNote": "{mode}、{hz} Hz、{conn}に固定されています。",
+  "adv.locked": "固定",
   "adv.duration": "継続時間",
   "adv.dpiIndicator": "DPIインジケーター",
   "adv.effect": "エフェクト",

@@ -399,6 +399,7 @@ export const vi: Record<I18nKey, string> = {
   "adv.sensorMode": "Chế độ cảm biến",
   "adv.ecoNote": "Eco tiết kiệm pin ở 125–1000 Hz khi không dây. High sử dụng profile cảm biến hiệu năng.",
   "adv.lockedNote": "Đã khóa ở {mode}, {hz} Hz, {conn}.",
+  "adv.locked": "Đã khóa",
   "adv.duration": "Thời lượng",
   "adv.dpiIndicator": "Đèn báo DPI",
   "adv.effect": "Hiệu ứng",

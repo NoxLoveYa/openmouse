@@ -468,6 +468,7 @@ const en = {
   "adv.sensorMode": "Sensor mode",
   "adv.ecoNote": "Eco saves power at 125–1000 Hz wireless. High uses the performance sensor profile.",
   "adv.lockedNote": "Locked to {mode} at {hz} Hz {conn}.",
+  "adv.locked": "Locked",
   "adv.duration": "Duration",
   "adv.dpiIndicator": "DPI indicator",
   "adv.effect": "Effect",

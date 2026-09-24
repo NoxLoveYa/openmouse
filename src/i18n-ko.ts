@@ -465,6 +465,7 @@ export const ko: Record<I18nKey, string> = {
   "adv.sensorMode": "센서 모드",
   "adv.ecoNote": "에코 모드는 무선 125–1000 Hz에서 전력을 절약합니다. 높음은 성능 센서 프로필을 사용합니다.",
   "adv.lockedNote": "{mode}, {hz} Hz, {conn}(으)로 고정됨.",
+  "adv.locked": "고정",
   "adv.duration": "지속 시간",
   "adv.dpiIndicator": "DPI 표시등",
   "adv.effect": "효과",

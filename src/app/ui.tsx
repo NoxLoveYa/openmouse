@@ -176,7 +176,8 @@ export function OptionMenu<T extends string | number>({
     const enabled = visible.filter((option) => !option.disabled);
     if (enabled.length === 0) return;
     const index = enabled.findIndex((option) => option.value === active);
-    const next = enabled[(index + direction + enabled.length) % enabled.length]!;
+    const next = enabled[(index + direction + enabled.length) % enabled.length];
+    if (!next) return;
     setActive(next.value);
     document.getElementById(`${menuId}-${String(next.value)}`)?.focus();
   };
@@ -190,7 +191,7 @@ export function OptionMenu<T extends string | number>({
         className="option-menu-trigger"
         aria-haspopup="listbox"
         aria-expanded={open}
-        aria-controls={menuId}
+        aria-controls={open ? menuId : undefined}
         aria-label={ariaLabel}
         disabled={disabled}
         onClick={(event) => {
@@ -220,6 +221,8 @@ export function OptionMenu<T extends string | number>({
             } else if (event.key === "ArrowUp") {
               event.preventDefault();
               moveActive(-1);
+            } else if (event.key === "Tab") {
+              setOpen(false);
             }
           }}
         >

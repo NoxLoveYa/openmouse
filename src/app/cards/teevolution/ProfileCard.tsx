@@ -137,7 +137,7 @@ export function TeevolutionProfileCard({ snapshot }: { snapshot: ControlSnapshot
                     <span className="assignment-button-name">{button}</span>
                     <span className="assignment-select-wrap">
                       <OptionMenu
-                        id={`button-${button.toLowerCase()}-select`}
+                        id={`teevolution-button-${button.toLowerCase()}-select`}
                         ariaLabel={`${button} ${t(locale, "prof.assign")}`}
                         options={[
                           ...(!options.includes(assigned) ? [{ value: "", label: assigned, disabled: true }] : []),
