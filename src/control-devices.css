@@ -1,4 +1,4 @@
-#pulsar-advanced { margin-top: .65rem; grid-template-columns: repeat(auto-fit, minmax(145px, 1fr)); gap: .65rem; padding-bottom: .4rem; }
+#pulsar-advanced { display: grid; margin-top: .65rem; grid-template-columns: repeat(auto-fit, minmax(145px, 1fr)); gap: .65rem; padding-bottom: .4rem; }
 
 #pulsar-advanced > .setting-card { min-height: 0; padding: .8rem; }
 #pulsar-advanced input[type="number"], #pulsar-advanced select { width: 100%; box-sizing: border-box; margin-top: .2rem; padding: .48rem .55rem; border: 1px solid var(--line-strong); border-radius: 6px; outline: none; background: var(--surface-input); color: var(--text-input); font: inherit; color-scheme: dark; }

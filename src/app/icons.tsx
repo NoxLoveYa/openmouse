@@ -2,11 +2,11 @@ import { CircleDot, Circle, Eye, EyeOff, Link2, Pencil, RefreshCw, Share2, Trash
 import type { ReactNode } from "react";
 
 export function IconEnabled(): ReactNode {
-  return <Eye size={13} strokeWidth={1.8} stroke="#9fe0b6" aria-hidden="true" />;
+  return <Eye size={13} strokeWidth={1.8} stroke="currentColor" className="icon-state-on" aria-hidden="true" />;
 }
 
 export function IconDisabled(): ReactNode {
-  return <EyeOff size={13} strokeWidth={1.8} stroke="#77777c" aria-hidden="true" />;
+  return <EyeOff size={13} strokeWidth={1.8} stroke="currentColor" className="icon-state-off" aria-hidden="true" />;
 }
 
 export function IconLinked(): ReactNode {
@@ -18,15 +18,15 @@ export function IconUnlinked(): ReactNode {
 }
 
 export function IconRename(): ReactNode {
-  return <Pencil size={13} strokeWidth={1.8} stroke="#8b8b90" aria-hidden="true" />;
+  return <Pencil size={13} strokeWidth={1.8} stroke="currentColor" className="icon-state-off" aria-hidden="true" />;
 }
 
 export function IconRunning(): ReactNode {
-  return <CircleDot size={13} strokeWidth={1.8} stroke="#9fe0b6" aria-hidden="true" />;
+  return <CircleDot size={13} strokeWidth={1.8} stroke="currentColor" className="icon-state-on" aria-hidden="true" />;
 }
 
 export function IconActivate(): ReactNode {
-  return <Circle size={13} strokeWidth={1.8} stroke="#77777c" aria-hidden="true" />;
+  return <Circle size={13} strokeWidth={1.8} stroke="currentColor" className="icon-state-off" aria-hidden="true" />;
 }
 
 export function IconRefresh(): ReactNode {

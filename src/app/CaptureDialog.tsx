@@ -98,45 +98,29 @@ export function CaptureDialog({ open, onClose, locale = "en" }: { open: boolean;
     <dialog
       id="capture-dialog"
       ref={dialog}
-      style={{
-        width: "min(1100px,94vw)",
-        maxWidth: "none",
-        height: "min(88vh,900px)",
-        padding: 0,
-        border: "1px solid #303036",
-        borderRadius: "12px",
-        background: "#131316",
-        color: "#d8d8dc",
-      }}
+      className="capture-dialog"
       onClick={(event) => {
         if (event.target === dialog.current) onClose();
       }}
       onClose={onClose}
     >
-      <div style={{
-        display: "flex",
-        flexDirection: "column",
-        height: "100%",
-        padding: "1rem 1.1rem",
-        boxSizing: "border-box",
-        gap: ".6rem",
-      }}>
-        <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: "1rem" }}>
+      <div className="capture-dialog-body">
+        <div className="capture-dialog-head">
           <div>
-            <p style={{ margin: 0, color: "#77777c", fontSize: ".6rem", letterSpacing: ".05em" }}>DEVELOPMENT</p>
-            <h2 style={{ margin: ".1rem 0 0", fontSize: "1rem", color: "#ececef" }}>{t(locale, "cap.title")}</h2>
+            <p className="capture-overline">DEVELOPMENT</p>
+            <h2 className="capture-title">{t(locale, "cap.title")}</h2>
           </div>
-          <button id="capture-close" type="button" aria-label={t(locale, "cap.closeCapture")} onClick={onClose}>{t(locale, "common.close")}</button>
+          <button id="capture-close" className="capture-close" type="button" aria-label={t(locale, "cap.closeCapture")} onClick={onClose}>{t(locale, "common.close")}</button>
         </div>
 
-        <small style={{ color: "#77777c", fontSize: ".64rem" }}>
-          <strong style={{ color: "#a8a8ae" }}>Verify a format:</strong> copy a read-only bundle containing the
+        <small className="capture-lede">
+          <strong>Verify a format:</strong> copy a read-only bundle containing the
           memory geometry, full directory, every profile and all CRC results. To map an individual setting,
           snapshot the profiles, change only that setting in G HUB or Onboard Memory Manager, compare, mark the
           change and copy the comparison.
         </small>
 
-        <div style={{ display: "flex", flexWrap: "wrap", gap: ".4rem", alignItems: "center" }}>
+        <div className="capture-actions">
           <button
             id="capture-verification"
             type="button"
@@ -168,9 +152,9 @@ export function CaptureDialog({ open, onClose, locale = "en" }: { open: boolean;
             <button
               id="capture-write-probe"
               type="button"
+              className="capture-probe"
               disabled={busy || probe.supported !== true}
               title={probe.reason}
-              style={{ borderColor: "#7d3038", background: "#32181c", color: "#ff9ca5" }}
               onClick={() => {
                 if (!probe.supported || !probe.prepare || !probe.run) return;
                 setBusy(true);
@@ -234,17 +218,14 @@ export function CaptureDialog({ open, onClose, locale = "en" }: { open: boolean;
           >
             {t(locale, "cap.copyComparison")}
           </button>
-          <span id="capture-status" role="status" aria-live="polite" style={{ color: "#77777c", fontSize: ".62rem" }}>
+          <span id="capture-status" className="capture-status" role="status" aria-live="polite">
             {message}
           </span>
         </div>
 
-        <div
-          id="capture-diff"
-          style={{ flex: 1, minHeight: 0, overflow: "auto", border: "1px solid #26262a", borderRadius: "8px", padding: ".5rem" }}
-        >
+        <div id="capture-diff" className="capture-diff">
           {changed.length === 0 ? (
-            <p style={{ color: "#77777c", fontSize: ".62rem", margin: 0 }}>
+            <p className="capture-empty">
               {diffs.length > 0
                 ? "No profile bytes changed — this setting is not stored in a profile."
                 : snapshot
@@ -253,32 +234,29 @@ export function CaptureDialog({ open, onClose, locale = "en" }: { open: boolean;
             </p>
           ) : (
             changed.map((diff) => (
-              <div key={diff.sector} style={{ marginBottom: ".5rem" }}>
-                <div style={{ display: "flex", gap: ".5rem", alignItems: "baseline", flexWrap: "wrap" }}>
-                  <strong style={{ fontSize: ".66rem", color: "#e6e6ea" }}>
+              <div key={diff.sector} className="capture-sector">
+                <div className="capture-sector-head">
+                  <strong className="capture-sector-title">
                     Sector {diff.sector} — {diff.changes.length} byte(s)
                   </strong>
                   {diff.unreproduced === undefined ? null : diff.unreproduced.length === 0 ? (
-                    <span style={{ color: "#6fd3a0", fontSize: ".6rem", fontWeight: 600 }}>✓ write path verified</span>
+                    <span className="capture-verified">✓ write path verified</span>
                   ) : (
-                    <span style={{ color: "#e8798f", fontSize: ".6rem", fontWeight: 600 }}>
+                    <span className="capture-unrepro">
                       ✗ {diff.unreproduced.length} byte(s) not reproducible
                     </span>
                   )}
                 </div>
-                <div style={{ display: "grid", gap: ".1rem", marginTop: ".2rem" }}>
+                <div className="capture-changes">
                   {diff.changes.map((change) => (
-                    <div
-                      key={change.offset}
-                      style={{ display: "flex", gap: ".6rem", fontSize: ".62rem", color: "#d8d8dc", alignItems: "baseline" }}
-                    >
-                      <code style={{ color: "#8b8b90", minWidth: "3.2rem" }}>
+                    <div key={change.offset} className="capture-change">
+                      <code className="capture-offset">
                         0x{change.offset.toString(16).padStart(2, "0")}
                       </code>
-                      <code style={{ minWidth: "5rem" }}>
+                      <code className="capture-bytes">
                         {change.before.toString(16).padStart(2, "0")} → {change.after.toString(16).padStart(2, "0")}
                       </code>
-                      <span style={{ color: change.field === "checksum" ? "#77777c" : "#6fd3a0" }}>
+                      <span className={`capture-field${change.field === "checksum" ? " is-checksum" : ""}`}>
                         {change.field ?? "unknown"}
                       </span>
                     </div>
@@ -290,25 +268,17 @@ export function CaptureDialog({ open, onClose, locale = "en" }: { open: boolean;
         </div>
 
         <div>
-          <p style={{ margin: "0 0 .25rem", color: "#77777c", fontSize: ".62rem" }}>{t(locale, "cap.whatChanged")}</p>
-          <div id="capture-action-list" style={{ display: "flex", flexWrap: "wrap", gap: ".3rem" }}>
+          <p className="capture-notes-label">{t(locale, "cap.whatChanged")}</p>
+          <div id="capture-action-list" className="capture-action-list">
             {CAPTURE_ACTIONS.map((action) => {
               const active = selectedActions.has(action.id);
               return (
                 <button
                   key={action.id}
                   type="button"
+                  className={`capture-action-pill${active ? " is-active" : ""}`}
                   aria-pressed={active}
-                  style={{
-                    padding: ".22rem .5rem",
-                    border: `1px solid ${active ? action.color : "#3a3a3f"}`,
-                    borderRadius: "999px",
-                    background: active ? `${action.color}22` : "#19191c",
-                    color: active ? action.color : "#8b8b90",
-                    fontSize: ".6rem",
-                    fontWeight: 600,
-                    cursor: "pointer",
-                  }}
+                  style={active ? { borderColor: action.color, color: action.color } : undefined}
                   onClick={() => setSelectedActions((current) => {
                     const next = new Set(current);
                     if (next.has(action.id)) next.delete(action.id);
@@ -325,20 +295,11 @@ export function CaptureDialog({ open, onClose, locale = "en" }: { open: boolean;
 
         <textarea
           id="capture-notes"
+          className="capture-notes"
           rows={2}
           placeholder={t(locale, "cap.notesPlaceholder")}
           value={notes}
           onChange={(event) => setNotes(event.currentTarget.value)}
-          style={{
-            width: "100%",
-            boxSizing: "border-box",
-            padding: ".45rem",
-            border: "1px solid #343438",
-            borderRadius: "6px",
-            background: "#171719",
-            color: "#d8d8dc",
-            fontSize: ".66rem",
-          }}
         />
       </div>
     </dialog>

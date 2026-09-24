@@ -15,7 +15,7 @@ interface MouseTestMouseProps {
 
 const btnClass = (pressed: boolean): string => `mouse-test-mouse-btn${pressed ? " pressed" : ""}`;
 
-const stroke = { stroke: "rgb(67, 112, 143)" };
+const stroke = { stroke: "currentColor" };
 const st0: CSSProperties = {
   ...stroke,
   fill: "none",
@@ -34,7 +34,7 @@ const st2: CSSProperties = {
   strokeWidth: 2,
 };
 const st3: CSSProperties = { ...stroke, fill: "none", strokeMiterlimit: 10, strokeWidth: 3 };
-const st4: CSSProperties = { fill: "rgb(67, 112, 143)" };
+const st4: CSSProperties = { fill: "currentColor" };
 const st5: CSSProperties = {
   ...stroke,
   fill: "none",
@@ -52,12 +52,12 @@ export function MouseTestMouse({ buttons, wheel }: MouseTestMouseProps): ReactNo
       aria-hidden="true"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <polygon style={{ fill: "rgb(255, 255, 255)" }} points="762.901 533.207 837.19 479.736 979.666 414.532 1106.875 384.189 1209.716 377.437 1336.374 393.357 1409.585 417.127 1476.487 452.71 1541.071 500.431 1593.42 556.291 1627.7 603.9 1668.307 684.194 1690.246 795.184 1685.87 883.063 1669.446 951.085 1639.021 1018.645 1594.49 1077.762 1391.745 1167.637 1293.837 1222.122 1236.579 1262.911 1104.818 1380.372 985.532 1496.323 844.926 1513.217 551.153 1425.339 374.566 1163.246 365.254 1124.956 361.399 958.497 446.68 838.481 549.264 720.013 664.397 607.513" />
-      <polygon className={btnClass(buttons.left)} style={{ fill: "rgb(255, 255, 255)" }} points="610.236 1317 792.977 1058.66 1005.542 773.958 1078.992 695.296 1190.432 660.797 1294.852 814.227 1348.032 924.339 982.406 1370.02 817.005 1420.91 605.79 1360.91" />
-      <polygon className={btnClass(buttons.right)} style={{ fill: "rgb(255, 255, 255)" }} points="459.432 1258.302 458.32 1234.725 621.698 1030.215 837.618 782.876 949.843 672.314 998.034 635.495 1015.703 557.266 789.408 529.271 740.344 546.192 622.891 645.612 508.993 762.294 413.651 882.575 361.77 959.442 365.604 1133.119" />
-      <polygon className={btnClass(buttons.middle)} style={{ fill: "rgb(255, 255, 255)" }} points="630.999 1090.223 646.047 1021.603 693.549 943.689 751.401 889.029 789.846 869.447 831.479 851.575 892.346 888.88 887.499 911.834 715.323 1122.092 694.379 1130.985 677.718 1123.949 662.842 1106.245" />
-      <polygon className={btnClass(buttons.back)} style={{ fill: "rgb(255, 255, 255)" }} points="1260.276 1036.151 1395.09 858.858 1393.892 882.938 1377.961 925.571 1285.369 1053.932" />
-      <polygon className={btnClass(buttons.forward)} style={{ fill: "rgb(255, 255, 255)" }} points="1243.645 1054.638 1262.324 1062.141 1274.192 1074.556 1158.893 1231.773 1093.133 1241.791" />
+      <polygon style={{ fill: "var(--surface-panel-strong)" }} points="762.901 533.207 837.19 479.736 979.666 414.532 1106.875 384.189 1209.716 377.437 1336.374 393.357 1409.585 417.127 1476.487 452.71 1541.071 500.431 1593.42 556.291 1627.7 603.9 1668.307 684.194 1690.246 795.184 1685.87 883.063 1669.446 951.085 1639.021 1018.645 1594.49 1077.762 1391.745 1167.637 1293.837 1222.122 1236.579 1262.911 1104.818 1380.372 985.532 1496.323 844.926 1513.217 551.153 1425.339 374.566 1163.246 365.254 1124.956 361.399 958.497 446.68 838.481 549.264 720.013 664.397 607.513" />
+      <polygon className={btnClass(buttons.left)} style={{ fill: "var(--surface-panel-strong)" }} points="610.236 1317 792.977 1058.66 1005.542 773.958 1078.992 695.296 1190.432 660.797 1294.852 814.227 1348.032 924.339 982.406 1370.02 817.005 1420.91 605.79 1360.91" />
+      <polygon className={btnClass(buttons.right)} style={{ fill: "var(--surface-panel-strong)" }} points="459.432 1258.302 458.32 1234.725 621.698 1030.215 837.618 782.876 949.843 672.314 998.034 635.495 1015.703 557.266 789.408 529.271 740.344 546.192 622.891 645.612 508.993 762.294 413.651 882.575 361.77 959.442 365.604 1133.119" />
+      <polygon className={btnClass(buttons.middle)} style={{ fill: "var(--surface-panel-strong)" }} points="630.999 1090.223 646.047 1021.603 693.549 943.689 751.401 889.029 789.846 869.447 831.479 851.575 892.346 888.88 887.499 911.834 715.323 1122.092 694.379 1130.985 677.718 1123.949 662.842 1106.245" />
+      <polygon className={btnClass(buttons.back)} style={{ fill: "var(--surface-panel-strong)" }} points="1260.276 1036.151 1395.09 858.858 1393.892 882.938 1377.961 925.571 1285.369 1053.932" />
+      <polygon className={btnClass(buttons.forward)} style={{ fill: "var(--surface-panel-strong)" }} points="1243.645 1054.638 1262.324 1062.141 1274.192 1074.556 1158.893 1231.773 1093.133 1241.791" />
       <g id="mouse-test-hand" transform="matrix(3.356383, 0, 0, 3.356383, 1.583374, -0.157645)">
         <path style={st0} d="M107.7,335l-1-49.5c0,0,132-217,301.5-165c0,0,67,19,88,88s-22.5,112-22.5,112s-54.1,22.6-73.8,34c-10.8,6.3-25,14-46.3,33c-22.4,20-61.5,58-61.5,58l-42,5L162.7,424l-52-78.5L107.7,335z" />
         <path style={st0} d="M473.6,165.7c0,0-3.3-0.7-9.3,9c-6,9.7-44,74.3-62.3,98.3S292.3,410,292.3,410s-21.7,3.8-45.2,11.6c-2.1,0.7-4.3,0.8-6.5,0.2c-15-3.8-76.3-19.6-92.3-27.5L107.7,335" />
@@ -136,13 +136,13 @@ export function MouseTestMouse({ buttons, wheel }: MouseTestMouseProps): ReactNo
       </g>
       <path
         className={`mouse-test-wheel${wheel === "down" ? " active" : ""}`}
-        style={{ stroke: "rgb(65, 107, 146)", strokeLinejoin: "bevel", strokeWidth: 7, fill: "rgb(255, 255, 255)" }}
+        style={{ stroke: "currentColor", strokeLinejoin: "bevel", strokeWidth: 7, fill: "var(--surface-panel-strong)" }}
         d="M 2535.026 4098.539 H 2697.123 L 2697.123 4044.696 L 2865.168 4116.487 L 2697.123 4188.277 L 2697.123 4134.434 H 2535.026 V 4098.539 Z"
         transform="matrix(-0.602916, 0.797805, -0.797805, -0.602916, 5457.286133, 1585.022217)"
       />
       <path
         className={`mouse-test-wheel${wheel === "up" ? " active" : ""}`}
-        style={{ stroke: "rgb(65, 107, 146)", strokeLinejoin: "bevel", strokeWidth: 7, fill: "rgb(255, 255, 255)" }}
+        style={{ stroke: "currentColor", strokeLinejoin: "bevel", strokeWidth: 7, fill: "var(--surface-panel-strong)" }}
         d="M 2535.02 4098.529 H 2697.117 L 2697.117 4044.686 L 2865.162 4116.477 L 2697.117 4188.267 L 2697.117 4134.424 H 2535.02 V 4098.529 Z"
         transform="matrix(0.652356, -0.757912, 0.757912, 0.652356, -3890.125732, 71.746422)"
       />

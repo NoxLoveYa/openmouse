@@ -165,6 +165,23 @@ export function InterfaceSettings({ snapshot }: { snapshot: ControlSnapshot }): 
 
       <div className="setting-row">
         <div className="setting-label">
+          <span className="setting-title">{t(locale, "set.finishTitle")}</span>
+          <span className="setting-description">{t(locale, "set.finishBody")}</span>
+        </div>
+        <Segmented
+          id="interface-surface-finish"
+          ariaLabel={t(locale, "set.finishTitle")}
+          value={preferences.surfaceFinish}
+          onChange={set("surfaceFinish")}
+          options={[
+            { value: "Frosted", label: t(locale, "set.frosted") },
+            { value: "Flat", label: t(locale, "set.flat") },
+          ]}
+        />
+      </div>
+
+      <div className="setting-row">
+        <div className="setting-label">
           <span className="setting-title">{t(locale, "set.languageTitle")}</span>
           <span className="setting-description">{t(locale, "set.languageBody")}</span>
         </div>

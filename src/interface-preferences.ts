@@ -12,6 +12,7 @@ export type InterfaceTheme =
   | "NieR: Automata"
   | "Light";
 export type InterfaceColorMode = "Light" | "Dark" | "System";
+export type InterfaceSurfaceFinish = "Frosted" | "Flat";
 export type InterfaceLocale =
   "en" | "pt" | "es" | "fr" | "de" | "zh" | "ja" | "ko" | "ru" | "vi";
 
@@ -41,6 +42,7 @@ export interface InterfacePreferences {
   instantFlash: boolean;
   enabledSounds: boolean;
   glassIntensity: number;
+  surfaceFinish: InterfaceSurfaceFinish;
 }
 
 const STORAGE_KEY = "openmouse-interface-settings-v1";
@@ -69,12 +71,17 @@ export const DEFAULT_INTERFACE_PREFERENCES: InterfacePreferences = {
   instantFlash: false,
   enabledSounds: true,
   glassIntensity: 100,
+  surfaceFinish: "Frosted",
 };
 
 function clampGlassIntensity(value: unknown): number {
   const number = Number(value);
   if (!Number.isFinite(number)) return DEFAULT_INTERFACE_PREFERENCES.glassIntensity;
   return Math.min(100, Math.max(0, Math.round(number)));
+}
+
+function coerceSurfaceFinish(value: unknown): InterfaceSurfaceFinish {
+  return value === "Flat" ? "Flat" : "Frosted";
 }
 
 /** OS-level preference. Used only as the initial default so an explicit
@@ -124,6 +131,7 @@ export function loadInterfacePreferences(storage: Storage): InterfacePreferences
       instantFlash: saved.instantFlash === true,
       enabledSounds: saved.enabledSounds !== false,
       glassIntensity: clampGlassIntensity(saved.glassIntensity),
+      surfaceFinish: coerceSurfaceFinish(saved.surfaceFinish),
     };
   } catch {
     return { ...DEFAULT_INTERFACE_PREFERENCES, reducedMotion: systemPrefersReducedMotion(), locale: detectLocale() };

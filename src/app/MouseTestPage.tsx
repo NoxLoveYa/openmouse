@@ -32,9 +32,9 @@ function drawChart(canvas: HTMLCanvasElement, intervals: number[], targetHz: num
 
   const styles = getComputedStyle(canvas);
   const color = (name: string, fallback: string): string => styles.getPropertyValue(name).trim() || fallback;
-  const lineSoft = color("--line-soft", "#25292e");
-  const dim = color("--dim", "#6c727b");
-  const info = color("--info", "#67d8ff");
+  const lineSoft = color("--line-soft", "rgb(255 255 255 / 7%)");
+  const dim = color("--dim", "#8e8e93");
+  const info = color("--info", "#0a84ff");
   const infoSoft = `${info}28`;
   const infoFaint = "transparent";
 

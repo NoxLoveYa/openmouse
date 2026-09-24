@@ -565,7 +565,6 @@ export function Workspace({
           data-workspace-host
           role="tabpanel"
           aria-label="Device settings"
-          style={{ display: "grid" }}
         >
           {advanced}
         </section>

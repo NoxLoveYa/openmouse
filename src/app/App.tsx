@@ -135,6 +135,7 @@ export function App(): ReactNode {
         snapshot.pending.count > 0 ? "has-pending-changes" : "",
       ].filter(Boolean).join(" ")}
       data-interface-theme={interfaceThemeSlug(preferences.theme)}
+      data-surface-finish={preferences.surfaceFinish === "Flat" ? "flat" : "frosted"}
     >
       <NewsBanner locale={locale} />
       <AppSidebar snapshot={snapshot} page={resolvedPage} collapsed={sidebarCollapsed} onToggleCollapsed={() => setSidebarCollapsed(!sidebarCollapsed)} onNavigate={navigate} onOpenFeedback={() => setFeedbackOpen(true)} onOpenWhatsNew={() => setWhatsNewOpen(true)} />

@@ -7,63 +7,73 @@
 [hidden] { display: none !important; }
 
 :root {
-  --ink: #08090a;
-  --sidebar: #0b0c0e;
-  --well: #0d0f11;
-  --card: #111315;
-  --raised: #151719;
-  --input: #151719;
-  --control: #151719;
-  --hover: #1a1d20;
+  --ink: #000000;
+  --sidebar: #161617;
+  --well: #101012;
+  --card: #1c1c1e;
+  --raised: #232326;
+  --input: #1c1c1e;
+  --control: #1c1c1e;
+  --hover: #2c2c2e;
 
-  --line: #292d32;
-  --line-soft: #25292e;
-  --line-strong: #343940;
-  --edge: #343940;
+  --line: rgb(255 255 255 / 10%);
+  --line-soft: rgb(255 255 255 / 7%);
+  --line-strong: rgb(255 255 255 / 16%);
+  --edge: rgb(255 255 255 / 14%);
+  --hairline: rgb(255 255 255 / 10%);
 
-  --text: #f2f3f5;
-  --bright: #f2f3f5;
-  --dim: #9a9fa8;
-  --muted: #686e77;
-  --faint: #6c727b;
-  --ghost: #5b6069;
+  --text: #f5f5f7;
+  --bright: #ffffff;
+  --dim: #aeaeb2;
+  --muted: #8e8e93;
+  --faint: #6e6e73;
+  --ghost: #48484a;
 
-  --surface-bg: #08090a;
-  --surface-bg-tint: rgb(8 9 10 / 96%);
-  --surface-tabs: rgb(11 12 14 / 96%);
-  --surface-sidebar: #0b0c0e;
-  --surface-panel: #111315;
-  --surface-panel-soft: #0e1012;
-  --surface-panel-strong: #111315;
-  --surface-menu: #151719;
-  --surface-control: #151719;
-  --surface-input: #17191c;
-  --surface-raised: #151719;
-  --surface-strong: #202327;
-  --surface-hover: #1a1d20;
-  --surface-hover-soft: #1e2126;
-  --surface-hover-strong: #16181b;
-  --surface-hover-alt: #151719;
-  --surface-dialog: #1a1d20;
-  --surface-dialog-hover: #202327;
-  --surface-superstrike: rgb(10 10 12 / 55%);
-  --border: #292d32;
-  --border-rule: #25292e;
-  --border-soft: #292d32;
-  --border-hover: #343940;
-  --text-input: #f2f3f5;
-  --text-strong: #cccfd4;
-  --text-soft: #9a9fa8;
-  --text-faint: #6c727b;
+  --surface-bg: #000000;
+  --surface-bg-tint: rgb(0 0 0 / 96%);
+  --surface-tabs: rgb(28 28 30 / 72%);
+  --surface-sidebar: rgb(22 22 23 / 78%);
+  --surface-panel: #1c1c1e;
+  --surface-panel-soft: #141416;
+  --surface-panel-strong: #1c1c1e;
+  --surface-menu: #232326;
+  --surface-control: #2c2c2e;
+  --surface-input: #1c1c1e;
+  --surface-raised: #232326;
+  --surface-strong: #2c2c2e;
+  --surface-hover: #2c2c2e;
+  --surface-hover-soft: #323234;
+  --surface-hover-strong: #1a1a1c;
+  --surface-hover-alt: #232326;
+  --surface-dialog: #1c1c1e;
+  --surface-dialog-hover: #2c2c2e;
+  --surface-superstrike: rgb(28 28 30 / 60%);
+  --border: rgb(255 255 255 / 10%);
+  --border-rule: rgb(255 255 255 / 7%);
+  --border-soft: rgb(255 255 255 / 8%);
+  --border-hover: rgb(255 255 255 / 18%);
+  --text-input: #f5f5f7;
+  --text-strong: #e8e8ed;
+  --text-soft: #aeaeb2;
+  --text-faint: #8e8e93;
   --text-hover: #ffffff;
 
-  --success: #5dde89;
-  --warning: #e8b267;
-  --destructive: #e2686f;
-  --info: #67d8ff;
+  --success: #30d158;
+  --warning: #ffd60a;
+  --destructive: #ff453a;
+  --info: #0a84ff;
 
-  --font-sans: "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  --radius-sm: 8px;
+  --radius-md: 10px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --blur-bar: blur(20px) saturate(180%);
+  --shadow-card: 0 1px 3px rgb(0 0 0 / 28%);
+  --shadow-sheet: 0 12px 40px rgb(0 0 0 / 45%);
+
+  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Helvetica Neue", "Segoe UI", sans-serif;
+  --font-display: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", "Segoe UI", sans-serif;
+  --font-mono: "SF Mono", ui-monospace, "JetBrains Mono", monospace;
 
   color: var(--text);
   background: var(--ink);
@@ -77,88 +87,89 @@ button, input { font: inherit; }
 button, a { color: inherit; }
 a { text-decoration: none; }
 button { cursor: pointer; }
-button:focus-visible, a:focus-visible, input:focus-visible { outline: 2px solid var(--text); outline-offset: 3px; }
+button:focus-visible, a:focus-visible, input:focus-visible { outline: 2px solid var(--info); outline-offset: 3px; }
 
-.control-shell { --accent: var(--ui-accent); --ui-accent: #5dde89; --ui-accent-ink: #07160e; --ui-accent-soft: rgb(93 222 137 / 16%); }
+.control-shell { --accent: var(--ui-accent); --ui-accent: #0a84ff; --ui-accent-ink: #ffffff; --ui-accent-soft: rgb(10 132 255 / 16%); }
 .control-shell[data-interface-theme="violet"] { --ui-accent: #a78bfa; --ui-accent-ink: #130b25; --ui-accent-soft: rgb(167 139 250 / 17%); }
 .control-shell[data-interface-theme="ice"] { --ui-accent: #67d8ff; --ui-accent-ink: #06161d; --ui-accent-soft: rgb(103 216 255 / 16%); }
 .control-shell[data-interface-theme="ember"] { --ui-accent: #ff9b62; --ui-accent-ink: #211006; --ui-accent-soft: rgb(255 155 98 / 17%); }
 .control-shell[data-interface-theme="mono"] { --ui-accent: #f1f1f3; --ui-accent-ink: #09090b; --ui-accent-soft: rgb(241 241 243 / 13%); }
 /* Matt — the desktop app's signature warm-orange accent on the normal shell. */
 .control-shell[data-interface-theme="matt"] { --ui-accent: #f5975c; --ui-accent-ink: #1a0e06; --ui-accent-soft: rgb(245 151 92 / 16%); }
-/* Light — flips the whole shell: light surfaces, dark text, warm accent.
-   Mirrors the desktop [data-theme="light"] palette so both apps share it. */
+/* Light — Apple HIG light: system gray background, white grouped cards,
+   blue accent. */
 .control-shell[data-interface-theme="light"] {
   color-scheme: light;
 
-  --ui-accent: #d46a32;
-  --ui-accent-ink: #fff5ee;
-  --ui-accent-soft: rgb(212 106 50 / 14%);
+  --ui-accent: #0071e3;
+  --ui-accent-ink: #ffffff;
+  --ui-accent-soft: rgb(0 113 227 / 12%);
 
-  --ink: #f7f7f4;
-  --sidebar: #efefea;
-  --well: #f0f0eb;
+  --ink: #f5f5f7;
+  --sidebar: #f5f5f7;
+  --well: #ececee;
   --card: #ffffff;
-  --raised: #fbfbf8;
+  --raised: #ffffff;
   --input: #ffffff;
   --control: #ffffff;
-  --hover: #eaeae5;
+  --hover: #e8e8ed;
 
-  --line: #dcdcd6;
-  --line-soft: #e4e4de;
-  --line-strong: #c8c8c1;
-  --edge: #b9b9b2;
+  --line: rgb(0 0 0 / 10%);
+  --line-soft: rgb(0 0 0 / 6%);
+  --line-strong: rgb(0 0 0 / 16%);
+  --edge: rgb(0 0 0 / 14%);
+  --hairline: rgb(0 0 0 / 10%);
 
-  --text: #141414;
-  --bright: #1c1c1c;
-  --dim: #4a4a47;
-  --muted: #737370;
-  --faint: #888885;
-  --ghost: #a3a39e;
+  --text: #1d1d1f;
+  --bright: #000000;
+  --dim: #424245;
+  --muted: #6e6e73;
+  --faint: #86868b;
+  --ghost: #aeaeb2;
 
-  --success: #2e9e5b;
-  --warning: #a8701f;
-  --destructive: #c63f33;
-  --info: #2e6ea8;
+  --success: #1d8127;
+  --warning: #9a6b00;
+  --destructive: #d70015;
+  --info: #0071e3;
 
-  --surface-bg: #f7f7f4;
-  --surface-bg-tint: rgb(247 247 244 / 96%);
-  --surface-tabs: rgb(255 255 255 / 88%);
-  --surface-sidebar: #efefea;
-  --surface-panel: #f2f2ee;
-  --surface-panel-soft: #f0f0eb;
+  --surface-bg: #f5f5f7;
+  --surface-bg-tint: rgb(245 245 247 / 96%);
+  --surface-tabs: rgb(255 255 255 / 72%);
+  --surface-sidebar: rgb(245 245 247 / 78%);
+  --surface-panel: #ffffff;
+  --surface-panel-soft: #f5f5f7;
   --surface-panel-strong: #ffffff;
   --surface-menu: #ffffff;
   --surface-control: #ffffff;
   --surface-input: #ffffff;
-  --surface-raised: #fbfbf8;
-  --surface-strong: #f5f5f1;
-  --surface-hover: #eaeae5;
-  --surface-hover-soft: #e9e9e4;
-  --surface-hover-strong: #e4e4df;
-  --surface-hover-alt: #eaeae5;
+  --surface-raised: #ffffff;
+  --surface-strong: #e8e8ed;
+  --surface-hover: #e8e8ed;
+  --surface-hover-soft: #efeff2;
+  --surface-hover-strong: #dedee3;
+  --surface-hover-alt: #ececee;
   --surface-dialog: #ffffff;
-  --surface-dialog-hover: #eaeae5;
-  --surface-superstrike: rgb(255 255 255 / 60%);
-  --border: #dcdcd6;
-  --border-rule: #e4e4de;
-  --border-soft: #e6e6e0;
-  --border-hover: #b9b9b2;
-  --text-input: #141414;
-  --text-strong: #2a2a27;
-  --text-soft: #6e6e6a;
-  --text-faint: #888885;
+  --surface-dialog-hover: #f5f5f7;
+  --surface-superstrike: rgb(255 255 255 / 72%);
+  --border: rgb(0 0 0 / 10%);
+  --border-rule: rgb(0 0 0 / 6%);
+  --border-soft: rgb(0 0 0 / 7%);
+  --border-hover: rgb(0 0 0 / 18%);
+  --text-input: #1d1d1f;
+  --text-strong: #1d1d1f;
+  --text-soft: #424245;
+  --text-faint: #6e6e73;
   --text-hover: #000000;
 
-  --tone-dim: #888885;
-  --tone-ghost: #a3a39e;
-  --tone-text: #141414;
-  --tone-sub: #4a4a47;
-  --tone-deep: #efefea;
-  --tone-base: #f7f7f4;
-  --tone-mantle: #efefea;
-  --tone-s0: #fbfbf8;
-  --tone-s1: #f5f5f1;
+  --tone-dim: #86868b;
+  --tone-ghost: #aeaeb2;
+  --tone-text: #1d1d1f;
+  --tone-sub: #424245;
+  --tone-deep: #f5f5f7;
+  --tone-base: #f5f5f7;
+  --tone-mantle: #ececee;
+  --tone-s0: #ffffff;
+  --tone-s1: #e8e8ed;
 }
 /* Light-theme battery icons: the base types hard-code near-white shades that
    would vanish on light surfaces. */
@@ -859,11 +870,11 @@ nav { display: grid; gap: .3rem; margin-top: 1.4rem; }
 .battery-fill { fill: currentColor; transition: width .45s cubic-bezier(.4, 0, .2, 1); }
 .battery-bolt { fill: currentColor; }
 .battery-dead { fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; }
-/* Fixed colours: battery state must not read differently per accent theme. */
-.control-shell .battery-icon { color: #f2f3f5; }
-.control-shell .battery-icon.is-charging { color: #5dde89; }
-.control-shell .battery-icon.is-low, .control-shell .battery-icon.is-dead { color: #e2686f; }
-.control-shell .battery-icon.is-unknown { color: #686e77; }
+/* Fixed colours: battery state keeps Apple semantic hues in every theme. */
+.control-shell .battery-icon { color: #f5f5f7; }
+.control-shell .battery-icon.is-charging { color: #30d158; }
+.control-shell .battery-icon.is-low, .control-shell .battery-icon.is-dead { color: #ff453a; }
+.control-shell .battery-icon.is-unknown { color: #8e8e93; }
 .dongle-led-button { align-self: flex-start; margin-top: .45rem; padding: .28rem .5rem; border: 1px solid var(--edge); border-radius: 5px; background: var(--control); color: var(--text-strong); font-size: .61rem; font-weight: 600; }
 
 .settings-grid { display: grid; grid-template-columns: 1.15fr .85fr; gap: 1rem; margin-top: 1rem; scroll-margin-top: 1.5rem; }
@@ -2452,8 +2463,8 @@ body { height: 100vh; overflow: hidden; }
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: #5dde89;
-  box-shadow: 0 0 0 3px color-mix(in srgb, #5dde89 25%, transparent);
+  background: var(--success);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--success) 25%, transparent);
 }
 .games-grid {
   display: grid;
@@ -2924,14 +2935,14 @@ body { height: 100vh; overflow: hidden; }
   height: 420px;
   left: 12%;
   top: 8%;
-  background: color-mix(in srgb, var(--ui-accent, #5dde89) 34%, transparent);
+  background: color-mix(in srgb, var(--ui-accent, #0a84ff) 34%, transparent);
 }
 .welcome-aurora i:nth-child(2) {
   width: 380px;
   height: 380px;
   right: 8%;
   bottom: 4%;
-  background: color-mix(in srgb, var(--ui-accent, #5dde89) 22%, transparent);
+  background: color-mix(in srgb, var(--ui-accent, #0a84ff) 22%, transparent);
   animation-delay: -5s;
 }
 .welcome-aurora i:nth-child(3) {
@@ -3011,7 +3022,7 @@ body { height: 100vh; overflow: hidden; }
   border: none;
   border-radius: 9px;
   background: var(--ui-accent);
-  color: #0c120e;
+  color: var(--ui-accent-ink);
   font-size: 0.85rem;
   font-weight: 650;
   letter-spacing: 0.01em;
@@ -4186,7 +4197,7 @@ body { height: 100vh; overflow: hidden; }
 }
 .mouse-test-mouse-btn.pressed,
 .mouse-test-wheel.active {
-  fill: #73a9ef !important;
+  fill: var(--ui-accent) !important;
 }
 .mouse-test-button-hint {
   margin: 0;
@@ -4483,4 +4494,469 @@ body { height: 100vh; overflow: hidden; }
   .hardware-test-terminal {
     height: clamp(420px, 58vh, 600px);
   }
+}
+
+/* ============================================================
+   Apple HIG layer — system-wide translucency, hairlines,
+   SF typography and grouped surfaces. Legacy accent themes
+   above are preserved untouched; this layer only restyles
+   chrome and controls to Apple conventions.
+   Surface finish switch: [data-surface-finish="frosted"]
+   (default) enables blur/translucency, ["flat"] disables it.
+   ============================================================ */
+
+/* --- Typography: SF scale, large titles, section footers --- */
+.control-shell {
+  font-family: var(--font-sans);
+  letter-spacing: -0.01em;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+.control-shell .panel-header h1,
+.control-shell .page-title,
+.control-shell .device-showcase-name,
+.control-shell .welcome-title,
+.control-shell .games-title,
+.control-shell .mouse-test-header h1,
+.control-shell .interface-settings-header h2 {
+  font-family: var(--font-display);
+  letter-spacing: -0.03em;
+  text-wrap: balance;
+}
+.control-shell .device-label,
+.control-shell .overline,
+.control-shell .setting-heading p,
+.control-shell .sidebar-product-heading > span {
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.control-shell .setting-note,
+.control-shell .welcome-body,
+.control-shell .games-subtitle,
+.control-shell .mouse-test-header p {
+  line-height: 1.55;
+  text-wrap: pretty;
+}
+
+/* --- Frosted vs flat surfaces --- */
+.control-shell[data-surface-finish="frosted"] .app-sidebar,
+.control-shell[data-surface-finish="frosted"] .sidebar {
+  background: var(--surface-sidebar);
+  -webkit-backdrop-filter: var(--blur-bar);
+  backdrop-filter: var(--blur-bar);
+}
+.control-shell[data-surface-finish="frosted"] .workspace-tabs,
+.control-shell[data-surface-finish="frosted"] .device-tabs-bar,
+.control-shell[data-surface-finish="frosted"] .apply-bar,
+.control-shell[data-surface-finish="frosted"] .toast-stack,
+.control-shell[data-surface-finish="frosted"] .locale-menu,
+.control-shell[data-surface-finish="frosted"] .option-menu-list {
+  -webkit-backdrop-filter: var(--blur-bar);
+  backdrop-filter: var(--blur-bar);
+}
+.control-shell[data-surface-finish="flat"] .app-sidebar,
+.control-shell[data-surface-finish="flat"] .sidebar,
+.control-shell[data-surface-finish="flat"] .workspace-tabs,
+.control-shell[data-surface-finish="flat"] .device-tabs-bar,
+.control-shell[data-surface-finish="flat"] .apply-bar,
+.control-shell[data-surface-finish="flat"] .toast-stack,
+.control-shell[data-surface-finish="flat"] .locale-menu,
+.control-shell[data-surface-finish="flat"] .option-menu-list,
+.control-shell[data-surface-finish="flat"] .support-dialog,
+.control-shell[data-surface-finish="flat"] .capture-dialog {
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  background: var(--surface-panel);
+  box-shadow: var(--shadow-card);
+}
+
+/* --- Apple sidebar: translucent rail, monochrome items --- */
+.control-shell .app-sidebar {
+  border: 0;
+  border-right: 1px solid var(--hairline, var(--line-soft));
+  border-radius: 0;
+  box-shadow: none;
+}
+.control-shell .app-sidebar-nav-item {
+  min-height: 44px;
+  border: 0;
+  border-radius: var(--radius-md);
+  color: var(--text-soft);
+  font-weight: 500;
+}
+.control-shell .app-sidebar-nav-item:hover {
+  background: var(--surface-hover);
+  color: var(--text-hover);
+}
+.control-shell .app-sidebar-nav-item.active {
+  background: color-mix(in srgb, var(--ui-accent) 14%, var(--surface-hover));
+  color: var(--text-hover);
+  font-weight: 600;
+}
+.control-shell .app-sidebar-nav-item.active .app-sidebar-nav-icon {
+  color: var(--ui-accent);
+}
+.control-shell .app-sidebar-nav-icon {
+  width: 1.15rem;
+  height: 1.15rem;
+  color: var(--muted);
+}
+.control-shell .app-sidebar-nav-arrow {
+  display: none;
+}
+.control-shell .app-sidebar-brand-text {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+/* --- Grouped cards: 12px, hairline, quiet shadow --- */
+.control-shell .setting-card,
+.control-shell .interface-setting-card,
+.control-shell .performance-controls,
+.control-shell .device-overview,
+.control-shell .profile-disclosure,
+.control-shell .egg-collapsible,
+.control-shell .egg-experimental,
+.control-shell .mouse-test-device-card,
+.control-shell .game-profile-name-card,
+.control-shell .hardware-test-terminal {
+  border: 1px solid var(--hairline, var(--border-soft));
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+}
+.control-shell .setting-heading h2 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+/* --- Tabs: frosted segmented bar with blue active pill --- */
+.control-shell .workspace-tabs,
+.control-shell .device-tabs-bar {
+  border: 1px solid var(--hairline, var(--border-soft));
+  border-radius: var(--radius-md);
+  background: var(--surface-tabs);
+}
+.control-shell .workspace-tabs button,
+.control-shell .device-tab-pill {
+  min-height: 36px;
+  border-radius: 7px;
+  font-weight: 500;
+}
+.control-shell .workspace-tabs button[aria-selected="true"],
+.control-shell .device-tab-pill.active {
+  background: color-mix(in srgb, var(--ui-accent) 16%, transparent);
+  color: var(--text-hover);
+  font-weight: 600;
+}
+.control-shell .workspace-tabs button[aria-selected="true"]::after,
+.control-shell .device-tab-pill.active::after {
+  background: var(--ui-accent);
+}
+.control-shell .device-tab-back {
+  border-radius: 7px;
+}
+
+/* --- Controls: iOS switches, pill segmented, quiet buttons --- */
+.control-shell .segmented {
+  padding: 2px;
+  border-radius: 9px;
+  background: var(--surface-control);
+}
+.control-shell .segmented button {
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+}
+.control-shell .segmented button.selected {
+  background: var(--ui-accent);
+  color: var(--ui-accent-ink);
+  box-shadow: 0 1px 3px rgb(0 0 0 / 30%);
+}
+.control-shell .switch-button,
+.control-shell .interface-switch-row input {
+  border-color: transparent;
+  background: color-mix(in srgb, var(--muted) 32%, var(--surface-strong));
+}
+.control-shell .switch-button.is-on,
+.control-shell .interface-switch-row input:checked {
+  background: var(--success);
+  border-color: var(--success);
+}
+.control-shell .setting-action button,
+.control-shell .dpi-header-actions button,
+.control-shell .apply-bar-apply,
+.control-shell .empty-connect-action,
+.control-shell .support-primary,
+.control-shell .whatsnew-download {
+  border-radius: var(--radius-md);
+  font-weight: 600;
+}
+.control-shell input[type="text"],
+.control-shell input[type="number"],
+.control-shell input:not([type]),
+.control-shell select,
+.control-shell textarea,
+.control-shell .option-menu-trigger,
+.control-shell .lighting-color-hex,
+.control-shell .dpi-header-actions input {
+  border-radius: var(--radius-md);
+}
+.control-shell .option-menu-list {
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sheet);
+}
+.control-shell .option-menu-list [role="option"].is-selected {
+  background: var(--ui-accent);
+  color: var(--ui-accent-ink);
+}
+
+/* --- Sheets, toasts, banners, pending bar --- */
+.control-shell .support-dialog,
+.control-shell .capture-dialog {
+  border: 1px solid var(--hairline, var(--border-soft));
+  border-radius: var(--radius-xl);
+  background: var(--surface-dialog);
+  box-shadow: var(--shadow-sheet);
+}
+.control-shell .support-dialog::backdrop,
+.control-shell .capture-dialog::backdrop {
+  background: rgb(0 0 0 / 45%);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+.control-shell .toast-stack {
+  border: 1px solid var(--hairline, var(--border-soft));
+  border-radius: var(--radius-lg);
+  background: var(--surface-tabs);
+  box-shadow: var(--shadow-sheet);
+}
+.control-shell .apply-bar {
+  border: 1px solid var(--hairline, var(--border-soft));
+  border-radius: var(--radius-lg);
+  background: var(--surface-tabs);
+  box-shadow: var(--shadow-card);
+}
+.control-shell .news-banner {
+  border-bottom: 1px solid var(--hairline, var(--line-soft));
+}
+
+/* --- Device grid: grouped tiles, monochrome gear --- */
+.control-shell .device-tile,
+.control-shell .add-device-tile {
+  border: 1px solid var(--hairline, var(--border-soft));
+  border-radius: var(--radius-lg);
+  background: var(--surface-panel);
+  box-shadow: var(--shadow-card);
+}
+.control-shell .device-tile:hover,
+.control-shell .add-device-tile:hover {
+  border-color: var(--border-hover);
+}
+.control-shell .device-tile.is-connected {
+  border-color: color-mix(in srgb, var(--success) 45%, var(--border));
+}
+.control-shell .device-tile-name {
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+.control-shell .device-tile-gear {
+  border-radius: 50%;
+  color: var(--muted);
+}
+.control-shell .device-tile-gear:hover {
+  background: var(--surface-hover);
+  color: var(--text-hover);
+}
+.control-shell .device-tile-image {
+  object-fit: contain;
+}
+.control-shell .showcase-sidebar-status,
+.control-shell .device-showcase-status-detail {
+  font-variant-numeric: tabular-nums;
+}
+
+/* --- Icon state tints (replaces hardcoded hex) --- */
+.control-shell .icon-state-on { color: var(--success); }
+.control-shell .icon-state-off { color: var(--muted); }
+
+/* --- Mouse tester: token-driven strokes --- */
+.control-shell .mouse-test-mouse {
+  color: var(--info);
+}
+.control-shell .mouse-test-mouse polygon {
+  fill: var(--surface-panel-strong);
+}
+.control-shell .mouse-test-mouse-btn.pressed {
+  fill: color-mix(in srgb, var(--ui-accent) 35%, var(--surface-panel-strong)) !important;
+}
+.control-shell .mouse-test-wheel {
+  fill: var(--surface-panel-strong);
+}
+.control-shell .mouse-test-wheel.active {
+  fill: var(--ui-accent);
+}
+
+/* --- Capture dialog: Apple sheet with grouped rows --- */
+.capture-dialog {
+  width: min(1100px, 94vw);
+  max-width: none;
+  height: min(88vh, 900px);
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface-dialog);
+  color: var(--text-strong);
+  box-shadow: var(--shadow-sheet, 0 12px 40px rgb(0 0 0 / 45%));
+}
+.capture-dialog-body {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 1rem 1.1rem;
+  box-sizing: border-box;
+  gap: 0.6rem;
+}
+.capture-dialog-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.capture-overline {
+  margin: 0;
+  color: var(--faint);
+  font-size: 0.6rem;
+  letter-spacing: 0.05em;
+}
+.capture-title {
+  margin: 0.1rem 0 0;
+  color: var(--bright);
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+.capture-close {
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  background: var(--surface-control);
+  color: var(--dim);
+  padding: 0.4rem 0.7rem;
+  font-size: 0.72rem;
+}
+.capture-lede { color: var(--faint); font-size: 0.64rem; line-height: 1.5; }
+.capture-lede strong { color: var(--text-strong); }
+.capture-actions { display: flex; flex-wrap: wrap; gap: 0.4rem; align-items: center; }
+.capture-actions button {
+  padding: 0.45rem 0.7rem;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  background: var(--surface-control);
+  color: var(--dim);
+  font-size: 0.68rem;
+  font-weight: 600;
+}
+.capture-actions button.is-primary {
+  border-color: var(--ui-accent);
+  background: var(--ui-accent);
+  color: var(--ui-accent-ink);
+}
+.capture-actions button.capture-probe {
+  border-color: color-mix(in srgb, var(--destructive) 55%, var(--border));
+  background: color-mix(in srgb, var(--destructive) 14%, var(--surface-control));
+  color: var(--destructive);
+}
+.capture-status { color: var(--faint); font-size: 0.62rem; }
+.capture-diff {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  border: 1px solid var(--border-soft);
+  border-radius: 8px;
+  background: var(--surface-panel-soft);
+  padding: 0.5rem;
+}
+.capture-empty { color: var(--faint); font-size: 0.62rem; margin: 0; }
+.capture-sector { margin-bottom: 0.5rem; }
+.capture-sector-head { display: flex; gap: 0.5rem; align-items: baseline; flex-wrap: wrap; }
+.capture-sector-title { font-size: 0.66rem; color: var(--bright); }
+.capture-verified { color: var(--success); font-size: 0.6rem; font-weight: 600; }
+.capture-unrepro { color: var(--destructive); font-size: 0.6rem; font-weight: 600; }
+.capture-changes { display: grid; gap: 0.1rem; margin-top: 0.2rem; }
+.capture-change { display: flex; gap: 0.6rem; font-size: 0.62rem; color: var(--text-strong); align-items: baseline; }
+.capture-offset { color: var(--faint); min-width: 3.2rem; font-family: var(--font-mono); }
+.capture-bytes { min-width: 5rem; font-family: var(--font-mono); }
+.capture-field { color: var(--success); }
+.capture-field.is-checksum { color: var(--faint); }
+.capture-notes-label { margin: 0 0 0.25rem; color: var(--faint); font-size: 0.62rem; }
+.capture-action-list { display: flex; flex-wrap: wrap; gap: 0.3rem; }
+.capture-action-pill {
+  padding: 0.22rem 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface-control);
+  color: var(--muted);
+  font-size: 0.6rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.capture-action-pill.is-active {
+  background: var(--ui-accent-soft);
+}
+.capture-notes {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.45rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--surface-input);
+  color: var(--text-input);
+  font-size: 0.66rem;
+}
+
+/* --- Games, test pages, settings polish --- */
+.control-shell .games-tile,
+.control-shell .mouse-test-results .result-card,
+.control-shell .hardware-test-device .mouse-test-device-card {
+  border: 1px solid var(--hairline, var(--border-soft));
+  border-radius: var(--radius-lg);
+  background: var(--surface-panel);
+  box-shadow: var(--shadow-card);
+}
+.control-shell .game-profile-toggle {
+  background: color-mix(in srgb, var(--muted) 32%, var(--surface-strong));
+}
+.control-shell .game-profile-toggle.is-on {
+  background: var(--success);
+}
+.control-shell .theme-preset-swatch {
+  border-radius: var(--radius-md);
+}
+.control-shell .theme-preset-swatch.active {
+  border-color: var(--ui-accent);
+  box-shadow: 0 0 0 2px var(--ui-accent-soft);
+}
+
+/* --- Quiet scrollbars --- */
+.control-shell .control-panel::-webkit-scrollbar-thumb,
+.control-shell .sidebar-device-list::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--muted) 45%, transparent);
+}
+
+/* --- Motion: Apple ease, honour reduced motion --- */
+.control-shell .app-sidebar-nav-item,
+.control-shell .device-tile,
+.control-shell .setting-card,
+.control-shell .segmented button,
+.control-shell .workspace-tabs button,
+.control-shell .device-tab-pill,
+.control-shell .toast {
+  transition: background 0.18s ease, color 0.18s ease, border-color 0.18s ease, transform 0.18s ease;
+}
+.control-shell.reduce-interface-motion .app-sidebar-nav-item,
+.control-shell.reduce-interface-motion .device-tile,
+.control-shell.reduce-interface-motion .setting-card {
+  transition: none;
 }

@@ -32,6 +32,7 @@ test("interface preferences restore only supported values", () => {
     showExperimental: false,
     instantFlash: true,
     glassIntensity: 100,
+    surfaceFinish: "Frosted",
   });
 
   assert.deepEqual(loadInterfacePreferences(storage), {
@@ -44,6 +45,7 @@ test("interface preferences restore only supported values", () => {
     showExperimental: false,
     instantFlash: true,
     glassIntensity: 100,
+    surfaceFinish: "Frosted",
   });
 });
 
@@ -105,6 +107,19 @@ test("every interface theme persists and maps to its stylesheet slug", () => {
     assert.equal(loadInterfacePreferences(storage).theme, theme);
     assert.equal(interfaceThemeSlug(theme), slug);
   }
+});
+
+test("interface surface finish persists and falls back to frosted", () => {
+  const storage = new MemoryStorage();
+  saveInterfacePreferences(storage, {
+    ...DEFAULT_INTERFACE_PREFERENCES,
+    surfaceFinish: "Flat",
+  });
+  assert.equal(loadInterfacePreferences(storage).surfaceFinish, "Flat");
+
+  const bogus = new MemoryStorage();
+  bogus.setItem("openmouse-interface-settings-v1", JSON.stringify({ surfaceFinish: "Glossy" }));
+  assert.equal(loadInterfacePreferences(bogus).surfaceFinish, "Frosted");
 });
 
 test("interface locale persists and falls back to the detected language", () => {

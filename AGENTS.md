@@ -5,16 +5,19 @@ Guidance for human contributors and AI agents working in this repository.
 ## Design
 
 Read [`DESIGN.md`](./DESIGN.md) before touching any UI. The project follows
-Material Design 3 (M3): colored filled icon glyphs, floating rounded surfaces,
-elevation instead of borders, and theme-token-only colors. All the specific
-conventions — sidebar layout, device cards, artwork handling, and the icon
-accent palette — are defined there.
+Apple Human Interface Guidelines (HIG): SF typography, grouped hairline
+surfaces, frosted bars/sheets with a Flat fallback, monochrome icons, and
+theme-token-only colors. Legacy accent themes are preserved; all the specific
+conventions — sidebar layout, device cards, artwork handling, finishes, and
+the Apple palette — are defined there.
 
 Key rules that must never be broken:
 
 - Use design tokens from `src/control.css`; never hardcode colors in TSX.
 - Device artwork is always `object-fit: contain`, never cropped.
-- Connected-device cards are square (1:1), not 9:16.
+- Sidebar icons are monochrome (`currentColor`); no per-item rainbow colors.
+- Every blur/translucency must work in both `data-surface-finish="frosted"`
+  and `"flat"`.
 - Never invert or work around a styling bug with `overflow: hidden`; pin the
   element box instead (see `DESIGN.md` "Commandments").
 

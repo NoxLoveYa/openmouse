@@ -8,12 +8,8 @@ export const OPENMOUSE_URL = "https://openmouse.app/";
 
 export type DesktopPage = "home" | "dashboard" | "test" | "hardware-test" | "games" | "settings";
 
-function NavIcon({ icon: Icon, color }: { icon: LucideIcon; color: string }): ReactNode {
-  return <Icon className="app-sidebar-nav-icon" strokeWidth={2} stroke={color} aria-hidden="true" />;
-}
-
-function NavArrow(): ReactNode {
-  return <ChevronRight className="app-sidebar-nav-arrow" size={18} strokeWidth={2.2} aria-hidden="true" />;
+function NavIcon({ icon: Icon }: { icon: LucideIcon }): ReactNode {
+  return <Icon className="app-sidebar-nav-icon" strokeWidth={1.7} stroke="currentColor" aria-hidden="true" />;
 }
 
 export function AppSidebar({
@@ -67,57 +63,57 @@ export function AppSidebar({
           </span>
         </a>
 
-        <nav className="app-sidebar-nav">
+        <nav className="app-sidebar-nav" aria-label="Primary">
           <button
             className={`app-sidebar-nav-item${page === "home" ? " active" : ""}`}
             type="button"
             title={t(locale, "nav.home")}
+            aria-current={page === "home" ? "page" : undefined}
             onClick={() => onNavigate("home")}
           >
-            <NavIcon icon={House} color="#5dde89" />
+            <NavIcon icon={House} />
             <span className="app-sidebar-nav-label">{t(locale, "nav.home")}</span>
-            <NavArrow />
           </button>
           <button
             className={`app-sidebar-nav-item${page === "dashboard" ? " active" : ""}`}
             type="button"
             title={t(locale, "nav.dashboard")}
+            aria-current={page === "dashboard" ? "page" : undefined}
             onClick={() => onNavigate("dashboard")}
           >
-            <NavIcon icon={Mouse} color="#67d8ff" />
+            <NavIcon icon={Mouse} />
             <span className="app-sidebar-nav-label">{t(locale, "nav.dashboard")}</span>
-            <NavArrow />
           </button>
           <button
             className={`app-sidebar-nav-item${page === "test" ? " active" : ""}`}
             type="button"
             title={t(locale, "nav.mouseCheck")}
+            aria-current={page === "test" ? "page" : undefined}
             onClick={() => onNavigate("test")}
           >
-            <NavIcon icon={Activity} color="#f472b6" />
+            <NavIcon icon={Activity} />
             <span className="app-sidebar-nav-label">{t(locale, "nav.mouseCheck")}</span>
-            <NavArrow />
           </button>
           <button
             className={`app-sidebar-nav-item${page === "hardware-test" ? " active" : ""}`}
             type="button"
             title={t(locale, "nav.hardwareTest")}
+            aria-current={page === "hardware-test" ? "page" : undefined}
             onClick={() => onNavigate("hardware-test")}
           >
-            <NavIcon icon={FlaskConical} color="#2dd4bf" />
+            <NavIcon icon={FlaskConical} />
             <span className="app-sidebar-nav-label">{t(locale, "nav.hardwareTest")}</span>
-            <NavArrow />
           </button>
           {bridgeActive ? (
             <button
               className={`app-sidebar-nav-item${page === "games" ? " active" : ""}`}
               type="button"
               title={t(locale, "nav.games")}
+              aria-current={page === "games" ? "page" : undefined}
               onClick={() => onNavigate("games")}
             >
-              <NavIcon icon={Gamepad2} color="#a78bfa" />
+              <NavIcon icon={Gamepad2} />
               <span className="app-sidebar-nav-label">{t(locale, "nav.games")}</span>
-              <NavArrow />
             </button>
           ) : null}
           <a
@@ -127,9 +123,8 @@ export function AppSidebar({
             rel="noreferrer"
             title={t(locale, "nav.docs")}
           >
-            <NavIcon icon={FileText} color="#e8b267" />
+            <NavIcon icon={FileText} />
             <span className="app-sidebar-nav-label">{t(locale, "nav.docs")}</span>
-            <NavArrow />
           </a>
         </nav>
       </div>
@@ -141,9 +136,8 @@ export function AppSidebar({
           title={t(locale, "nav.whatsNew")}
           onClick={onOpenWhatsNew}
         >
-          <NavIcon icon={Star} color="#fbbf24" />
+          <NavIcon icon={Star} />
           <span className="app-sidebar-nav-label">{t(locale, "nav.whatsNew")}</span>
-          <NavArrow />
         </button>
         <button
           className="app-sidebar-nav-item"
@@ -151,19 +145,18 @@ export function AppSidebar({
           title={t(locale, "nav.feedback")}
           onClick={onOpenFeedback}
         >
-          <NavIcon icon={MessageSquare} color="#fb923c" />
+          <NavIcon icon={MessageSquare} />
           <span className="app-sidebar-nav-label">{t(locale, "nav.feedback")}</span>
-          <NavArrow />
         </button>
         <button
           className={`app-sidebar-nav-item${page === "settings" ? " active" : ""}`}
           type="button"
           title={t(locale, "nav.settings")}
+          aria-current={page === "settings" ? "page" : undefined}
           onClick={() => onNavigate("settings")}
         >
-          <NavIcon icon={SettingsIcon} color="#94a3b8" />
+          <NavIcon icon={SettingsIcon} />
           <span className="app-sidebar-nav-label">{t(locale, "nav.settings")}</span>
-          <NavArrow />
         </button>
       </div>
     </aside>

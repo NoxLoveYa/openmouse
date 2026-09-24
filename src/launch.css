@@ -9,9 +9,9 @@
   align-items: center;
   justify-content: center;
   padding: clamp(2rem, 6vw, 5rem) 1.5rem;
-  font-family: "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  color: #f4ffff;
-  background: #09090b;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", "Segoe UI", sans-serif;
+  color: #f5f5f7;
+  background: #000000;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -33,7 +33,7 @@
   font-size: 0.95rem;
   font-weight: 700;
   letter-spacing: 0.02em;
-  color: #69d28d;
+  color: #0a84ff;
 }
 .launch-brand img {
   width: 20px;
@@ -55,14 +55,14 @@
   font-weight: 700;
   line-height: 1.15;
   letter-spacing: -0.01em;
-  color: #f4ffff;
+  color: #f5f5f7;
 }
 
 .launch-lead {
   margin: 0;
   font-size: 0.95rem;
   line-height: 1.5;
-  color: #7a9498;
+  color: #8e8e93;
 }
 
 /* ── Timer ─────────────────────────────────────────────────────────────── */
@@ -82,11 +82,11 @@
 }
 
 .launch-digit-value {
-  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-family: "SF Mono", ui-monospace, "JetBrains Mono", monospace;
   font-size: clamp(1.6rem, 6vw, 2.2rem);
   font-weight: 600;
   font-variant-numeric: tabular-nums;
-  color: #f4ffff;
+  color: #f5f5f7;
 }
 
 .launch-digit-label {
@@ -94,15 +94,15 @@
   font-weight: 600;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: #7a9498;
+  color: #8e8e93;
 }
 
 .launch-colon {
   padding-bottom: 1.1rem;
-  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-family: "SF Mono", ui-monospace, "JetBrains Mono", monospace;
   font-size: clamp(1.3rem, 4vw, 1.7rem);
   font-weight: 600;
-  color: #69d28d;
+  color: #0a84ff;
 }
 
 /* ── CTA + go state ────────────────────────────────────────────────────── */
@@ -112,8 +112,8 @@
   justify-content: center;
   padding: 0.75rem 1.8rem;
   border-radius: 10px;
-  background: #69d28d;
-  color: #041412;
+  background: #0a84ff;
+  color: #ffffff;
   font-weight: 700;
   transition: opacity 0.15s;
 }
@@ -141,16 +141,16 @@
   align-items: center;
   gap: 0.4rem;
   padding: 0.5rem 0.9rem;
-  border: 1px solid color-mix(in srgb, #69d28d 16%, #232527);
+  border: 1px solid color-mix(in srgb, #0a84ff 16%, #1c1c1e);
   border-radius: 999px;
-  background: color-mix(in srgb, #14161a 88%, transparent);
-  color: #7a9498;
+  background: color-mix(in srgb, #1c1c1e 88%, transparent);
+  color: #8e8e93;
   transition: color 0.15s, border-color 0.15s, background 0.15s;
 }
 .launch-socials a:hover {
-  color: #f4ffff;
-  border-color: color-mix(in srgb, #69d28d 34%, #232527);
-  background: color-mix(in srgb, #191b1f 92%, transparent);
+  color: #f5f5f7;
+  border-color: color-mix(in srgb, #0a84ff 34%, #1c1c1e);
+  background: color-mix(in srgb, #2c2c2e 92%, transparent);
 }
 .launch-socials svg {
   width: 16px;
@@ -168,7 +168,7 @@
 .launch-star-count svg {
   width: 13px;
   height: 13px;
-  color: #69d28d;
+  color: #0a84ff;
 }
 
 @media (prefers-reduced-motion: reduce) {

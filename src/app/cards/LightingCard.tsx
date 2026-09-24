@@ -73,7 +73,7 @@ export function LightingCard({
                 type="button"
                 role="listitem"
                 className={index === activeZoneIndex ? "is-selected" : ""}
-                style={{ "--zone-color": zone.mode === "Off" ? "#15171a" : zone.color ?? "#15171a" } as CSSProperties}
+                style={{ "--zone-color": zone.mode === "Off" ? "#1c1c1e" : zone.color ?? "#1c1c1e" } as CSSProperties}
                 title={zone.group ? `${zone.group} ${zone.zone}` : `${zone.zone} effects`}
                 aria-label={zone.group ? `${zone.group} ${zone.zone}` : zone.zone}
                 aria-pressed={index === activeZoneIndex}

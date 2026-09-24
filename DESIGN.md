@@ -1,89 +1,102 @@
-# OpenMouse — Design Style Guide
+# OpenMouse — Design Style Guide (Apple HIG)
 
-This project follows **Material Design 3 (M3)** conventions. Read this guide
-before touching any UI. It is the single source of truth for visual style.
+This project follows **Apple Human Interface Guidelines** conventions. Read
+this guide before touching any UI. It is the single source of truth for
+visual style.
 
 All design tokens live in `src/control.css` (CSS custom properties on the
-`.control-shell` / `:root` theme blocks). **Never hardcode colors in
-components** — use the theme tokens. Art/SVG/glyph fills may only use
-`currentColor` or `color-mix()` against tokens; never hardcode hue values
-except for the per-icon accent palette defined below.
+`:root` / `.control-shell` / `[data-interface-theme]` blocks, plus the
+**Apple HIG layer** appended at the end of the file). **Never hardcode colors
+in components** — use the theme tokens. Art/SVG/glyph fills may only use
+`currentColor`, `var(--surface-*)`, or `color-mix()` against tokens; never
+hardcode hue values anywhere in TSX.
+
+Legacy accent themes (`Matt`, `Emerald`, `Violet`, `Ice`, `Ember`, `Mono`,
+`Miku`, `Catppuccin Mocha/Macchiato/Frappé`, `NieR: Automata`, `Light`) are
+**preserved as-is** for existing users. New work targets the default Apple
+system appearance and must hold up in both `Frosted` and `Flat` finishes.
 
 ## Core principles
 
-- **Filled, colored glyphs**: navigation and inline icons are Material
-  Symbol-style filled paths (`fill="currentColor"`) rendered at 20–24px.
-  Thin stroke-only icons are out of style for navigation.
-- **Floating rounded surfaces**: elevated panels are inset from the page,
-  rounded (`border-radius: 16px`), with layered `box-shadow` depth — not flat,
-  border-only rectangles.
-- **Elevation over borders**: distinguish surfaces with elevation (gradients,
-  shadows, `--surface-*` tokens) before reaching for borders. When a divider
-  is needed it must be clearly visible (use `--line-strong`, never
-  `--border-rule`/`--line` — those are too faint).
-- **State layers**: hovers are subtle overlays (`--hover`, `--surface-hover`)
-  — a change of background/color, never a sudden border or outline.
-- **Theme-awareness**: every style must hold up in **all themes** (dark,
-  light, ocean, Nier, catppuccin). Check contrast between adjacent surfaces in
-  both dark and light before committing.
-- **Bold labels**: navigation labels use high weight (`font-weight: 600–700`)
-  and high-contrast text tokens so they read as interactive targets.
+- **SF typography**: system stack
+  (`-apple-system, SF Pro Text/Display, Helvetica Neue, Segoe UI`), Display
+  for titles with `letter-spacing: -0.02~-0.03em`, tabular numerals for
+  telemetry, uppercase `0.06em` overlines for section labels.
+- **Grouped surfaces**: content sits on a system background (`#000000` dark /
+  `#F5F5F7` light) inside `#1C1C1E` / `#FFFFFF` grouped cards, `10–12px`
+  continuous corners, `1px` hairline separators (`rgb(255 255 255 / 10%)` /
+  `rgb(0 0 0 / 10%)`), one quiet shadow — never heavy layered elevation.
+- **Translucency with an off-switch**: bars and sheets (sidebar, tab bar,
+  pending bar, toasts, menus, dialogs) use
+  `backdrop-filter: blur(20px) saturate(180%)` under
+  `[data-surface-finish="frosted"]` (default). `[data-surface-finish="flat"]`
+  (Settings → Surface finish → Flat) disables every blur and translucency.
+- **Monochrome icons**: navigation and inline icons are thin Lucide strokes
+  (`stroke-width: 1.7`, `stroke="currentColor"`, ~18px). The active item tints
+  its icon with `--ui-accent`. Per-item rainbow colors are gone. State icons
+  use `.icon-state-on` (`--success`) / `.icon-state-off` (`--muted`).
+- **Apple controls**: pill-container segmented controls with a solid accent
+  selected state, iOS-style switches (accent-green on), hairline text fields
+  with `10px` radius, accent-filled sliders, blue filled pill primary buttons
+  plus plain secondary buttons.
+- **Color**: Apple system palette. Default accent `#0A84FF` (dark) /
+  `#0071E3` (light); success `#30D158`, warning `#FFD60A`, destructive
+  `#FF453A`, info `#0A84FF`. Battery keeps fixed semantic hues in every theme.
+- **Clarity over density**: 44px minimum nav targets, generous line-height
+  (`1.55` body), `text-wrap: pretty/balance`, tabular numerals for Hz/DPI/%.
 
 ## Layout
 
 ### Sidebar (`.app-sidebar`)
 
-The left rail is the app's navigation drawer:
+Apple-style translucent rail, not a floating card:
 
-- Floating rounded panel: inset from the shell edge (`margin: 0.55rem 0
-  0.55rem 0.55rem`), `border-radius: 16px`, full outline in `--edge`,
-  gradient background `linear-gradient(180deg, var(--surface-strong),
-  var(--surface-dialog))`, and layered drop shadows for lift.
-- Nav items (`.app-sidebar-nav-item`): 42px tall, rounded 8px, flex row of
-  `[icon] [label] [>]`.
-  - `>` chevron (`.app-sidebar-nav-arrow`) sits at the right via
-    `margin-left: auto`; it nudges right on hover.
-  - Adjacent items are separated by a Material divider
-    (`border-top: 1px solid var(--line-strong)`).
-- Per-item icon accent palette (set via inline `style={{ color }}` on the
-  icon svg — the label itself keeps theme text tokens):
-  - Home / Connect: green `#5dde89`
-  - Dashboard (mouse config): blue `#67d8ff` — **use the mouse glyph**
-    (`M13 1.07V9h7c0-4.08-3.05-7.44-7-7.93zM4 15c0 4.42 3.58 8 8 8s8-3.58
-    8-8v-4H4v4zm7-13.93C7.05 1.56 4 4.92 4 9h7V1.07z`)
-  - Docs: amber `#e8b267`
-  - Supported: violet `#a78bfa`
-  - What's New: gold `#fbbf24`
-  - Feedback: orange `#fb923c`
-  - Settings: slate `#94a3b8`
-- Section order: top nav = Home, Dashboard, Docs. Bottom nav = What's New,
-  Feedback, Settings. Supported devices lives **inside the Settings page**,
-  not the sidebar.
+- Full-height rail, no outer margin or rounded panel, right hairline only,
+  `var(--surface-sidebar)` + blur under Frosted.
+- Nav items (`.app-sidebar-nav-item`): 44px tall, `10px` radius, flex row of
+  `[icon] [label]`. **No `>` chevrons** (`.app-sidebar-nav-arrow` is hidden).
+- Active item: `color-mix(--ui-accent 14%, surface)` pill, semibold label,
+  accent icon. Inactive icons stay `--muted`.
+- Brand row keeps the logo + `OpenMouse` Display wordmark + build version.
+- Section order: top nav = Home, Dashboard, Mouse Check, Hardware Test,
+  (Games when Bridge active), Docs. Bottom nav = What's New, Feedback,
+  Settings.
 
-### Device cards
+### Device cards & grids
 
-- Connected-device cards and the add-device cards are **square (1:1)**, equal
-  size, on a centered grid.
-- Card background is `--surface-strong` so cards separate clearly from the
-  page background in every theme.
-- No border at rest — border + subtle shadow appear only on hover.
-- Device artwork:
-  - Rendered through `.device-tile-image` as `position: absolute; inset: 0;
-    object-fit: contain;` (+ `transform: scale(1.1)`), never cropped.
-  - The card clips with `overflow: hidden`.
-- The mouse add card and keyboard add card are identical size and shape. The
-  keyboard add card in the device list must not carry the flex `max-width`
-  that the empty-state add grid uses (`max-width: none` override).
-- State: per-card "Connecting…" text from local state, not global labels.
-- Cog/gear buttons are borderless icons (no square outline), `overflow:
-  visible` on the icon svg so strokes are never clipped.
+- Tiles (`.device-tile`, `.add-device-tile`) are grouped cards: `12px`
+  radius, hairline border, `--shadow-card`. Connected tile gets a success
+  hairline. Gear button is a borderless circle, monochrome.
+- Device artwork: always `object-fit: contain`, never cropped.
+- Showcase keeps leader-line diagram; values use tabular numerals.
+- Status pills (`.showcase-sidebar-status`) are hairline capsules.
+
+### Bars, sheets, feedback
+
+- Tab bars (`.workspace-tabs`, `.device-tabs-bar`): frosted segmented bar,
+  `10px` radius, active tab gets an accent soft pill + accent underline tick.
+- Pending bar (`.apply-bar`), toasts (`.toast-stack`), menus
+  (`.locale-menu`, `.option-menu-list`): frosted under Frosted, solid under
+  Flat, `10–12px` radius, sheet shadow.
+- Dialogs (`.support-dialog`, `.capture-dialog`, incl. Capture/Feedback/
+  ShareProfile/ArtworkRequest/GameRequest/WhatsNew): `16px` Apple sheets with
+  blurred scrims. The capture dialog's former inline hex styles now live as
+  `.capture-*` classes on tokens.
+- Banners (`.news-banner`): hairline separators, semantic info/warning/
+  critical tints.
 
 ## Commandments
 
 1. Never crop a product rendering; always `object-fit: contain`.
-2. Never reintroduce the old 9:16 card aspect ratio for the connected list.
-3. Never use `overflow: hidden` to "fix" artwork — pin the image box with
+2. Never hardcode a color in TSX — use tokens, `currentColor`, or
+   `color-mix()` against tokens. (No `stroke="#..."`, no `fill: "rgb(...)"`,
+   no `style={{ background: "#..." }}`.)
+3. Never add a per-icon rainbow color; the sidebar is monochrome + accent.
+4. Never use `overflow: hidden` to "fix" artwork — pin the image box with
    absolute positioning instead.
-4. Never use `--line` / `--border-rule` for dividers you want visible.
-5. Never introduce a new UI concept (page, card, dialog) without reading this
-   file and matching the M3 conventions above.
+5. Never add a blur/translucency without testing **both** finishes
+   (`data-surface-finish="frosted"` and `"flat"`).
+6. Never introduce a new UI concept (page, card, dialog) without reading this
+   file and matching the Apple conventions above. Legacy themes must keep
+   working — scope new chrome under `.control-shell` selectors that read
+   tokens, never raw values.
