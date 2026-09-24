@@ -1269,6 +1269,38 @@
   border-color: color-mix(in srgb, var(--ui-accent) 40%, transparent);
 }
 
+/* ============================================================
+   Squircles: Apple's continuous corners via native `corner-shape`
+   (Chromium-only — and OpenMouse is Chromium-only for WebHID, so
+   this is safe as progressive enhancement; everything keeps its
+   border-radius fallback elsewhere). Applied where squarish
+   surfaces make the curve visible: icon tiles, cards, sheets.
+   Capsules (999px) and hairlines are intentionally excluded —
+   corner-shape is a no-op on them.
+   ============================================================ */
+@supports (corner-shape: squircle) {
+  .control-shell.apple-redesign .setting-row-icon,
+  .control-shell.apple-redesign .device-tile,
+  .control-shell.apple-redesign .add-device-tile,
+  .control-shell.apple-redesign .setting-card,
+  .control-shell.apple-redesign .setting-row,
+  .control-shell.apple-redesign .interface-setting-card,
+  .control-shell.apple-redesign .games-tile,
+  .control-shell.apple-redesign .game-profile-section,
+  .control-shell.apple-redesign .support-dialog,
+  .control-shell.apple-redesign .capture-dialog,
+  .control-shell.apple-redesign .shortcut-dialog,
+  .control-shell.apple-redesign .welcome-art,
+  .control-shell.apple-redesign .toast-stack,
+  .control-shell.apple-redesign .theme-preset-swatch,
+  .control-shell.apple-redesign .hardware-test-terminal,
+  .control-shell.apple-redesign .profile-disclosure,
+  .control-shell.apple-redesign .egg-collapsible,
+  .control-shell.apple-redesign .egg-experimental {
+    corner-shape: squircle;
+  }
+}
+
 /* --- Motion --- */
 .control-shell.apple-redesign .welcome-cta,
 .control-shell.apple-redesign .device-tile,

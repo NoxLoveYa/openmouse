@@ -35,6 +35,12 @@ system appearance and must hold up in both `Frosted` and `Flat` finishes.
   (`stroke-width: 1.7`, `stroke="currentColor"`, ~18px). The active item tints
   its icon with `--ui-accent`. Per-item rainbow colors are gone. State icons
   use `.icon-state-on` (`--success`) / `.icon-state-off` (`--muted`).
+- **Squircles**: squarish surfaces (icon tiles, device tiles, cards, sheets)
+  use Apple's continuous corners via native `corner-shape: squircle`,
+  scoped in `src/apple.css` under `@supports` with `border-radius`
+  fallbacks. This is Chromium-only CSS on a Chromium-only (WebHID) app.
+  Capsules (`999px`), switches, and hairlines are excluded — the property
+  is a no-op on them.
 - **Apple controls**: pill-container segmented controls with a solid accent
   selected state, iOS-style switches (accent-green on), hairline text fields
   with `10px` radius, accent-filled sliders, blue filled pill primary buttons
