@@ -1,5 +1,5 @@
 import { useEffect, useId, useRef, useState, type ReactNode } from "react";
-import { ChevronDown, Minus, Plus } from "lucide-react";
+import { Check, ChevronDown, Minus, Plus } from "lucide-react";
 import type { MouseStatus } from "@openmouse/protocol/drivers/mouse-types";
 import { batteryFillWidth, batteryIconState, batteryLevel } from "../ui/battery-icon";
 import { t } from "../i18n";
@@ -22,7 +22,7 @@ export function SwitchButton({
   return (
     <button
       id={id}
-      className={`switch-button${unsupported ? "" : value ? " is-on" : ""}`}
+      className={`switch-button${unsupported ? " is-na" : value ? " is-on" : ""}`}
       type="button"
       role="switch"
       aria-checked={unsupported ? false : value}
@@ -30,7 +30,13 @@ export function SwitchButton({
       disabled={unsupported || disabled}
       onClick={() => onChange(value !== true)}
     >
-      {unsupported ? "N/A" : value ? "On" : "Off"}
+      {unsupported ? (
+        <span className="switch-na">N/A</span>
+      ) : (
+        <span className="switch-thumb" aria-hidden="true">
+          {value ? <Check size={10} strokeWidth={3.4} /> : null}
+        </span>
+      )}
     </button>
   );
 }

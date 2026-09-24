@@ -968,10 +968,15 @@ nav { display: grid; gap: .3rem; margin-top: 1.4rem; }
 .lod-sliders input[type="range"] { grid-column: 1 / -1; width: 100%; margin: .1rem 0 0; accent-color: var(--ui-accent); }
 .lod-sliders input[type="range"]:disabled { opacity: .45; }
 
-.switch-button { min-width: 42px; padding: .2rem .45rem; border: 1px solid var(--edge); border-radius: 999px; background: var(--surface-strong); color: var(--text-soft); font-size: .6rem; font-weight: 650; }
-.switch-button:hover:not(:disabled) { border-color: var(--border-hover); background: var(--surface-hover-soft); color: var(--text-hover); }
-.switch-button.is-on { background: var(--ui-accent); border-color: var(--ui-accent); color: var(--ui-accent-ink); }
-.switch-button.is-on:hover:not(:disabled) { background: var(--ui-accent); border-color: var(--ui-accent); color: var(--ui-accent-ink); filter: brightness(1.08); }
+.switch-button { position: relative; width: 2.5rem; height: 1.4rem; flex: 0 0 auto; padding: 0; border: 1px solid var(--edge); border-radius: 999px; background: var(--surface-strong); cursor: pointer; transition: background .18s ease, border-color .18s ease, box-shadow .15s ease, opacity .15s ease; }
+.switch-button:hover:not(:disabled) { border-color: var(--border-hover); box-shadow: 0 0 0 4px var(--ui-accent-soft); }
+.switch-button.is-on { background: var(--ui-accent); border-color: var(--ui-accent); }
+.switch-button.is-on:hover:not(:disabled) { filter: brightness(1.08); }
+.switch-button:disabled { opacity: .45; cursor: not-allowed; }
+.switch-thumb { position: absolute; top: 50%; left: .2rem; display: grid; width: .92rem; height: .92rem; translate: 0 -50%; place-items: center; border-radius: 50%; background: var(--muted); color: transparent; transition: left .18s ease, background .18s ease, color .18s ease; }
+.switch-button.is-on .switch-thumb { left: calc(100% - .92rem - .2rem); background: var(--ui-accent-ink); color: var(--ui-accent); }
+.switch-button.is-na { width: auto; min-width: 2.5rem; height: 1.4rem; padding: 0 .55rem; }
+.switch-na { color: var(--faint); font-size: .6rem; font-weight: 650; }
 .switch-row { display: flex; align-items: center; justify-content: space-between; gap: .5rem; padding: .2rem 0; color: var(--dim); font-size: .75rem; }
 .field-label { display: block; color: var(--faint); font-size: .72rem; }
 .field-label.spaced { margin-top: .35rem; }
