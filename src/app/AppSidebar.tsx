@@ -1,7 +1,8 @@
 import { Activity, ChevronLeft, ChevronRight, FileText, FlaskConical, Gamepad2, House, MessageSquare, Mouse, Settings as SettingsIcon, Star, type LucideIcon } from "lucide-react";
-import { type ReactNode } from "react";
+import { type CSSProperties, type ReactNode } from "react";
 import type { ControlSnapshot } from "../device/types";
 import { t } from "../i18n";
+import { useSlidingPill } from "./useSlidingPill";
 import { useBridgeActive } from "./GamesPage";
 
 export const OPENMOUSE_URL = "https://openmouse.app/";
@@ -31,6 +32,15 @@ export function AppSidebar({
 }): ReactNode {
   const locale = snapshot.preferences.locale;
   const bridgeActive = useBridgeActive();
+  const topNav = useSlidingPill(page);
+  const bottomNav = useSlidingPill(page);
+
+  const pillStyle = (frame: typeof topNav.frame): CSSProperties => ({
+    transform: `translate(${frame.x}px, ${frame.y}px)`,
+    width: frame.w,
+    height: frame.h,
+    opacity: frame.visible ? 1 : 0,
+  });
   return (
     <aside className={`app-sidebar${collapsed ? " app-sidebar-collapsed" : ""}`}>
       <button
@@ -62,7 +72,8 @@ export function AppSidebar({
           </span>
         </a>
 
-        <nav className="app-sidebar-nav" aria-label="Primary">
+        <nav ref={topNav.setContainerRef} className="app-sidebar-nav has-sliding-pill" aria-label="Primary">
+          <span className="sliding-pill sidebar-pill" aria-hidden="true" style={pillStyle(topNav.frame)} />
           <p className="app-sidebar-caption">{t(locale, "side.devices")}</p>
           <button
             className={`app-sidebar-nav-item${page === "home" ? " active" : ""}`}
@@ -129,7 +140,8 @@ export function AppSidebar({
         </nav>
       </div>
 
-      <div className="app-sidebar-bottom">
+      <div ref={bottomNav.setContainerRef} className="app-sidebar-bottom has-sliding-pill">
+        <span className="sliding-pill sidebar-pill" aria-hidden="true" style={pillStyle(bottomNav.frame)} />
         <p className="app-sidebar-caption">{t(locale, "side.general")}</p>
         <button
           className="app-sidebar-nav-item"

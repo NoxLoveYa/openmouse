@@ -11,7 +11,7 @@
 // the set of fields the draft makes different from the mouse's current
 // settings. useBridgeProfileApplier writes it when the game launches and puts
 // the replaced values back when it closes.
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
 import { ArrowLeft, Gamepad2 } from "lucide-react";
 import * as control from "../device/controller";
 import type { BridgeGame, BridgeProfile } from "../bridge";
@@ -23,6 +23,7 @@ import type { ControlSnapshot, SidebarDevice, ToastKind, WorkspaceTab } from "..
 import { t, tp, type I18nKey } from "../i18n";
 import type { InterfaceLocale } from "../interface-preferences";
 import { cardAvailability } from "./cards/availability";
+import { useSlidingPill } from "./useSlidingPill";
 import { TabIcon, Workspace } from "./OverviewPage";
 import { profileTarget } from "./useBridgeProfileApplier";
 import { availableWorkspaceTabs } from "./workspace-tabs";
@@ -267,6 +268,13 @@ export function GameProfilePanel({
     ? availableWorkspaceTabs(true, cardAvailability(snapshot)).filter((entry) => GAME_PROFILE_TABS.includes(entry))
     : [];
   const activeTab = tabs.includes(tab) ? tab : tabs[0] ?? "performance";
+  const tabsPill = useSlidingPill(activeTab);
+  const pillStyle: CSSProperties = {
+    transform: `translate(${tabsPill.frame.x}px, ${tabsPill.frame.y}px)`,
+    width: tabsPill.frame.w,
+    height: tabsPill.frame.h,
+    opacity: tabsPill.frame.visible ? 1 : 0,
+  };
 
   return (
     <div className="game-profile-page">
@@ -367,7 +375,8 @@ export function GameProfilePanel({
           </p>
         ) : (
           <>
-            <nav className="device-tabs-bar game-profile-tabs" role="tablist" aria-label={t(locale, "games.settings")}>
+            <nav ref={tabsPill.setContainerRef} className="device-tabs-bar game-profile-tabs has-sliding-pill" role="tablist" aria-label={t(locale, "games.settings")}>
+              <span className="sliding-pill tabs-pill" aria-hidden="true" style={pillStyle} />
               {tabs.map((entry) => (
                 <button
                   key={entry}

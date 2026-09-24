@@ -16,10 +16,11 @@ import {
   Wifi,
   type LucideIcon,
 } from "lucide-react";
-import { useEffect, useRef, useState, type KeyboardEvent, type ReactNode } from "react";
+import { useEffect, useRef, useState, type CSSProperties, type KeyboardEvent, type ReactNode } from "react";
 import * as control from "../device/controller";
 import type { ControlSnapshot, WorkspaceTab } from "../device/types";
 import { t, tp, connectionText, type I18nKey } from "../i18n";
+import { useSlidingPill } from "./useSlidingPill";
 import { Diagnostics, LogitechDetails } from "./Diagnostics";
 import { KeychronNapeLayers } from "./KeychronNapeLayers";
 import { Profiles } from "./Profiles";
@@ -744,6 +745,13 @@ export function OverviewPage({
   const workspaceSnapshot = workspaceTab === snapshot.workspaceTab
     ? snapshot
     : { ...snapshot, workspaceTab };
+  const tabsPill = useSlidingPill(workspaceTab);
+  const pillStyle: CSSProperties = {
+    transform: `translate(${tabsPill.frame.x}px, ${tabsPill.frame.y}px)`,
+    width: tabsPill.frame.w,
+    height: tabsPill.frame.h,
+    opacity: tabsPill.frame.visible ? 1 : 0,
+  };
 
   useEffect(() => {
     const scrollTarget = panel.current?.closest<HTMLElement>(".full-desktop-content") ?? panel.current;
@@ -779,7 +787,8 @@ export function OverviewPage({
     <section className="page page-overview" ref={panel}>
       {showingDeviceDashboard ? (
         <>
-          <nav className="device-tabs-bar" role="tablist" aria-label={t(locale, "panel.deviceSections")}>
+          <nav ref={tabsPill.setContainerRef} className="device-tabs-bar has-sliding-pill" role="tablist" aria-label={t(locale, "panel.deviceSections")}>
+            <span className="sliding-pill tabs-pill" aria-hidden="true" style={pillStyle} />
             <button
               type="button"
               className="device-tab-back"

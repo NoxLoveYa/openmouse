@@ -1079,6 +1079,55 @@
   transform: none;
 }
 
+/* ============================================================
+   Sliding selection pill: the active background glides between
+   items instead of blinking. A useSlidingPill-driven span tracks
+   the `.active` child; static active fills go transparent so only
+   the pill paints. Buttons sit above the pill for hover feedback.
+   ============================================================ */
+.control-shell.apple-redesign .has-sliding-pill {
+  position: relative;
+}
+.control-shell.apple-redesign .sliding-pill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 0;
+  pointer-events: none;
+  transition: transform 0.32s cubic-bezier(0.32, 0.72, 0, 1),
+    width 0.32s cubic-bezier(0.32, 0.72, 0, 1),
+    height 0.32s cubic-bezier(0.32, 0.72, 0, 1),
+    opacity 0.2s ease;
+}
+.control-shell.apple-redesign .has-sliding-pill > button,
+.control-shell.apple-redesign .has-sliding-pill > a {
+  position: relative;
+  z-index: 1;
+}
+.control-shell.apple-redesign .sliding-pill.tabs-pill {
+  border-radius: 999px;
+  background: rgb(255 255 255 / 11%);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 8%);
+}
+.control-shell.apple-redesign .sliding-pill.sidebar-pill {
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--ui-accent) 18%, rgb(255 255 255 / 5%));
+}
+.control-shell.apple-redesign .has-sliding-pill .device-tab-pill.active {
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+}
+.control-shell.apple-redesign .has-sliding-pill .device-tab-pill.active::after {
+  display: none;
+}
+.control-shell.apple-redesign .has-sliding-pill .app-sidebar-nav-item.active {
+  background: transparent;
+}
+.control-shell.apple-redesign.reduce-interface-motion .sliding-pill {
+  transition: none;
+}
+
 /* --- Motion --- */
 .control-shell.apple-redesign .welcome-cta,
 .control-shell.apple-redesign .device-tile,
