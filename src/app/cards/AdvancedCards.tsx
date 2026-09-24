@@ -25,7 +25,7 @@ import { selectableValues, sleepLabel, sleepParts, sleepTotalSeconds, valuesWith
 import type { ControlSnapshot } from "../../device/types";
 import { t, tp } from "../../i18n";
 import type { InterfaceLocale } from "../../interface-preferences";
-import { Collapsible, Segmented, SwitchRow } from "../ui";
+import { Collapsible, OptionMenu, Segmented, StepperSlider, SwitchButton, SwitchRow } from "../ui";
 
 function signalWord(locale: InterfaceLocale, strength: number): string {
   const keys = ["adv.signal0", "adv.signal1", "adv.signal2", "adv.signal3", "adv.signal4"] as const;
@@ -147,37 +147,27 @@ export function DebounceCard({ snapshot }: { snapshot: ControlSnapshot }): React
     return (
       <article id="debounce-settings" className={`setting-card${staged ? " is-staged" : ""}`}>
         <div className="setting-heading compact"><div><p>CLICK</p><h2>{t(locale, "adv.debounce")}</h2></div></div>
-        <div className="angle-tuning-control" data-pending-key="debounce">
-          <SwitchRow
-            id="atk-debounce-toggle"
-            label="Key debounce"
-            value={ms > 0}
-            disabled={snapshot.settingInProgress}
-            onChange={(next) => control.applyPulsarValue("debounce", next ? 1 : 0)}
-          />
-          <div className="angle-tuning-head">
-            <span>Debounce delay</span>
-            <output id="atk-debounce-value" htmlFor="atk-debounce-slider">{ms} ms</output>
-          </div>
-          <div className="angle-tuning-inputs">
-            <button type="button" aria-label="Debounce delay: decrease" disabled={ms <= 0} onClick={() => control.applyPulsarValue("debounce", Math.max(0, ms - 1))}>−</button>
-            <input
-              id="atk-debounce-slider"
-              type="range"
-              min={0}
-              max={20}
-              step={1}
-              value={ms}
-              disabled={snapshot.settingInProgress}
-              aria-label="Debounce delay"
-              aria-valuetext={`${ms} milliseconds`}
-              style={{ "--fill": `${(ms / 20) * 100}%` }}
-              onChange={(event) => control.applyPulsarValue("debounce", Number(event.currentTarget.value))}
-            />
-            <button type="button" aria-label="Debounce delay: increase" disabled={ms >= 20} onClick={() => control.applyPulsarValue("debounce", Math.min(20, ms + 1))}>+</button>
-          </div>
-          <div className="angle-tuning-scale" aria-hidden="true"><span>0 ms</span><i>10 ms</i><span>20 ms</span></div>
-        </div>
+        <SwitchRow
+          id="atk-debounce-toggle"
+          label="Key debounce"
+          value={ms > 0}
+          disabled={snapshot.settingInProgress}
+          onChange={(next) => control.applyPulsarValue("debounce", next ? 1 : 0)}
+        />
+        <StepperSlider
+          id="atk-debounce-slider"
+          label="Debounce delay"
+          value={ms}
+          min={0}
+          max={20}
+          step={1}
+          scale={["0 ms", "10 ms", "20 ms"]}
+          formatValue={(shown) => `${shown} ms`}
+          ariaUnit="milliseconds"
+          disabled={snapshot.settingInProgress}
+          pendingKey="debounce"
+          onCommit={(next) => control.applyPulsarValue("debounce", next)}
+        />
       </article>
     );
   }
@@ -192,16 +182,18 @@ export function DebounceCard({ snapshot }: { snapshot: ControlSnapshot }): React
   return (
     <article id="debounce-settings" className={`setting-card${staged ? " is-staged" : ""}`}>
       <div className="setting-heading compact"><div><p>CLICK</p><h2>{t(locale, "adv.debounce")}</h2></div></div>
-      <select
+      <OptionMenu
         id="debounce-select"
-        value={status.debounceMs ?? ""}
+        ariaLabel={t(locale, "adv.debounce")}
+        options={options.map((ms) => ({
+          value: ms,
+          label: `${ms} ms`,
+          disabled: offered != null && !offered.includes(ms),
+        }))}
+        value={status.debounceMs}
         disabled={status.debounceMs === null || status.debounceMs === undefined}
-        onChange={(event) => control.applyPulsarValue("debounce", Number(event.currentTarget.value))}
-      >
-        {options.map((ms) => (
-          <option key={ms} value={ms} disabled={offered != null && !offered.includes(ms)}>{ms} ms</option>
-        ))}
-      </select>
+        onChange={(next) => control.applyPulsarValue("debounce", next)}
+      />
     </article>
   );
 }
@@ -245,16 +237,12 @@ export function SleepCard({ snapshot }: { snapshot: ControlSnapshot }): ReactNod
       <div className="setting-heading compact">
         <div><p>POWER</p><h2>{t(locale, "adv.autoSleep")}</h2></div>
         {canDisable ? (
-          <button
+          <SwitchButton
             id="sleep-toggle"
-            className={`switch-button${asleep ? " is-on" : ""}`}
-            type="button"
-            role="switch"
-            aria-checked={asleep}
-            onClick={() => control.toggleSleep(!asleep)}
-          >
-            {asleep ? t(locale, "common.on") : t(locale, "common.off")}
-          </button>
+            label={t(locale, "adv.autoSleep")}
+            value={asleep}
+            onChange={(next) => control.toggleSleep(next)}
+          />
         ) : null}
       </div>
       {keychronSleep && asleep ? (
@@ -264,14 +252,14 @@ export function SleepCard({ snapshot }: { snapshot: ControlSnapshot }): ReactNod
           locale={locale}
         />
       ) : (
-        <select
+        <OptionMenu
           id="sleep-select"
-          value={status.sleepTimeout ?? ""}
+          ariaLabel={t(locale, "adv.sleepTimeout")}
+          options={options.map(([value, label]) => ({ value, label }))}
+          value={status.sleepTimeout}
           disabled={!asleep}
-          onChange={(event) => control.applyPulsarValue("sleep", Number(event.currentTarget.value))}
-        >
-          {options.map(([value, label]) => <option key={value} value={value}>{label}</option>)}
-        </select>
+          onChange={(next) => control.applyPulsarValue("sleep", next)}
+        />
       )}
     </article>
   );
@@ -342,18 +330,18 @@ export function ProcessingCard({ snapshot }: { snapshot: ControlSnapshot }): Rea
       {sensorUi && teevolutionProfile ? (
         <div id="teevolution-sensor-mode-row" className="field-label spaced">
           <span>{t(locale, "adv.sensorMode")}</span>
-          <select
+          <OptionMenu
             id="teevolution-sensor-mode"
+            ariaLabel={t(locale, "adv.sensorMode")}
+            options={(["Eco", "High", "Ultra"] as const)
+              .filter((mode) => mode === "Ultra" || teevolutionProfile.sensorModes.includes(mode))
+              .map((mode) => ({ value: mode, label: mode }))}
             value={sensorUi.mode}
             disabled={!sensorUi.editable}
-            onChange={(event) => control.applyTeevolutionSensorMode(
-              event.currentTarget.value as NonNullable<typeof status.sensorMode>,
+            onChange={(next) => control.applyTeevolutionSensorMode(
+              next as NonNullable<typeof status.sensorMode>,
             )}
-          >
-            {(["Eco", "High", "Ultra"] as const)
-              .filter((mode) => mode === "Ultra" || teevolutionProfile.sensorModes.includes(mode))
-              .map((mode) => <option key={mode} value={mode}>{mode}</option>)}
-          </select>
+          />
           <small id="teevolution-sensor-mode-note" className="setting-note">
             {sensorUi.editable
               ? t(locale, "adv.ecoNote")
@@ -365,18 +353,16 @@ export function ProcessingCard({ snapshot }: { snapshot: ControlSnapshot }): Rea
       {status.sensorMode != null && !traits.teevolution ? (
         <div id="sensor-mode-row" className="field-label spaced">
           <span>Sensor sampling mode</span>
-          <select
+          <OptionMenu
             id="sensor-mode"
+            ariaLabel="Sensor sampling mode"
+            options={(["Eco", "High", "Ultra"] as const).map((mode) => ({ value: mode, label: mode }))}
             value={status.sensorMode}
             disabled={status.sensorModeEditable === false}
-            onChange={(event) => control.applySensorMode(
-              event.currentTarget.value as NonNullable<typeof status.sensorMode>,
+            onChange={(next) => control.applySensorMode(
+              next as NonNullable<typeof status.sensorMode>,
             )}
-          >
-            {(["Eco", "High", "Ultra"] as const).map((mode) => (
-              <option key={mode} value={mode}>{mode}</option>
-            ))}
-          </select>
+          />
         </div>
       ) : null}
 
@@ -446,61 +432,58 @@ export function ProcessingCard({ snapshot }: { snapshot: ControlSnapshot }): Rea
       />
       {angleTuning != null ? (
         status.atkSensorMode != null ? (
-          <div className="angle-tuning-control" data-pending-key="atk-rotation">
-            <SwitchRow
-              id="atk-rotation-toggle"
+          <div data-pending-key="atk-rotation">
+            <StepperSlider
+              id="atk-rotation-slider"
               label="Sensor rotation"
-              value={false}
+              value={0}
+              min={-30}
+              max={30}
+              step={15}
+              scale={["−30°", "0°", "+30°"]}
+              formatValue={() => "0°"}
+              ariaUnit="degrees"
               disabled
-              onChange={() => undefined}
+              pendingKey="atk-rotation"
+              onCommit={() => undefined}
             />
-            <div className="angle-tuning-head">
-              <span>Sensor rotation</span>
-              <output id="atk-rotation-value" htmlFor="atk-rotation-slider">0°</output>
-            </div>
-            <div className="angle-tuning-inputs">
-              <button type="button" aria-label="Sensor rotation: decrease" disabled>−</button>
-              <input
-                id="atk-rotation-slider"
-                type="range"
-                min={-30}
-                max={30}
-                step={15}
-                value={0}
-                disabled
-                aria-label="Sensor rotation"
-                aria-valuetext="0 degrees"
-                style={{ "--fill": "50%" }}
-              />
-              <button type="button" aria-label="Sensor rotation: increase" disabled>+</button>
-            </div>
-            <div className="angle-tuning-scale" aria-hidden="true"><span>−30°</span><i>0°</i><span>30°</span></div>
             <small className="setting-note">Precise horizontal movement regardless of mouse grip style. Rotation writes touch calibration and stay locked pending a USB capture — calibrate in ATK HUB for now.</small>
           </div>
         ) : capabilities?.angleTuningWritable
           ? <AngleTuningControl value={angleTuning} label={t(locale, "adv.angleTune")} />
           : (
-            <div className="angle-tuning-readonly field-label spaced">
-              <span>{t(locale, "adv.angleTune")}</span>
-              <output id="angle-tune-value">{angleTuning}°</output>
-            </div>
+            <StepperSlider
+              id="angle-tune-slider"
+              label={t(locale, "adv.angleTune")}
+              value={angleTuning}
+              min={-30}
+              max={30}
+              step={1}
+              scale={["−30°", "0°", "+30°"]}
+              formatValue={(shown) => `${shown > 0 ? "+" : ""}${shown}°`}
+              ariaUnit="degrees"
+              disabled
+              pendingKey="angle-tuning"
+              onCommit={() => undefined}
+            />
           )
       ) : null}
 
       {traits.teevolution && teevolutionProfile ? (
-        <label id="teevolution-performance-duration-row" className="field-label spaced">
-          {t(locale, "adv.duration")}
-          <select
+        <div id="teevolution-performance-duration-row" className="field-label spaced">
+          <span>{t(locale, "adv.duration")}</span>
+          <OptionMenu
             id="teevolution-performance-duration"
-            value={status.performanceDuration ?? ""}
+            ariaLabel={t(locale, "adv.duration")}
+            options={teevolutionProfile.performanceTimeOptions.map((value) => ({
+              value,
+              label: sleepLabel(value * 10, locale),
+            }))}
+            value={status.performanceDuration ?? null}
             disabled={status.performanceMode !== true}
-            onChange={(event) => control.applyTeevolutionPerformanceDuration(Number(event.currentTarget.value))}
-          >
-            {teevolutionProfile.performanceTimeOptions.map((value) => (
-              <option key={value} value={value}>{sleepLabel(value * 10, locale)}</option>
-            ))}
-          </select>
-        </label>
+            onChange={(next) => control.applyTeevolutionPerformanceDuration(next)}
+          />
+        </div>
       ) : null}
     </article>
   );
@@ -512,13 +495,8 @@ export function ProcessingCard({ snapshot }: { snapshot: ControlSnapshot }): Rea
  * 100/500 ms on hardware; the driver accepts 10 ms steps.
  */
 function AtkAntiMistouchControl({ milliseconds, busy }: { milliseconds: number; busy: boolean }): ReactNode {
-  const [dragging, setDragging] = useState<number | null>(null);
-  const shown = dragging ?? Math.max(100, milliseconds);
-  const apply = (next: number): void => {
-    void control.applyAtkAntiMistouch(Math.max(100, Math.min(1000, next)));
-  };
   return (
-    <div className="angle-tuning-control" data-pending-key="atk-anti-mistouch">
+    <div data-pending-key="atk-anti-mistouch">
       <SwitchRow
         id="atk-anti-mistouch-toggle"
         label="Scroll Wheel Anti-Mistouch Mode"
@@ -526,73 +504,42 @@ function AtkAntiMistouchControl({ milliseconds, busy }: { milliseconds: number; 
         disabled={busy}
         onChange={(next) => void control.applyAtkAntiMistouch(next ? 100 : 0)}
       />
-      <div className="angle-tuning-head">
-        <span>Anti-mistouch window</span>
-        <output id="atk-anti-mistouch-value" htmlFor="atk-anti-mistouch-slider">{milliseconds} ms</output>
-      </div>
-      <div className="angle-tuning-inputs">
-        <button type="button" aria-label="Anti-mistouch window: decrease" disabled={milliseconds <= 0 || shown <= 100} onClick={() => apply(shown - 50)}>−</button>
-        <input
-          id="atk-anti-mistouch-slider"
-          type="range"
-          min={100}
-          max={1000}
-          step={50}
-          value={shown}
-          disabled={milliseconds <= 0 || busy}
-          aria-label="Anti-mistouch window"
-          aria-valuetext={`${shown} milliseconds`}
-          style={{ "--fill": `${((shown - 100) / 900) * 100}%` }}
-          onInput={(event) => setDragging(Number(event.currentTarget.value))}
-          onChange={(event) => {
-            const next = Number(event.currentTarget.value);
-            setDragging(null);
-            apply(next);
-          }}
-          onBlur={() => setDragging(null)}
-        />
-        <button type="button" aria-label="Anti-mistouch window: increase" disabled={milliseconds <= 0 || shown >= 1000} onClick={() => apply(shown + 50)}>+</button>
-      </div>
-      <div className="angle-tuning-scale" aria-hidden="true"><span>100 ms</span><i>500 ms</i><span>1000 ms</span></div>
+      <StepperSlider
+        id="atk-anti-mistouch-slider"
+        label="Anti-mistouch window"
+        value={Math.max(100, milliseconds)}
+        min={100}
+        max={1000}
+        step={50}
+        scale={["100 ms", "500 ms", "1000 ms"]}
+        formatValue={(shown) => `${shown} ms`}
+        ariaUnit="milliseconds"
+        disabled={milliseconds <= 0 || busy}
+        pendingKey="atk-anti-mistouch"
+        onCommit={(next) => void control.applyAtkAntiMistouch(next)}
+      />
       <div className="setting-separator" aria-hidden="true" />
     </div>
   );
 }
 
-function AngleTuningControl({ value, label }: { value: number; label: string }): ReactNode {  const [dragging, setDragging] = useState<number | null>(null);
-  const shown = dragging ?? value;
+function AngleTuningControl({ value, label }: { value: number; label: string }): ReactNode {
   const apply = (next: number): void => control.applyAngleTuning(Math.max(-30, Math.min(30, next)));
 
   return (
-    <div className="angle-tuning-control" data-pending-key="angle-tuning">
-      <div className="angle-tuning-head">
-        <span>{label}</span>
-        <output id="angle-tune-value" htmlFor="angle-tune-slider">{shown > 0 ? "+" : ""}{shown}°</output>
-      </div>
-      <div className="angle-tuning-inputs">
-        <button type="button" aria-label={`${label}: decrease`} disabled={shown <= -30} onClick={() => apply(shown - 1)}>−</button>
-        <input
-          id="angle-tune-slider"
-          type="range"
-          min={-30}
-          max={30}
-          step={1}
-          value={shown}
-          aria-label={label}
-          aria-valuetext={`${shown} degrees`}
-          style={{ "--fill": `${((shown + 30) / 60) * 100}%` }}
-          onInput={(event) => setDragging(Number(event.currentTarget.value))}
-          onChange={(event) => {
-            const next = Number(event.currentTarget.value);
-            setDragging(null);
-            apply(next);
-          }}
-          onBlur={() => setDragging(null)}
-        />
-        <button type="button" aria-label={`${label}: increase`} disabled={shown >= 30} onClick={() => apply(shown + 1)}>+</button>
-      </div>
-      <div className="angle-tuning-scale" aria-hidden="true"><span>−30°</span><i>0°</i><span>+30°</span></div>
-    </div>
+    <StepperSlider
+      id="angle-tune-slider"
+      label={label}
+      value={value}
+      min={-30}
+      max={30}
+      step={1}
+      scale={["−30°", "0°", "+30°"]}
+      formatValue={(shown) => `${shown > 0 ? "+" : ""}${shown}°`}
+      ariaUnit="degrees"
+      pendingKey="angle-tuning"
+      onCommit={apply}
+    />
   );
 }
 
@@ -1285,18 +1232,19 @@ export function PulsarProCard({ snapshot }: { snapshot: ControlSnapshot }): Reac
         value={status.wheelAcceleration}
         onChange={(next) => control.applyProSetting("wheelAcceleration", next)}
       />
-      <label className="field-label spaced">
-        {t(locale, "adv.angleTuning")}
-        <select
+      <div className="field-label spaced">
+        <span>{t(locale, "adv.angleTuning")}</span>
+        <OptionMenu
           id="angle-tuning-select"
+          ariaLabel={t(locale, "adv.angleTuning")}
+          options={Array.from({ length: 61 }, (_, index) => index - 30).map((angle) => ({
+            value: angle,
+            label: `${angle}°`,
+          }))}
           value={status.angleTuning ?? 0}
-          onChange={(event) => control.applyProSetting("angleTuning", Number(event.currentTarget.value))}
-        >
-          {Array.from({ length: 61 }, (_, index) => index - 30).map((angle) => (
-            <option key={angle} value={angle}>{angle}°</option>
-          ))}
-        </select>
-      </label>
+          onChange={(next) => control.applyProSetting("angleTuning", next)}
+        />
+      </div>
       <label className="field-label spaced">
         {t(locale, "adv.onboardProfile")}
         <select

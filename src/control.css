@@ -968,25 +968,91 @@ nav { display: grid; gap: .3rem; margin-top: 1.4rem; }
 .lod-sliders input[type="range"] { grid-column: 1 / -1; width: 100%; margin: .1rem 0 0; accent-color: var(--ui-accent); }
 .lod-sliders input[type="range"]:disabled { opacity: .45; }
 
-.switch-button { min-width: 42px; padding: .2rem .45rem; border: 1px solid var(--edge); border-radius: 999px; background: var(--surface-strong); color: var(--text-soft); font-size: .6rem; }
+.switch-button { min-width: 42px; padding: .2rem .45rem; border: 1px solid var(--edge); border-radius: 999px; background: var(--surface-strong); color: var(--text-soft); font-size: .6rem; font-weight: 650; }
+.switch-button:hover:not(:disabled) { border-color: var(--border-hover); background: var(--surface-hover-soft); color: var(--text-hover); }
 .switch-button.is-on { background: var(--ui-accent); border-color: var(--ui-accent); color: var(--ui-accent-ink); }
+.switch-button.is-on:hover:not(:disabled) { background: var(--ui-accent); border-color: var(--ui-accent); color: var(--ui-accent-ink); filter: brightness(1.08); }
 .switch-row { display: flex; align-items: center; justify-content: space-between; gap: .5rem; padding: .2rem 0; color: var(--dim); font-size: .75rem; }
 .field-label { display: block; color: var(--faint); font-size: .72rem; }
 .field-label.spaced { margin-top: .35rem; }
-.angle-tuning-readonly { display: flex; align-items: center; justify-content: space-between; }
-.angle-tuning-readonly output { color: var(--text-input); font-family: var(--font-mono); }
-.angle-tuning-control { margin-top: .55rem; padding-top: .55rem; border-top: 1px solid var(--line); }
-.angle-tuning-head { display: flex; align-items: baseline; justify-content: space-between; gap: .75rem; color: var(--dim); font-size: .7rem; }
-.angle-tuning-head output { min-width: 2.8rem; color: var(--text-input); font: 650 .72rem var(--font-mono); text-align: right; }
-.angle-tuning-inputs { display: grid; grid-template-columns: 1.65rem minmax(7rem, 1fr) 1.65rem; align-items: center; gap: .5rem; margin-top: .35rem; }
-.angle-tuning-inputs button { width: 1.65rem; height: 1.65rem; padding: 0; border: 1px solid var(--border); border-radius: 6px; background: var(--surface-strong); color: var(--text-input); font-size: .9rem; line-height: 1; cursor: pointer; }
-.angle-tuning-inputs button:hover:not(:disabled) { border-color: var(--ui-accent); color: var(--ui-accent); }
-.angle-tuning-inputs button:disabled { opacity: .35; }
-.angle-tuning-inputs input[type="range"] { width: 100%; margin: 0; accent-color: var(--ui-accent); cursor: pointer; }
-.angle-tuning-scale { display: flex; justify-content: space-between; margin: .12rem 2.15rem 0; color: var(--ghost); font: .48rem var(--font-mono); }
-.angle-tuning-scale i { font-style: normal; }
 .setting-separator { border-top: 1px solid var(--line-strong); margin-top: .55rem; }
 .teevolution-dpi-light-controls { margin-top: .55rem; }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   Unified mouse-option widgets (M3): OptionMenu dropdown + StepperSlider.
+   These replace the native <select> elements and the hand-rolled
+   .angle-tuning-control clones. Colors come from theme tokens only.
+   ═══════════════════════════════════════════════════════════════════════ */
+.option-menu { position: relative; }
+.option-menu-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .6rem;
+  width: 100%;
+  box-sizing: border-box;
+  padding: .52rem .6rem;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  background: var(--surface-control);
+  color: var(--text-input);
+  font-size: .75rem;
+  cursor: pointer;
+}
+.option-menu-trigger svg { flex: 0 0 auto; color: var(--faint); transition: transform .16s ease; }
+.option-menu.is-open .option-menu-trigger svg { transform: rotate(180deg); }
+.option-menu-trigger:hover:not(:disabled) { border-color: var(--border-hover); background: var(--surface-hover-soft); color: var(--text-hover); }
+.option-menu-trigger:disabled { cursor: default; opacity: .45; }
+.option-menu-list {
+  position: absolute;
+  top: calc(100% + .3rem);
+  right: 0;
+  left: 0;
+  z-index: 40;
+  max-height: 13rem;
+  margin: 0;
+  padding: .3rem;
+  overflow-y: auto;
+  list-style: none;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  background: var(--surface-menu);
+  box-shadow: 0 14px 34px rgb(0 0 0 / .5);
+  scrollbar-width: thin;
+}
+.option-menu-list [role="option"] {
+  padding: .45rem .6rem;
+  border-radius: 6px;
+  color: var(--dim);
+  font-size: .74rem;
+  cursor: pointer;
+}
+.option-menu-list [role="option"]:hover,
+.option-menu-list [role="option"]:focus-visible { background: var(--surface-hover); color: var(--text-hover); outline: none; }
+.option-menu-list [role="option"].is-selected { background: var(--ui-accent-soft); color: var(--text-hover); font-weight: 650; }
+.option-menu-list [role="option"][aria-disabled="true"] { opacity: .45; cursor: default; }
+
+.stepper-slider { margin-top: .55rem; padding-top: .55rem; border-top: 1px solid var(--line-strong); }
+.stepper-slider-head { display: flex; align-items: baseline; justify-content: space-between; gap: .75rem; color: var(--dim); font-size: .7rem; }
+.stepper-slider-head output { min-width: 2.8rem; color: var(--text-input); font: 650 .72rem var(--font-mono); text-align: right; }
+.stepper-slider-inputs { display: grid; grid-template-columns: 1.65rem minmax(7rem, 1fr) 1.65rem; align-items: center; gap: .5rem; margin-top: .35rem; }
+.stepper-slider-inputs button {
+  display: grid;
+  width: 1.65rem;
+  height: 1.65rem;
+  padding: 0;
+  place-items: center;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--surface-strong);
+  color: var(--text-input);
+  cursor: pointer;
+}
+.stepper-slider-inputs button:hover:not(:disabled) { border-color: var(--ui-accent); background: var(--ui-accent-soft); color: var(--ui-accent); }
+.stepper-slider-inputs button:disabled { opacity: .35; }
+.stepper-slider-inputs input[type="range"] { width: 100%; margin: 0; accent-color: var(--ui-accent); cursor: pointer; }
+.stepper-slider-scale { display: flex; justify-content: space-between; margin: .12rem 2.15rem 0; color: var(--ghost); font: .48rem var(--font-mono); }
+.stepper-slider-scale i { font-style: normal; }
 
 .egg-collapsible, .egg-experimental { overflow: hidden; border: 1px solid var(--line-strong); border-radius: 9px; background: var(--card); }
 .egg-collapsible summary, .egg-experimental summary { display: flex; align-items: center; justify-content: space-between; cursor: pointer; color: var(--text-strong); font-weight: 650; list-style: none; }
