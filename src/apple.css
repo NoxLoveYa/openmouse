@@ -9,8 +9,11 @@
 .control-shell.apple-redesign {
   grid-template-columns: 264px minmax(0, 1fr);
   background:
-    radial-gradient(1000px 520px at 12% -6%, rgb(10 132 255 / 11%), transparent 60%),
-    radial-gradient(900px 620px at 92% 32%, rgb(167 139 250 / 8%), transparent 60%),
+    radial-gradient(1000px 520px at 12% -6%, rgb(10 132 255 / 12%), transparent 60%),
+    radial-gradient(700px 500px at 22% 48%, rgb(100 210 255 / 10%), transparent 60%),
+    radial-gradient(900px 620px at 92% 32%, rgb(167 139 250 / 10%), transparent 60%),
+    radial-gradient(760px 560px at 88% 82%, rgb(255 55 95 / 9%), transparent 62%),
+    radial-gradient(800px 420px at 45% 55%, rgb(10 132 255 / 6%), transparent 65%),
     radial-gradient(1100px 620px at 50% 116%, rgb(48 209 88 / 6%), transparent 60%),
     #050507;
 }
@@ -611,7 +614,10 @@
 /* --- Light theme + flat finish --- */
 .control-shell.apple-redesign[data-interface-theme="light"] {
   background:
-    radial-gradient(1100px 480px at 72% -10%, rgb(0 113 227 / 6%), transparent 62%),
+    radial-gradient(1000px 520px at 12% -6%, rgb(0 113 227 / 8%), transparent 60%),
+    radial-gradient(800px 560px at 90% 30%, rgb(175 82 222 / 6%), transparent 60%),
+    radial-gradient(700px 480px at 8% 70%, rgb(0 199 190 / 5%), transparent 60%),
+    radial-gradient(900px 560px at 55% 115%, rgb(52 199 123 / 7%), transparent 60%),
     #f5f5f7;
 }
 .control-shell.apple-redesign[data-interface-theme="light"] .app-sidebar {
