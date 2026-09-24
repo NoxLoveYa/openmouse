@@ -1301,6 +1301,35 @@
   }
 }
 
+/* --- Device detail rows: grouped-list readability --- */
+.control-shell.apple-redesign .mouse-test-device-rows {
+  gap: 0;
+}
+.control-shell.apple-redesign .mouse-test-device-row {
+  padding: 9px 2px;
+  font-size: 0.85rem;
+  border-bottom: 1px solid rgb(255 255 255 / 7%);
+}
+.control-shell.apple-redesign .mouse-test-device-row:last-child {
+  border-bottom: 0;
+}
+.control-shell.apple-redesign .mouse-test-device-key {
+  color: color-mix(in srgb, var(--bright) 72%, transparent);
+  font-weight: 500;
+}
+.control-shell.apple-redesign .mouse-test-device-val {
+  color: var(--bright);
+  font-weight: 650;
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+}
+.control-shell.apple-redesign .mouse-test-device-val-wrap {
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  font-weight: 500;
+  line-height: 1.55;
+}
+
 /* --- Motion --- */
 .control-shell.apple-redesign .welcome-cta,
 .control-shell.apple-redesign .device-tile,
