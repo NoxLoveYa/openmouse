@@ -2416,11 +2416,6 @@ body { height: 100vh; overflow: hidden; }
   min-height: 100%;
   padding: 2rem;
 }
-.welcome-screen.is-compact {
-  min-height: 0;
-  flex: none;
-  padding: 3rem 2rem 0.5rem;
-}
 .games-page {
   width: 100%;
   max-width: 1100px;
@@ -2974,14 +2969,6 @@ body { height: 100vh; overflow: hidden; }
   color: var(--faint);
   font-size: 0.94rem;
   line-height: 1.6;
-}
-.add-device-grid {
-  display: grid;
-  grid-template-columns: minmax(340px, 420px);
-  justify-content: center;
-  gap: 1rem;
-  width: 100%;
-  margin-top: 0.5rem;
 }
 .device-tile.add-device-tile {
   aspect-ratio: 1 / 1;

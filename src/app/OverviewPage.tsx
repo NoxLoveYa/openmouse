@@ -361,7 +361,7 @@ function AddDeviceCard({ snapshot }: { snapshot: ControlSnapshot }): ReactNode {
   );
 }
 
-function OverviewEmpty({ snapshot, compact = false }: { snapshot: ControlSnapshot; compact?: boolean }): ReactNode {
+function OverviewEmpty({ snapshot }: { snapshot: ControlSnapshot }): ReactNode {
   const locale = snapshot.preferences.locale;
   const [busy, setBusy] = useState(false);
   const connectLabel = busy ? t(locale, "conn.connecting") : t(locale, "conn.addMouse");
@@ -371,7 +371,7 @@ function OverviewEmpty({ snapshot, compact = false }: { snapshot: ControlSnapsho
     { icon: Palette, title: t(locale, "empty.f3t"), body: t(locale, "empty.f3b") },
   ];
   return (
-    <div className={`welcome-screen${compact ? " is-compact" : ""}`}>
+    <div className="welcome-screen">
       <div className="welcome-aurora" aria-hidden="true">
         <i /><i /><i />
       </div>
@@ -380,23 +380,21 @@ function OverviewEmpty({ snapshot, compact = false }: { snapshot: ControlSnapsho
           <p className="welcome-eyebrow">{t(locale, "empty.eyebrow")}</p>
           <h2 className="welcome-title">{t(locale, "empty.title")}</h2>
           <p className="welcome-body">{t(locale, "empty.body")}</p>
-          {!compact ? (
-            <div className="welcome-cta-row">
-              <button
-                type="button"
-                className="welcome-cta"
-                disabled={busy || snapshot.connectDisabled}
-                onClick={() => {
-                  if (busy) return;
-                  setBusy(true);
-                  void control.connect().finally(() => setBusy(false));
-                }}
-              >
-                {connectLabel}
-                <ArrowRight size={16} strokeWidth={2.2} aria-hidden="true" />
-              </button>
-            </div>
-          ) : null}
+          <div className="welcome-cta-row">
+            <button
+              type="button"
+              className="welcome-cta"
+              disabled={busy || snapshot.connectDisabled}
+              onClick={() => {
+                if (busy) return;
+                setBusy(true);
+                void control.connect().finally(() => setBusy(false));
+              }}
+            >
+              {connectLabel}
+              <ArrowRight size={16} strokeWidth={2.2} aria-hidden="true" />
+            </button>
+          </div>
           <ul className="welcome-features">
             {features.map((feature) => (
               <li key={feature.title} className="welcome-feature">
@@ -411,11 +409,9 @@ function OverviewEmpty({ snapshot, compact = false }: { snapshot: ControlSnapsho
             ))}
           </ul>
         </div>
-        {!compact ? (
-          <div className="welcome-art">
-            <MouseArtworkShowcase reducedMotion={snapshot.preferences.reducedMotion} />
-          </div>
-        ) : null}
+        <div className="welcome-art">
+          <MouseArtworkShowcase reducedMotion={snapshot.preferences.reducedMotion} />
+        </div>
       </div>
     </div>
   );
