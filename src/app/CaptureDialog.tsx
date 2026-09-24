@@ -278,7 +278,13 @@ export function CaptureDialog({ open, onClose, locale = "en" }: { open: boolean;
                   type="button"
                   className={`capture-action-pill${active ? " is-active" : ""}`}
                   aria-pressed={active}
-                  style={active ? { borderColor: action.color, color: action.color } : undefined}
+                  style={{
+                    borderColor: active ? action.color : undefined,
+                    color: active ? action.color : undefined,
+                    background: active
+                      ? `color-mix(in srgb, ${action.color} 18%, transparent)`
+                      : "transparent",
+                  }}
                   onClick={() => setSelectedActions((current) => {
                     const next = new Set(current);
                     if (next.has(action.id)) next.delete(action.id);
