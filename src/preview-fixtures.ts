@@ -303,6 +303,8 @@ const ATK_F1: MouseStatus = {
   motionSync: true,
   angleSnapping: false,
   rippleControl: false,
+  // Reported by the angle register (centered); gates the Sensor rotation row.
+  angleTuning: 0,
   debounceMs: 1,
   sleepTimeout: 1800,
   atkSensorMode: 1,

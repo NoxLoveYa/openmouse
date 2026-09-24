@@ -436,6 +436,7 @@ export function ProcessingCard({ snapshot }: { snapshot: ControlSnapshot }): Rea
             <StepperSlider
               id="atk-rotation-slider"
               label="Sensor rotation"
+              badge="Locked"
               value={0}
               min={-30}
               max={30}
@@ -518,7 +519,6 @@ function AtkAntiMistouchControl({ milliseconds, busy }: { milliseconds: number; 
         pendingKey="atk-anti-mistouch"
         onCommit={(next) => void control.applyAtkAntiMistouch(next)}
       />
-      <div className="setting-separator" aria-hidden="true" />
     </div>
   );
 }

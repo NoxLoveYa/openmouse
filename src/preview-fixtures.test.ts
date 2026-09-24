@@ -24,6 +24,7 @@ test("atk-f1 fixture matches the F1 Ultimate 2.0 driver shape", () => {
   // F1-only fields that gate the modernized widgets.
   assert.equal(status.atkSensorMode, 1);
   assert.equal(status.debounceMs, 1);
+  assert.equal(status.angleTuning, 0);
   assert.ok((status.atkAntiMistouchMs ?? 0) > 0);
   assert.equal(status.atkDongleLight, 2);
   assert.deepEqual(status.liftOffScale, {

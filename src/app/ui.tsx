@@ -256,6 +256,7 @@ export function OptionMenu<T extends string | number>({
 export function StepperSlider({
   id,
   label,
+  badge,
   value,
   min,
   max,
@@ -269,6 +270,8 @@ export function StepperSlider({
 }: {
   id: string;
   label: string;
+  /** Small pill next to the label, e.g. "Locked" for write-locked rows. */
+  badge?: string;
   value: number;
   min: number;
   max: number;
@@ -291,7 +294,10 @@ export function StepperSlider({
   return (
     <div className="stepper-slider" data-pending-key={pendingKey}>
       <div className="stepper-slider-head">
-        <span>{label}</span>
+        <span className="stepper-slider-title">
+          <span>{label}</span>
+          {badge ? <em className="stepper-slider-badge">{badge}</em> : null}
+        </span>
         <output id={`${id}-value`} htmlFor={id}>{formatValue(shown)}</output>
       </div>
       <div className="stepper-slider-inputs">
