@@ -147,16 +147,18 @@ export function DebounceCard({ snapshot }: { snapshot: ControlSnapshot }): React
     return (
       <article id="debounce-settings" className={`setting-card${staged ? " is-staged" : ""}`}>
         <div className="setting-heading compact"><div><p>CLICK</p><h2>{t(locale, "adv.debounce")}</h2></div></div>
-        <SwitchRow
-          id="atk-debounce-toggle"
-          label="Key debounce"
-          value={ms > 0}
-          disabled={snapshot.settingInProgress}
-          onChange={(next) => control.applyPulsarValue("debounce", next ? 1 : 0)}
-        />
         <StepperSlider
           id="atk-debounce-slider"
           label="Debounce delay"
+          toggle={
+            <SwitchRow
+              id="atk-debounce-toggle"
+              label="Key debounce"
+              value={ms > 0}
+              disabled={snapshot.settingInProgress}
+              onChange={(next) => control.applyPulsarValue("debounce", next ? 1 : 0)}
+            />
+          }
           value={ms}
           min={0}
           max={20}
