@@ -75,9 +75,7 @@
 .assignment-button-number { display:grid;width:1.8rem;height:1.8rem;place-items:center;border:1px solid var(--border);border-radius:6px;background:var(--surface-control);color:var(--ui-accent);font-family:var(--font-mono);font-size:.55rem }
 .assignment-button-name { overflow:hidden;color:var(--text-hover);font-size:.65rem;text-overflow:ellipsis;white-space:nowrap }
 .assignment-select-wrap { position:relative;min-width:0 }
-.assignment-select-wrap select { width:100%;box-sizing:border-box;padding:.42rem 1.8rem .42rem .55rem;border:1px solid var(--border);border-radius:6px;appearance:none;background:var(--surface-control);color:var(--text-input);color-scheme:dark;font-size:.64rem;cursor:pointer }
-.assignment-select-wrap select:hover:not(:disabled),.assignment-select-wrap select:focus-visible { border-color:var(--ui-accent);outline:0 }
-.assignment-select-wrap i { position:absolute;top:50%;right:.65rem;width:.32rem;height:.32rem;border-right:1px solid var(--muted);border-bottom:1px solid var(--muted);pointer-events:none;transform:translateY(-65%) rotate(45deg) }
+.assignment-select-wrap .option-menu-trigger { font-size:.64rem; }
 @media (max-width:900px) { .assignment-grid { grid-template-columns:1fr } }
 @media (max-width:560px) { .profile-button-heading { align-items:stretch;flex-direction:column }.assignment-card { grid-template-columns:2rem 1fr }.assignment-select-wrap { grid-column:1 / -1 } }
 .shortcut-dialog-backdrop { position:fixed;z-index:100;inset:0;display:grid;place-items:center;padding:1rem;background:rgb(0 0 0 / 68%);backdrop-filter:blur(4px) }

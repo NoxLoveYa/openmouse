@@ -279,14 +279,14 @@ export function LowPowerCard({ snapshot }: { snapshot: ControlSnapshot }): React
   return (
     <article id="low-power-settings" className={`setting-card${staged ? " is-staged" : ""}`}>
       <div className="setting-heading compact"><div><p>POWER</p><h2>{t(locale, "adv.lowPower")}</h2></div></div>
-      <select
+      <OptionMenu
         id="low-power-select"
-        value={status.lowBatteryWarning ?? ""}
+        ariaLabel={t(locale, "adv.lowPower")}
+        options={percentages.map((value) => ({ value, label: `${value}%` }))}
+        value={status.lowBatteryWarning}
         disabled={tooFast}
-        onChange={(event) => control.applyLowPowerThreshold(Number(event.currentTarget.value))}
-      >
-        {percentages.map((value) => <option key={value} value={value}>{value}%</option>)}
-      </select>
+        onChange={(next) => control.applyLowPowerThreshold(next)}
+      />
       <small id="low-power-note" className="setting-note">
         {tooFast
           ? tp(locale, "adv.lowPowerCeiling", { max: ceiling.toLocaleString() })
@@ -564,18 +564,18 @@ export function DpiLightingCard({ snapshot }: { snapshot: ControlSnapshot }): Re
       data-pending-key="teevolution-dpi-light-mode teevolution-dpi-light-brightness teevolution-dpi-light-speed dpi-light-sleep"
     >
       <div className="setting-heading compact"><div><p>{powerOverview ? "POWER" : "LIGHTING"}</p><h2>{t(locale, "adv.dpiIndicator")}</h2></div></div>
-      <label className="field-label">
-        {t(locale, "adv.effect")}
-        <select
+      <div className="field-label">
+        <span>{t(locale, "adv.effect")}</span>
+        <OptionMenu
           id="teevolution-dpi-light-mode"
-          value={lightMode}
-          onChange={(event) => control.applyTeevolutionDpiLighting("mode", Number(event.currentTarget.value))}
-        >
-          {([[0, "adv.ledOff"], [1, "adv.ledSteady"], [2, "adv.ledBreathing"]] as const)
+          ariaLabel={t(locale, "adv.effect")}
+          options={([[0, "adv.ledOff"], [1, "adv.ledSteady"], [2, "adv.ledBreathing"]] as const)
             .filter(([value]) => modes.includes(value))
-            .map(([value, label]) => <option key={value} value={value}>{t(locale, label)}</option>)}
-        </select>
-      </label>
+            .map(([value, label]) => ({ value, label: t(locale, label) }))}
+          value={lightMode}
+          onChange={(next) => control.applyTeevolutionDpiLighting("mode", next)}
+        />
+      </div>
       <div className="lod-sliders teevolution-dpi-light-controls">
         <label>
           {t(locale, "adv.brightness")}
@@ -623,18 +623,19 @@ export function DpiLightingCard({ snapshot }: { snapshot: ControlSnapshot }): Re
         </label>
       </div>
       {hint?.sleepTimeouts?.length && status.dpiLedSleepTimeout != null ? (
-        <label className="field-label spaced">
-          {t(locale, "adv.autoSleep")}
-          <select
+        <div className="field-label spaced">
+          <span>{t(locale, "adv.autoSleep")}</span>
+          <OptionMenu
             id="dpi-light-sleep-timeout"
+            ariaLabel={t(locale, "adv.autoSleep")}
+            options={hint.sleepTimeouts.map((seconds) => ({
+              value: seconds,
+              label: sleepLabel(seconds, locale),
+            }))}
             value={status.dpiLedSleepTimeout}
-            onChange={(event) => control.applyDpiLightingSleepTimeout(Number(event.currentTarget.value))}
-          >
-            {hint.sleepTimeouts.map((seconds) => (
-              <option key={seconds} value={seconds}>{sleepLabel(seconds, locale)}</option>
-            ))}
-          </select>
-        </label>
+            onChange={(next) => control.applyDpiLightingSleepTimeout(next)}
+          />
+        </div>
       ) : null}
       <small className="setting-note">{t(locale, "adv.dpiStageNote")}</small>
     </article>
@@ -754,36 +755,40 @@ export function IncottCard({ snapshot }: { snapshot: ControlSnapshot }): ReactNo
       </div>
       {/* Absent over the cable: there is no dongle to light up. */}
       {status.incottReceiverLedMode != null ? (
-        <label className="field-label">
-          {t(locale, "adv.dongleLed")}
-          <select
+        <div className="field-label">
+          <span>{t(locale, "adv.dongleLed")}</span>
+          <OptionMenu
             id="incott-receiver-led"
+            ariaLabel={t(locale, "adv.dongleLed")}
+            options={[
+              { value: 0, label: t(locale, "adv.ledConnectRate") },
+              { value: 1, label: t(locale, "adv.ledBatteryStatus") },
+              { value: 2, label: t(locale, "adv.ledBatteryWarning") },
+            ]}
             value={status.incottReceiverLedMode}
-            onChange={(event) => control.applyIncottReceiverLed(Number(event.currentTarget.value))}
-          >
-            <option value={0}>{t(locale, "adv.ledConnectRate")}</option>
-            <option value={1}>{t(locale, "adv.ledBatteryStatus")}</option>
-            <option value={2}>{t(locale, "adv.ledBatteryWarning")}</option>
-          </select>
-        </label>
+            onChange={(next) => control.applyIncottReceiverLed(next)}
+          />
+        </div>
       ) : null}
       {status.incottFireKeyTimes != null ? (
         <>
-          <label className="field-label spaced">
-            {t(locale, "adv.fireKeyTimes")}
-            <select
+          <div className="field-label spaced">
+            <span>{t(locale, "adv.fireKeyTimes")}</span>
+            <OptionMenu
               id="incott-fire-key-times"
+              ariaLabel={t(locale, "adv.fireKeyTimes")}
+              options={[
+                // 0 is not "off": it fires continuously while the button is
+                // held and stops on release.
+                { value: 0, label: t(locale, "adv.fireKeyHold") },
+                { value: 1, label: "1" },
+                { value: 2, label: "2" },
+                { value: 3, label: "3" },
+              ]}
               value={times}
-              onChange={(event) => control.applyIncottFireKey(Number(event.currentTarget.value), interval)}
-            >
-              {/* 0 is not "off": it fires continuously while the button is
-                  held and stops on release. */}
-              <option value={0}>{t(locale, "adv.fireKeyHold")}</option>
-              <option value={1}>1</option>
-              <option value={2}>2</option>
-              <option value={3}>3</option>
-            </select>
-          </label>
+              onChange={(next) => control.applyIncottFireKey(next, interval)}
+            />
+          </div>
           <label className="field-label spaced">
             {t(locale, "adv.fireKeyInterval")}
             <input
@@ -814,44 +819,50 @@ export function FinalmouseCard({ snapshot }: { snapshot: ControlSnapshot }): Rea
       data-pending-key="finalmouse-dongle-led finalmouse-tournament-scroll finalmouse-tournament-timeout"
     >
       <div className="setting-heading compact"><div><p>FINALMOUSE</p><h2>{t(locale, "adv.dongleTournament")}</h2></div></div>
-      <label className="field-label">
-        {t(locale, "adv.dongleLed")}
-        <select
+      <div className="field-label">
+        <span>{t(locale, "adv.dongleLed")}</span>
+        <OptionMenu
           id="finalmouse-dongle-led"
+          ariaLabel={t(locale, "adv.dongleLed")}
+          options={[
+            { value: 0, label: t(locale, "adv.ledOff") },
+            { value: 1, label: t(locale, "adv.batteryIndicator") },
+            { value: 2, label: t(locale, "adv.solidWhite") },
+          ]}
           value={status.finalmouseDongleLedMode ?? 0}
-          onChange={(event) => control.applyFinalmouseSetting("dongleLed", Number(event.currentTarget.value))}
-        >
-          <option value={0}>{t(locale, "adv.ledOff")}</option>
-          <option value={1}>{t(locale, "adv.batteryIndicator")}</option>
-          <option value={2}>{t(locale, "adv.solidWhite")}</option>
-        </select>
-      </label>
-      <label className="field-label spaced">
-        {t(locale, "adv.tournamentScroll")}
-        <select
+          onChange={(next) => control.applyFinalmouseSetting("dongleLed", next)}
+        />
+      </div>
+      <div className="field-label spaced">
+        <span>{t(locale, "adv.tournamentScroll")}</span>
+        <OptionMenu
           id="finalmouse-tournament-scroll"
+          ariaLabel={t(locale, "adv.tournamentScroll")}
+          options={[
+            { value: 0, label: t(locale, "adv.ledOff") },
+            { value: 1, label: t(locale, "adv.scrollUp") },
+            { value: 2, label: t(locale, "adv.scrollDown") },
+            { value: 3, label: t(locale, "adv.bothDirections") },
+          ]}
           value={status.finalmouseTournamentScrollMode ?? 0}
-          onChange={(event) => control.applyFinalmouseSetting("tournamentScroll", Number(event.currentTarget.value))}
-        >
-          <option value={0}>{t(locale, "adv.ledOff")}</option>
-          <option value={1}>{t(locale, "adv.scrollUp")}</option>
-          <option value={2}>{t(locale, "adv.scrollDown")}</option>
-          <option value={3}>{t(locale, "adv.bothDirections")}</option>
-        </select>
-      </label>
-      <label className="field-label spaced">
-        {t(locale, "adv.passthrough")}
-        <select
+          onChange={(next) => control.applyFinalmouseSetting("tournamentScroll", next)}
+        />
+      </div>
+      <div className="field-label spaced">
+        <span>{t(locale, "adv.passthrough")}</span>
+        <OptionMenu
           id="finalmouse-tournament-timeout"
+          ariaLabel={t(locale, "adv.passthrough")}
+          options={[
+            { value: 100, label: "100 ms" },
+            { value: 500, label: "500 ms" },
+            { value: 1000, label: t(locale, "adv.oneSecond") },
+            { value: 1500, label: t(locale, "adv.halfSeconds") },
+          ]}
           value={status.finalmouseTournamentScrollTimeoutMs ?? 100}
-          onChange={(event) => control.applyFinalmouseSetting("tournamentTimeout", Number(event.currentTarget.value))}
-        >
-          <option value={100}>100 ms</option>
-          <option value={500}>500 ms</option>
-          <option value={1000}>{t(locale, "adv.oneSecond")}</option>
-          <option value={1500}>{t(locale, "adv.halfSeconds")}</option>
-        </select>
-      </label>
+          onChange={(next) => control.applyFinalmouseSetting("tournamentTimeout", next)}
+        />
+      </div>
     </article>
   );
 }
@@ -886,18 +897,21 @@ export function EggSpdtCard({ snapshot }: { snapshot: ControlSnapshot }): ReactN
   return (
     <article id="egg-spdt-settings" className="setting-card">
       <div className="setting-heading compact"><div><p>CLICK</p><h2>{t(locale, "adv.gxMode")}</h2></div></div>
-      {(["left", "right"] as const).map((side, index) => (
-        <label key={side} className={`field-label${index > 0 ? " spaced" : ""}`}>
-          {side === "left" ? t(locale, "adv.leftButton") : t(locale, "adv.rightButton")}
-          <select
-            id={`${side}-spdt-select`}
-            value={(side === "left" ? status.leftSpdtMode : status.rightSpdtMode) ?? "Off"}
-            onChange={(event) => control.applyEggSpdtMode(side, event.currentTarget.value as EggSpdtMode)}
-          >
-            {["Off", "GX Safe", "GX Speed"].map((mode) => <option key={mode}>{mode}</option>)}
-          </select>
-        </label>
-      ))}
+      {(["left", "right"] as const).map((side, index) => {
+        const label = side === "left" ? t(locale, "adv.leftButton") : t(locale, "adv.rightButton");
+        return (
+          <div key={side} className={`field-label${index > 0 ? " spaced" : ""}`}>
+            <span>{label}</span>
+            <OptionMenu
+              id={`${side}-spdt-select`}
+              ariaLabel={label}
+              options={["Off", "GX Safe", "GX Speed"].map((mode) => ({ value: mode, label: mode }))}
+              value={(side === "left" ? status.leftSpdtMode : status.rightSpdtMode) ?? "Off"}
+              onChange={(next) => control.applyEggSpdtMode(side, next as EggSpdtMode)}
+            />
+          </div>
+        );
+      })}
     </article>
   );
 }
@@ -1025,18 +1039,19 @@ export function EggCpiCard({ snapshot }: { snapshot: ControlSnapshot }): ReactNo
       open={snapshot.preferences.expandSections}
     >
       <article className="setting-card">
-        <label className="field-label">
-          {t(locale, "adv.enabledStages")}
-          <select
+        <div className="field-label">
+          <span>{t(locale, "adv.enabledStages")}</span>
+          <OptionMenu
             id="egg-cpi-levels"
+            ariaLabel={t(locale, "adv.enabledStages")}
+            options={[1, 2, 3, 4].map((value) => ({
+              value,
+              label: tp(locale, "adv.stageCount", { n: value, s: value === 1 ? "" : "s" }),
+            }))}
             value={levels}
-            onChange={(event) => control.applyEggCpiLevels(Number(event.currentTarget.value))}
-          >
-            {[1, 2, 3, 4].map((value) => (
-              <option key={value} value={value}>{tp(locale, "adv.stageCount", { n: value, s: value === 1 ? "" : "s" })}</option>
-            ))}
-          </select>
-        </label>
+            onChange={(next) => control.applyEggCpiLevels(next)}
+          />
+        </div>
         <div id="egg-cpi-stage-list">
           {stages?.slice(0, levels).map((stage, index) => (
             <CpiStageRow key={index} index={index} stage={stage} locale={locale} />
@@ -1110,37 +1125,40 @@ export function RazerButtonCard({ snapshot }: { snapshot: ControlSnapshot }): Re
         {rows.map((row) => {
           const staged = snapshot.pending.keys.includes(row.key);
           const known = row.options.includes(row.current);
+          const applyRazerRow = (value: string): void => {
+            if (row.key.startsWith("razer-button-")) {
+              control.applyRazerButtonMapping(
+                row.key.slice("razer-button-".length) as RazerButtonControl,
+                value as RazerButtonMapping,
+              );
+            } else {
+              control.applyRazerToggleControl(
+                row.key.slice("razer-toggle-".length) as RazerToggleControl,
+                value,
+              );
+            }
+          };
           return (
-            <label
+            <div
               key={row.key}
               className={`button-remap-row${staged ? " is-staged" : ""}`}
               data-pending-key={row.key}
             >
               <span>{row.name}</span>
               {row.locked ? <output>{row.current}</output> : (
-                <select
+                <OptionMenu
+                  id={row.key}
+                  ariaLabel={row.name}
+                  options={[
+                    ...(known ? [] : [{ value: row.current, label: row.current, disabled: true }]),
+                    ...row.options.map((option) => ({ value: option, label: option })),
+                  ]}
                   value={row.current}
                   disabled={busy}
-                  onChange={(event) => {
-                    const value = event.currentTarget.value;
-                    if (row.key.startsWith("razer-button-")) {
-                      control.applyRazerButtonMapping(
-                        row.key.slice("razer-button-".length) as RazerButtonControl,
-                        value as RazerButtonMapping,
-                      );
-                    } else {
-                      control.applyRazerToggleControl(
-                        row.key.slice("razer-toggle-".length) as RazerToggleControl,
-                        value,
-                      );
-                    }
-                  }}
-                >
-                  {known ? null : <option value={row.current} disabled>{row.current}</option>}
-                  {row.options.map((option) => <option key={option}>{option}</option>)}
-                </select>
+                  onChange={applyRazerRow}
+                />
               )}
-            </label>
+            </div>
           );
         })}
       </div>
@@ -1196,20 +1214,22 @@ export function EggButtonCard({ snapshot }: { snapshot: ControlSnapshot }): Reac
                     )}
                   />
                 </label>
-                <label className="egg-tile-label stacked">
-                  {t(locale, "adv.mapping")}
-                  <select
-                    className="egg-tile-field"
+                <div className="egg-tile-label stacked">
+                  <span>{t(locale, "adv.mapping")}</span>
+                  <OptionMenu
+                    id={`egg-button-${index}`}
+                    ariaLabel={`${name} ${t(locale, "adv.mapping")}`}
+                    options={[
+                      ...(known ? [] : [{ value: current, label: current, disabled: true }]),
+                      ...EGG_BUTTON_MAPPINGS.map((mapping) => ({ value: mapping, label: mapping })),
+                    ]}
                     value={current}
-                    onChange={(event) => control.applyEggButtonMapping(
+                    onChange={(next) => control.applyEggButtonMapping(
                       index as EggButtonIndex,
-                      event.currentTarget.value as EggButtonMapping,
+                      next as EggButtonMapping,
                     )}
-                  >
-                    {known ? null : <option value={current} disabled>{current}</option>}
-                    {EGG_BUTTON_MAPPINGS.map((mapping) => <option key={mapping}>{mapping}</option>)}
-                  </select>
-                </label>
+                  />
+                </div>
               </div>
             );
           })}
@@ -1245,16 +1265,19 @@ export function PulsarProCard({ snapshot }: { snapshot: ControlSnapshot }): Reac
           onChange={(next) => control.applyProSetting("angleTuning", next)}
         />
       </div>
-      <label className="field-label spaced">
-        {t(locale, "adv.onboardProfile")}
-        <select
+      <div className="field-label spaced">
+        <span>{t(locale, "adv.onboardProfile")}</span>
+        <OptionMenu
           id="profile-select"
+          ariaLabel={t(locale, "adv.onboardProfile")}
+          options={[1, 2, 3, 4, 5, 6].map((value) => ({
+            value,
+            label: tp(locale, "adv.profileOpt", { n: value }),
+          }))}
           value={status.activeProfile ?? 1}
-          onChange={(event) => control.applyProSetting("profile", Number(event.currentTarget.value))}
-        >
-          {[1, 2, 3, 4, 5, 6].map((value) => <option key={value} value={value}>{tp(locale, "adv.profileOpt", { n: value })}</option>)}
-        </select>
-      </label>
+          onChange={(next) => control.applyProSetting("profile", next)}
+        />
+      </div>
     </article>
   );
 }
@@ -1272,21 +1295,20 @@ export function OnboardProfileCard({ snapshot }: { snapshot: ControlSnapshot }):
   return (
     <article id="onboard-profile-settings" className="setting-card">
       <div className="setting-heading compact"><div><h2>{t(locale, "prof.onboardTitle")}</h2></div></div>
-      <label className="field-label spaced">
-        {t(locale, "prof.activeProfile")}
-        <select
+      <div className="field-label spaced">
+        <span>{t(locale, "prof.activeProfile")}</span>
+        <OptionMenu
           id="onboard-profile-select"
-          value={status.activeProfile}
-          onChange={(event) => control.applyProfileSelection(Number(event.currentTarget.value))}
-        >
-          {Array.from({ length: status.profileCount }, (_, index) => index + 1).map((value) => (
+          ariaLabel={t(locale, "prof.activeProfile")}
+          options={Array.from({ length: status.profileCount }, (_, index) => index + 1).map((value) => ({
+            value,
             // Devices that store their own names show them; the rest number.
-            <option key={value} value={value}>
-              {status.profileNames?.[value - 1] ?? tp(locale, "adv.profileOpt", { n: value })}
-            </option>
-          ))}
-        </select>
-      </label>
+            label: status.profileNames?.[value - 1] ?? tp(locale, "adv.profileOpt", { n: value }),
+          }))}
+          value={status.activeProfile}
+          onChange={(next) => control.applyProfileSelection(next)}
+        />
+      </div>
       <p className="field-note">
         {t(locale, "prof.profileStores")}
       </p>
@@ -1311,19 +1333,21 @@ export function ButtonMappingCard({ snapshot }: { snapshot: ControlSnapshot }): 
     <article id="button-mapping-settings" className="setting-card">
       <div className="setting-heading compact"><div><p>BUTTONS</p><h2>{t(locale, "map.remap")}</h2></div></div>
       {Object.entries(status.buttonMappings).map(([button, assigned]) => (
-        <label key={button} className="field-label spaced">
-          {button}
-          <select
+        <div key={button} className="field-label spaced">
+          <span>{button}</span>
+          <OptionMenu
             id={`button-${button.toLowerCase()}-select`}
+            ariaLabel={`${button} ${t(locale, "map.remap")}`}
+            options={[
+              // A macro or an assignment this build cannot name still shows.
+              ...(!options.includes(assigned) ? [{ value: "", label: assigned, disabled: true }] : []),
+              ...options.map((option) => ({ value: option, label: option })),
+            ]}
             value={options.includes(assigned) ? assigned : ""}
             disabled={fixed.has(button)}
-            onChange={(event) => control.applyDeviceButtonMapping(button, event.currentTarget.value)}
-          >
-            {/* A macro or an assignment this build cannot name still shows. */}
-            {!options.includes(assigned) && <option value="">{assigned}</option>}
-            {options.map((option) => <option key={option} value={option}>{option}</option>)}
-          </select>
-        </label>
+            onChange={(next) => control.applyDeviceButtonMapping(button, next)}
+          />
+        </div>
       ))}
       <p className="field-note">
         {t(locale, "map.defaultNote")}

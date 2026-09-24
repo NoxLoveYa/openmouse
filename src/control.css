@@ -1837,7 +1837,7 @@ body { height: 100vh; overflow: hidden; }
 
 .button-remap-list { display: flex; flex-direction: column; gap: .3rem; }
 .button-remap-row { display: flex; align-items: center; justify-content: space-between; gap: .6rem; padding: .3rem .45rem; border: 1px solid transparent; border-radius: 6px; color: var(--faint); font-size: .72rem; }
-.button-remap-row select { max-width: 11rem; }
+.button-remap-row .option-menu { flex: 0 1 11rem; min-width: 0; }
 /* A control the firmware will not let anything point at reads as a fact about
    the mouse, not a disabled input the user should try to enable. */
 .button-remap-row output { color: var(--dim); font-size: .7rem; }
