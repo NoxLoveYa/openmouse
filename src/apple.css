@@ -643,14 +643,6 @@
 }
 
 /* --- Motion --- */
-.control-shell.apple-redesign .welcome-cta,
-.control-shell.apple-redesign .device-tile,
-.control-shell.apple-redesign .app-sidebar-nav-item {
-  transition: background 0.18s ease, color 0.18s ease, border-color 0.18s ease, transform 0.18s ease, filter 0.18s ease;
-}
-.control-shell.apple-redesign.reduce-interface-motion .welcome-art .add-device-mouse-showcase-frame {
-  animation: none;
-}
 
 @media (max-width: 1100px) {
   .control-shell.apple-redesign {
@@ -662,4 +654,186 @@
   .control-shell.apple-redesign .full-desktop-content {
     padding: 32px 24px 120px;
   }
+}
+
+/* ============================================================
+   Card interiors — modernize the settings content itself:
+   breathing room under the tab bar, refined header hierarchy,
+   roomy editor rows, iOS segmented controls, quiet notes.
+   ============================================================ */
+
+/* --- Gap between the sticky tab bar and the settings below --- */
+.control-shell.apple-redesign .device-tabs-bar,
+.control-shell.apple-redesign .workspace-tabs {
+  margin-bottom: 22px;
+}
+.control-shell.apple-redesign #performance-settings,
+.control-shell.apple-redesign #lighting-settings,
+.control-shell.apple-redesign #pulsar-advanced,
+.control-shell.apple-redesign .workspace-tab-empty,
+.control-shell.apple-redesign .device-overview {
+  scroll-margin-top: 12px;
+}
+
+/* --- Card header hierarchy: accent overline, Display title --- */
+.control-shell.apple-redesign .setting-heading {
+  gap: 12px;
+  margin-bottom: 18px;
+}
+.control-shell.apple-redesign .setting-heading p {
+  margin-bottom: 6px;
+  color: color-mix(in srgb, var(--ui-accent) 72%, var(--text-soft));
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+.control-shell.apple-redesign .setting-heading h2 {
+  font-size: 1.18rem;
+}
+.control-shell.apple-redesign .setting-scope {
+  border-radius: 999px;
+  background: rgb(255 255 255 / 6%);
+  color: var(--dim);
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+}
+/* Big readouts: tabular, tight, bright */
+.control-shell.apple-redesign .dpi-header-actions input,
+.control-shell.apple-redesign #polling-value,
+.control-shell.apple-redesign .lod-sliders output,
+.control-shell.apple-redesign .stepper-slider-head output {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+}
+.control-shell.apple-redesign .setting-heading output {
+  border-radius: 999px;
+  background: rgb(255 255 255 / 6%);
+  font-variant-numeric: tabular-nums;
+}
+
+/* --- Cards breathe: padding, dividers, notes --- */
+.control-shell.apple-redesign .setting-card {
+  padding: 24px;
+}
+.control-shell.apple-redesign .performance-controls .setting-card + .setting-card {
+  border-top: 1px solid rgb(255 255 255 / 8%);
+  box-shadow: none;
+}
+.control-shell.apple-redesign .setting-note {
+  max-width: 62ch;
+  color: var(--dim);
+  font-size: 0.78rem;
+  line-height: 1.6;
+}
+.control-shell.apple-redesign .setting-action {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid rgb(255 255 255 / 7%);
+  font-size: 0.74rem;
+}
+
+/* --- DPI preset rows: 44px touch rows, accent active --- */
+.control-shell.apple-redesign .dpi-editor-list {
+  gap: 6px;
+}
+.control-shell.apple-redesign .dpi-editor-row {
+  min-height: 44px;
+  padding: 8px 12px;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  gap: 12px;
+}
+.control-shell.apple-redesign .dpi-editor-row:hover {
+  background: rgb(255 255 255 / 4%);
+}
+.control-shell.apple-redesign .dpi-editor-row.is-active {
+  border-color: color-mix(in srgb, var(--ui-accent) 38%, transparent);
+  background: color-mix(in srgb, var(--ui-accent) 10%, transparent);
+}
+.control-shell.apple-redesign .dpi-editor-index {
+  display: grid;
+  width: 26px;
+  height: 26px;
+  flex: 0 0 auto;
+  place-items: center;
+  border-radius: 50%;
+  background: rgb(255 255 255 / 7%);
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+.control-shell.apple-redesign .dpi-editor-row.is-active .dpi-editor-index {
+  background: var(--ui-accent);
+  color: var(--ui-accent-ink);
+}
+.control-shell.apple-redesign .dpi-editor-value {
+  font-size: 0.92rem;
+  font-variant-numeric: tabular-nums;
+}
+.control-shell.apple-redesign .dpi-slot-rule {
+  opacity: 0.5;
+}
+
+/* --- Segmented option groups: taller iOS pills --- */
+.control-shell.apple-redesign .segmented {
+  gap: 4px;
+  padding: 3px;
+}
+.control-shell.apple-redesign .segmented button {
+  min-height: 40px;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+.control-shell.apple-redesign .rate-options,
+.control-shell.apple-redesign .lighting-modes {
+  gap: 6px;
+}
+
+/* --- Switch rows, sliders, fields: rhythm + radius --- */
+.control-shell.apple-redesign .switch-row {
+  min-height: 44px;
+  padding: 8px 0;
+  font-size: 0.84rem;
+}
+.control-shell.apple-redesign .field-label {
+  margin-bottom: 6px;
+  color: var(--dim);
+  font-size: 0.74rem;
+  font-weight: 500;
+}
+.control-shell.apple-redesign .lod-sliders {
+  gap: 14px;
+}
+.control-shell.apple-redesign .stepper-slider {
+  margin-top: 16px;
+  padding-top: 16px;
+}
+.control-shell.apple-redesign .stepper-slider-badge {
+  border-radius: 999px;
+}
+.control-shell.apple-redesign .axis-grid input,
+.control-shell.apple-redesign .egg-tile-field,
+.control-shell.apple-redesign #pulsar-advanced input[type="number"],
+.control-shell.apple-redesign #pulsar-advanced select,
+.control-shell.apple-redesign .lod-select-value {
+  border-radius: 10px;
+}
+.control-shell.apple-redesign .option-menu-trigger {
+  min-height: 44px;
+  padding-inline: 14px;
+  border-radius: 12px;
+  font-size: 0.82rem;
+}
+.control-shell.apple-redesign .lighting-zone-picker {
+  border-radius: 14px;
+}
+
+/* --- Motion --- */
+.control-shell.apple-redesign .welcome-cta,
+.control-shell.apple-redesign .device-tile,
+.control-shell.apple-redesign .app-sidebar-nav-item {
+  transition: background 0.18s ease, color 0.18s ease, border-color 0.18s ease, transform 0.18s ease, filter 0.18s ease;
+}
+.control-shell.apple-redesign.reduce-interface-motion .welcome-art .add-device-mouse-showcase-frame {
+  animation: none;
 }
